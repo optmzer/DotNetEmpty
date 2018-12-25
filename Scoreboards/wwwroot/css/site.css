@@ -23,7 +23,7 @@ body {
 }
 
 /* Navbar Custom coloring */
-.navbar-inverse{
+.navbar-inverse, .navbar-collapse, .collapse {
     background-color: #000;
 }
 
