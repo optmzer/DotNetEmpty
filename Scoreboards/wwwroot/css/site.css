@@ -23,6 +23,9 @@ body {
 }
 
 /* Navbar Custom coloring */
+.navbar-inverse{
+    background-color: #000;
+}
 
 .navbar, .navbar-inverse, .navbar-fixed-top {
     background-color: #000;
@@ -55,9 +58,11 @@ body {
     border-bottom: 3px solid #e4ac25;
 }
 
-.navbar-brand {
+.navbar-brand > a {
     padding: 0;
 }
+
+
 
 .instillery-logo-navbar{
     width: 7em;
