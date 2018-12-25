@@ -1,0 +1,67 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    font-family: "Lato",sans-serif;
+    padding-top: 75px;
+    padding-bottom: 20px;
+    font-style: normal;
+    font-weight: 400;
+    color: #909090;
+    background-color: #f3f3f3;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/*.home-winners-list{
+    background-image: url(/images/banner-home.jpg);
+}*/
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Navbar Custom coloring */
+
+.navbar, .navbar-inverse, .navbar-fixed-top {
+    background-color: #000;
+}
+
+.nav, .navbar-nav, .navbar-right, .navbar-header {
+    height: 68px;
+    /*padding: 15px 5px;*/
+    /*margin: 15px 0;*/
+    background-color: #000;
+}
+
+.navbar-header{
+    padding: 7px 0;
+}
+
+
+.navbar-inverse .navbar-nav > li > a {
+    font-family: inherit;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 1;
+    text-transform: uppercase;
+    color: hsl(0,0%,100%);
+    padding: 25px 15px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #e4ac25;
+    border-bottom: 3px solid #e4ac25;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+.instillery-logo-navbar{
+    width: 7em;
+}
+
+
+

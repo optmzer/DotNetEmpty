@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-Scoreboards-91176FB7-0635-4D5E-ADCA-CA89DE161F52</UserSecretsId>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Scoreboard.Services\Scoreboards.Services.csproj" />
+    <ProjectReference Include="..\Scoreboards.Data\Scoreboards.Data.csproj" />
+    <ProjectReference Include="..\Scoreboards.FunctionalTests\Scoreboards.FunctionalTests.csproj" />
+    <ProjectReference Include="..\Scoreboards.UnitTests\Scoreboards.UnitTests.csproj" />
+  </ItemGroup>
+
+</Project>
