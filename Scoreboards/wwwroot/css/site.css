@@ -58,15 +58,12 @@ body {
     border-bottom: 3px solid #e4ac25;
 }
 
-.navbar-brand > a {
-    padding: 0;
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
 }
-
-
 
 .instillery-logo-navbar{
     width: 7em;
 }
-
-
 
