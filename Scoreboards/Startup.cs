@@ -39,9 +39,11 @@ namespace Scoreboards
                     Configuration.GetConnectionString("SQL_DB_CONNECTION")
                     ));
             // Adding user Identities.
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options => options.Stores.MaxLengthForKeys = 128)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             // Injects IUserGame interface into Scoreboards.
             services.AddScoped<IUserGame, UserGameService>();
