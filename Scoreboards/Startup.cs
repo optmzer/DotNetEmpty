@@ -53,6 +53,9 @@ namespace Scoreboards
             // Injects IGame interface into Scoreboards.
             services.AddScoped<IGame, GameService>();
 
+            //Add DataSeed
+            services.AddTransient<DataSeed>();
+
             // Add SignalR services
             services.AddSignalR();
 
@@ -60,7 +63,10 @@ namespace Scoreboards
         } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(
+              IApplicationBuilder app
+            , IHostingEnvironment env
+            , DataSeed dataSeed)
         {
             if (env.IsDevelopment())
             {
@@ -72,6 +78,9 @@ namespace Scoreboards
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            // Seed Default Data
+            dataSeed.Initiate().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

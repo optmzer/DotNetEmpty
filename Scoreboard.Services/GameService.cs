@@ -3,7 +3,6 @@ using Scoreboards.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Scoreboards.Services
@@ -15,6 +14,12 @@ namespace Scoreboards.Services
         public GameService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddGame(Game game)
+        {
+            await _context.Games.AddAsync(game);
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Game> GetAll()
@@ -32,12 +37,12 @@ namespace Scoreboards.Services
             return GetAll().FirstOrDefault(game => game.GameName == gameName);
         }
 
-        public Task SetGameImageAsync(string userId, Uri uri)
+        public Task SetGameImageAsync(string uri)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetGameNameAsync(string userId, string gameName)
+        public Task SetGameNameAsync(string gameName)
         {
             throw new NotImplementedException();
         }
