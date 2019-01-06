@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Scoreboards.UnitTests\Scoreboards.UnitTests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Game\" />
+  </ItemGroup>
+
 </Project>
