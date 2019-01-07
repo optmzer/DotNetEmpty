@@ -40,7 +40,12 @@ namespace Scoreboards
                     ));
             // Adding user Identities.
             services.AddIdentity<ApplicationUser, ApplicationRole>(
-                options => options.Stores.MaxLengthForKeys = 128)
+                options => {
+                    options.Stores.MaxLengthForKeys = 128;
+                    options.User.AllowedUserNameCharacters = 
+                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
