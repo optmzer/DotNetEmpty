@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scoreboards.Data;
@@ -58,8 +57,8 @@ namespace Scoreboards
             // Injects IGame interface into Scoreboards.
             services.AddScoped<IGame, GameService>();
 
-            //Add DataSeed
-            services.AddTransient<DataSeed>();
+            ////Add DataSeed Comment out for Deployment
+            //services.AddTransient<DataSeed>();
 
             // Add SignalR services
             services.AddSignalR();
@@ -71,7 +70,8 @@ namespace Scoreboards
         public void Configure(
               IApplicationBuilder app
             , IHostingEnvironment env
-            , DataSeed dataSeed)
+            //, DataSeed dataSeed // Comment out for Deployment
+            )
         {
             if (env.IsDevelopment())
             {
@@ -84,8 +84,8 @@ namespace Scoreboards
                 app.UseHsts();
             }
 
-            // Seed Default Data
-            dataSeed.Initiate().Wait();
+            //// Seed Default Data // Comment out for Deployment
+            //dataSeed.Initiate().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
