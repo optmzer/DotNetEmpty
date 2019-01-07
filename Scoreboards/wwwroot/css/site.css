@@ -30,6 +30,10 @@ body {
     padding: 15px;
 }
 
+.navigation {
+    padding: 0 15px 0 25px;
+}
+
 .footer {
     /*background-color: #2b2122;*/
 }
