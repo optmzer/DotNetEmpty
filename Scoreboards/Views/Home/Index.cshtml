@@ -4,76 +4,72 @@
     ViewData["Title"] = "The Instillery Scoreboards";
 }
 
-<div class="row container home-winners-list ">
     <div class="home-page">
-
-
-        <div class="row">
-            <h3 class="page-header">Latest</h3>
-            <table class="table table-hover">
-                <tbody>
-                    @foreach (var game in Model.LatestGames)
-                    {
-                        <tr>
-                            <td>
-                                <div class="row userGame">
-                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                        @game.GameName
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-                                        @game.User_01
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-                                        @game.User_01_Team
-                                    </div>
-                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                        @game.GameScore
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-                                        @game.User_02_Team
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-                                        @game.User_02
-                                    </div>
+<div class="row">
+        <h3 class="page-header">Latest</h3>
+        <table class="table table-hover">
+            <tbody>
+                @foreach (var game in Model.LatestGames)
+                {
+                    <tr>
+                        <td>
+                            <div class="row userGame">
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    @game.GameName
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <h3 class="page-header">Top Players</h3>
-            <table class="table table-hover">
-                <tbody>
-                    @foreach (var game in Model.LatestGames)
-                    {
-                        <tr>
-                            <td>
-                                <div class="row userGame">
-                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                        @game.GameName
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-                                        @game.User_01
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-                                        @game.User_01_Team
-                                    </div>
-                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                        @game.GameScore
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-                                        @game.User_02_Team
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-                                        @game.User_02
-                                    </div>
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                                    @game.User_01
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                                <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                                    @game.User_01_Team
+                                </div>
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    @game.GameScore
+                                </div>
+                                <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                                    @game.User_02_Team
+                                </div>
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                                    @game.User_02
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <h3 class="page-header">Top Players</h3>
+        <table class="table table-hover">
+            <tbody>
+                @foreach (var game in Model.LatestGames)
+                {
+                    <tr>
+                        <td>
+                            <div class="row userGame">
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    @game.GameName
+                                </div>
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                                    @game.User_01
+                                </div>
+                                <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                                    @game.User_01_Team
+                                </div>
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    @game.GameScore
+                                </div>
+                                <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                                    @game.User_02_Team
+                                </div>
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                                    @game.User_02
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
