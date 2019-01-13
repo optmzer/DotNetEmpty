@@ -109,4 +109,5 @@ body {
 
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: rgb(39, 39, 39);
+    cursor: pointer;
 }
