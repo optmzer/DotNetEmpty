@@ -102,3 +102,11 @@ body {
     width: 7em;
 }
 
+/*table-hover color changer*/
+/*.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgba(38, 38, 38, 0.1) !important;
+}*/
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: rgb(39, 39, 39);
+}
