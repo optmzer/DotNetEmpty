@@ -23,6 +23,14 @@ body {
     margin: 0;
 }
 
+.home-page {
+    background-image: url(/images/banner-home.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 15px 30px;
+    min-height: 750px;
+}
+
 .login-page {
     background-image: url(/images/contact-banner.jpg);
     background-repeat: no-repeat;
@@ -37,12 +45,15 @@ body {
     padding: 15px;
 }
 
-.home-page {
-    background-image: url(/images/banner-home.jpg);
+.new-user-game {
+    background-image: url(/images/shutterstock_217325476.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 15px 30px;
-    min-height: 750px;
+    padding: 15px;
+}
+
+.company-info {
+    padding: 15px;
 }
 
 .navigation {
