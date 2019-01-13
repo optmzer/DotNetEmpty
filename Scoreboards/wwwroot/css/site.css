@@ -37,6 +37,14 @@ body {
     padding: 15px;
 }
 
+.home-page {
+    /*background-image: url(/images/contact-banner.jpg);*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 15px;
+    margin: 0 15px 0 15px;
+}
+
 .navigation {
     padding: 0 15px 0 25px;
 }
@@ -45,9 +53,6 @@ body {
     /*background-color: #2b2122;*/
 }
 
-/*.home-winners-list{
-    background-image: url(/images/banner-home.jpg);
-}*/
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 
