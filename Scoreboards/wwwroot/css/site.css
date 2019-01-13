@@ -30,6 +30,13 @@ body {
     padding: 15px;
 }
 
+.register-page {
+    background-image: url(/images/contact-banner.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 15px;
+}
+
 .navigation {
     padding: 0 15px 0 25px;
 }
