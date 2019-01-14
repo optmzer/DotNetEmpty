@@ -6,9 +6,9 @@
 }
 
     <div class="home-page">
-        <div class="row display-next-to-each-other">
-            <h3 class="float-left1">Scoreboards</h3>
-            <div class="float-right1">
+        <div class="display-next-to-each-other row">
+            <h3 class="float-left1 col-xs-12 col-sm-9 col-md-9 col-lg-9">Scoreboards</h3>
+            <div class="float-right1 col-xs-12 col-sm-3 col-md-3 col-lg-3">
                 @Html.DropDownListFor(x=>x.itemSelected,
                                 new SelectList(Model.DropDownData, "Value", "Text", Model.itemSelected=="0"?Model.DropDownData[0].Selected: Model.DropDownData[ Model.DropDownData.FindIndex(aa=>aa.Value==Model.itemSelected)].Selected),
                                 "-- Select Game --",
@@ -19,81 +19,87 @@
             </div>
         </div>
         <div class="row display-next-to-each-other2">
-            <table class="table table-hover float-left1">
-                <thead>
-                    <tr>
-                        <th>
-                            <label>Rank</label>
-                        </th>
-                        <th>
-                            <label>Name</label>
-                        </th>
-                        <th>
-                            <label>Win/Lose</label>
-                        </th>
-                        <th>
-                            <label>Win Ratio</label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var game in Model.UsersData)
-                    {
-                        <tr onclick="location.href = '@(Url.Action("Index", "Home", new { userId = game.UserId }))'">
-                            <td>
-                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    <a asp-controller="Home" asp-action="Index" asp-route-userId="@game.UserId">@i</a>
-                                </div>
-                            </td>
-                            <td>
-                                @game.UserName
-                            </td>
-                            <td>
-                                <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @game.Wins W  -  @game.Loses L
-                                </div>
-                            </td>
-                            <td>
-                                <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @game.Ratio %
-                                </div>
-                            </td>
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
+                <table class="table table-hover float-left1 ">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label>Rank</label>
+                            </th>
+                            <th>
+                                <label>Name</label>
+                            </th>
+                            <th>
+                                <label>Win/Lose</label>
+                            </th>
+                            <th>
+                                <label>Win Ratio</label>
+                            </th>
                         </tr>
-                        i++;
-                    }
-                </tbody>
-            </table>
-            <table class="table table-hover float-mid1">
-                <thead>
-                    <tr>
-                        <th style="text-align:center;">
-                            <label>   Match History</label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.LatestGames != null)
-                    {
-                        foreach (var match in Model.LatestGames)
+                    </thead>
+                    <tbody>
+                        @foreach (var game in Model.UsersData)
                         {
-                            <tr>
-                                <td style="text-align:center;">
-                                    <div>
-                                        @match.GameName
-                                        <div style="flex-direction:row">
-                                            @match.User_01_Team vs @match.User_02_Team
-                                        </div>
-                                        <div style="flex-direction:row">
-                                            @match.GameScore
-                                        </div>
+                            <tr onclick="location.href = '@(Url.Action("Index", "Home", new { userId = game.UserId }))'">
+                                <td>
+                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        <a asp-controller="Home" asp-action="Index" asp-route-userId="@game.UserId">@i</a>
                                     </div>
                                 </td>
+                                <td>
+                                    @game.UserName
+                                </td>
+                                <td>
+                                    <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @game.Wins W  -  @game.Loses L
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @game.Ratio %
+                                    </div>
+                                </td>
+
                             </tr>
+                            i++;
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                <table class="table table-hover float-mid1 ">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;">
+                                <label>   Match History</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.LatestGames != null)
+                        {
+                            foreach (var match in Model.LatestGames)
+                            {
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <div>
+                                            @match.GameName
+                                            <div style="flex-direction:row">
+                                                @match.User_01_Team vs @match.User_02_Team
+                                            </div>
+                                            <div style="flex-direction:row">
+                                                @match.GameScore
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 </div>
 

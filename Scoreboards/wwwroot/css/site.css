@@ -126,26 +126,14 @@ body {
 }
 
 .float-left1 {
-    flex: 3;
 }
 .float-mid1 {
-    flex: 2;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 .float-right1 {
-    float:right;
-    margin-right:10px;
 }
 
 .display-next-to-each-other {
-    display: flex;
-    justify-content:center;
-    margin: auto;
-    align-items: center;
 }
+
 .display-next-to-each-other2 {
-    display: flex;
-    justify-content: center;
-    margin: auto;
 }
