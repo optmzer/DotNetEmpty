@@ -5,67 +5,78 @@
 
     <h1>Create New Game</h1>
 
-    <form asp-action="AddUserGame" method="post" id="addUserGame">
-        <div class="form-group">
-            <label asp-for="GamePlayedName">Select Game</label>
-            <select asp-for="GamePlayedName"
-                    class="form-control"
-                    id="GamePlayedName"
-                    required>
-                @foreach (var game in Model.GamesList)
-                {
-                    <option value="@game.GameName">@game.GameName</option>
-                }
-            </select>
-        </div>
-        <div class="userGame-player">
-            <div class="form-group userGame-player">
-                <label asp-for="User_01_Id">Select Player 1</label>
-                <select asp-for="User_01_Id"
-                        class="form-control"
-                        id="User_01_Id"
-                        required>
-                    @foreach (var user in Model.UsersList)
-                    {
-                        <option value="@user.Id">@user.UserName</option>
-                    }
-                </select>
+    <div class="row">
+        <form asp-action="AddUserGame" method="post" id="addUserGame">
+            <div class="user-game-game-select col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                 align="center"     
+            >
+                <div class="form-group">
+                    <label asp-for="GamePlayedName">Select Game</label>
+                    <select asp-for="GamePlayedName"
+                            class="form-control"
+                            id="GamePlayedName"
+                            required>
+                        @foreach (var game in Model.GamesList)
+                        {
+                            <option value="@game.GameName">@game.GameName</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="User_01_Team">Player 1 Team</label>
-                <input asp-for="User_01_Team" class="form-control" type="text" placeholder="Player 1 team..." required />
-                <span asp-validation-for="User_01_Team" class="text-danger"></span>
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group userGame-player">
+                    <label asp-for="User_01_Id">Select Player 1</label>
+                    <select asp-for="User_01_Id"
+                            class="form-control"
+                            id="User_01_Id"
+                            required>
+                        @foreach (var user in Model.UsersList)
+                        {
+                            <option value="@user.Id">@user.UserName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="User_01_Team">Player 1 Team</label>
+                    <input asp-for="User_01_Team" class="form-control" type="text" placeholder="Player 1 team..." required />
+                    <span asp-validation-for="User_01_Team" class="text-danger"></span>
+                </div>
             </div>
-        </div>
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group userGame-player">
+                    <label asp-for="User_02_Id">Select Player 2</label>
+                    <select asp-for="User_02_Id"
+                            class="form-control"
+                            id="User_02_Id"
+                            required>
+                        @foreach (var user in Model.UsersList)
+                        {
+                            <option value="@user.Id">@user.UserName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="User_02_Team">Player 2 Team</label>
+                    <input asp-for="User_02_Team" class="form-control" type="text" placeholder="Player 2 team..." required />
+                    <span asp-validation-for="GameScore" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="user-game-score col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                 align="center"
+            >
+                <div class="form-group">
+                    <label asp-for="GameScore">Game Final Score</label>
+                    <input asp-for="GameScore" class="form-control" type="text" placeholder="Player1:Player2" requred />
+                    <span asp-validation-for="GameScore" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="btn-submitUserGame col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" id="submitUserGameBtn" class="btn">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="GameScore">Game Final Score</label>
-            <input asp-for="GameScore" class="form-control" type="text" placeholder="Player1:Player2" requred />
-            <span asp-validation-for="GameScore" class="text-danger"></span>
-        </div>
-
-        <div class="userGame-player">
-            <div class="form-group userGame-player">
-                <label asp-for="User_02_Id">Select Player 2</label>
-                <select asp-for="User_02_Id"
-                        class="form-control"
-                        id="User_02_Id"
-                        required>
-                    @foreach (var user in Model.UsersList)
-                    {
-                        <option value="@user.Id">@user.UserName</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="User_02_Team">Player 2 Team</label>
-                <input asp-for="User_02_Team" class="form-control" type="text" placeholder="Player 2 team..." required />
-                <span asp-validation-for="GameScore" class="text-danger"></span>
-            </div>
-        </div>
-        <button type="submit" id="submitUserGameBtn" class="btn btn-submitUserGame">
-            Submit
-        </button>
-    </form>
     <partial name="_FooterPartial" />
 </div>

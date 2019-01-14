@@ -56,6 +56,14 @@ body {
     padding: 15px;
 }
 
+#GamePlayedName {
+    width: 50%;
+}
+
+#GameScore {
+    width: 50%;
+}
+
 .btn-submitUserGame {
     color: #a6a6a6;
 }
