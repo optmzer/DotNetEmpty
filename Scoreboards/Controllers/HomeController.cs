@@ -35,7 +35,7 @@ namespace Scoreboards.Controllers
             var games = _userGameService.GetLatest(5);
 
             // Wrap them into the model
-            var gameLising = games.Select(game => new UserGameListingModel
+            var gameListing = games.Select(game => new UserGameListingModel
             {
                 Id = game.Id,
                 GamePlayedOn = game.GamePlayedOn,
@@ -58,7 +58,7 @@ namespace Scoreboards.Controllers
 
             var model = new HomeIndexModel
             {
-                LatestGames = gameLising,
+                LatestGames = gameListing,
                 //TODO: SortBy
                 //TODO: ListOfTopPlayers by rating
                 SearchQuery = ""

@@ -1,0 +1,50 @@
+﻿@model Scoreboards.Models.Users.UsersModel
+@{
+}
+
+<script type="text/javascript">
+    //function getURLParams() {
+    //    const urlParams = new URLSearchParams(window.location.search);
+    //    return urlParams.get('usrsearch');
+    //}
+    //$("search").change(function () {
+    //    var str = $(this).text() + "";
+    //})
+</script>
+
+<div class="row container">
+    <div align="center">
+        <h3 class="page-header">Users</h3>
+        <form action="/Users/Index" method="GET">
+            <input class="usr-search-bar" id="search" name="usrsearch" type="text"/>
+            <input class="usr-search-btn" type="submit" value="Go" />
+        </form>
+    </div>
+    <div class="user-cards" id="userdisplay">
+        @{string searchInput = Context.Request.Query["usrsearch"];}
+        @if (searchInput != null)
+        {
+            @foreach (var user in Model.AppUsers.Where(usr => usr.UserName.ToLower().Contains(searchInput.ToLower())))
+            {
+                <div class="card">
+                    <picture class="card-picture">
+                        <img src="~/images/profile-picture-default.png" />
+                    </picture>
+                    @user.UserName
+                </div>
+            }
+        }
+        else
+        {
+            @foreach (var user in Model.AppUsers)
+            {
+                <div class="card">
+                    <picture class="card-picture">
+                        <img src="~/images/profile-picture-default.png" />
+                    </picture>
+                    @user.UserName
+                </div>
+            }
+        }
+    </div>
+</div>
