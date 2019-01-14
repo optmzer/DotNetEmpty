@@ -143,9 +143,11 @@ body {
     justify-content:center;
     margin: auto;
     align-items: center;
+    width:100%;
 }
 .display-next-to-each-other2 {
     display: flex;
     justify-content: center;
     margin: auto;
+    width: 100%;
 }
