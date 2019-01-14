@@ -125,15 +125,11 @@ body {
     cursor: pointer;
 }
 
-.float-left1 {
-}
-.float-mid1 {
-}
-.float-right1 {
+.float-left1 .float-right1 {
+    padding: 10px 0 10px 15px;
 }
 
-.display-next-to-each-other {
-}
-
-.display-next-to-each-other2 {
+.float-left1 > h3 {
+    margin: 0;
+    padding: 0;
 }
