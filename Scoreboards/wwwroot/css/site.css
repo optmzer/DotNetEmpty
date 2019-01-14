@@ -23,37 +23,104 @@ body {
     margin: 0;
 }
 
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: rgb(39, 39, 39);
+    cursor: pointer;
+}
+
+/* NAVBAR CUSTOM COLORING */
+.navigation {
+    padding: 0 15px 0 25px;
+}
+
+.navbar-inverse, .navbar-collapse, .collapse {
+    background-color: #000;
+}
+
+.navbar, .navbar-inverse, .navbar-fixed-top {
+    background-color: #000;
+}
+
+.nav, .navbar-nav, .navbar-right, .navbar-header {
+    height: 68px;
+    background-color: #000;
+}
+
+.navbar-header {
+    padding: 7px 0;
+}
+
+.navbar-inverse .navbar-nav > li > a, button {
+    font-family: inherit;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 1;
+    text-transform: uppercase;
+    color: hsl(0,0%,100%);
+    padding: 25px 15px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #e4ac25;
+    border-bottom: 3px solid #e4ac25;
+}
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* LOGO */
+.instillery-logo-navbar {
+    width: 7em;
+}
+
+/*COMMON FOR ALL PAGES*/
+.page-content {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
 /*HOME PAGE*/
 .home-page {
     background-image: url(/images/banner-home.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
     padding: 15px 30px;
     min-height: 750px;
+}
+
+.float-left1, .float-right1 {
+    padding: 10px 0 10px 15px;
+}
+
+.display-next-to-each-other {
+    margin-top: 5px;
+}
+
+.float-left1 > h3 {
+    margin: 0;
+    padding: 0;
 }
 
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
     padding: 15px;
+    min-height: 750px;
 }
 
 /*REGISTER PAGE*/
 .register-page {
     background-image: url(/images/contact-banner.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
     padding: 15px;
+    min-height: 850px;
 }
 
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
     padding: 15px;
+    min-height: 750px;
 }
 
 #GamePlayedName {
@@ -75,62 +142,13 @@ body {
 /*CONTACT AND ABOUT PAGE*/
 .company-info {
     padding: 15px;
+    min-height: 750px;
 }
 
-/* Navbar Custom coloring */
-.navigation {
-    padding: 0 15px 0 25px;
-}
-
-.navbar-inverse, .navbar-collapse, .collapse {
-    background-color: #000;
-}
-
-.navbar, .navbar-inverse, .navbar-fixed-top {
-    background-color: #000;
-}
-
-.nav, .navbar-nav, .navbar-right, .navbar-header {
-    height: 68px;
-    background-color: #000;
-}
-
-.navbar-header{
-    padding: 7px 0;
-}
-
-.navbar-inverse .navbar-nav > li > a, button {
-    font-family: inherit;
-    font-style: normal;
-    font-weight: 200;
-    line-height: 1;
-    text-transform: uppercase;
-    color: hsl(0,0%,100%);
-    padding: 25px 15px;
-}
-
-    .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
-        color: #e4ac25;
-        border-bottom: 3px solid #e4ac25;
-    }
-
-.navbar-brand {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.instillery-logo-navbar{
-    width: 7em;
-}
-
-/*table-hover color changer*/
-/*.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: rgba(38, 38, 38, 0.1) !important;
-}*/
-
-.table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: rgb(39, 39, 39);
-    cursor: pointer;
+/* FOOTER */
+.footer {
+    bottom: 0;
+    position: absolute;
 }
 
 .footer-partial {
@@ -139,6 +157,8 @@ body {
 
 .footer-partial > p {
     font-size: 0.75em;
+    margin: 0;
+    padding: 10px 0;
 }
 
 .social-media-footer-bar{
@@ -167,15 +187,3 @@ body {
     text-align: center;
 }
 
-.float-left1, .float-right1 {
-    padding: 10px 0 10px 15px;
-}
-
-.display-next-to-each-other {
-    margin-top: 5px;
-}
-
-.float-left1 > h3 {
-    margin: 0;
-    padding: 0;
-}
