@@ -7,5 +7,6 @@ namespace Scoreboards.Models.Home
     {
         public IEnumerable<UserGameListingModel> LatestGames { get; set; }
         public string SearchQuery { get; set; }
+
     }
 }
