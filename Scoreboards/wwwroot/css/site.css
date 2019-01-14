@@ -64,11 +64,11 @@ body {
     width: 50%;
 }
 
-.btn-submitUserGame {
+#submitUserGameBtn {
     color: #a6a6a6;
 }
 
-.btn-submitUserGame:hover {
+#submitUserGameBtn:hover {
     color: #262626;
 }
 
@@ -131,4 +131,44 @@ body {
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: rgb(39, 39, 39);
     cursor: pointer;
+}
+
+/*FOOTER*/
+/*.footer {
+
+}*/
+
+.footer-partial {
+    text-align: center;
+}
+
+.footer-partial > p {
+    font-size: 0.75em;
+}
+
+.social-media-footer-bar{
+    display: inline-flex;
+}
+
+.social-media-footer-bar > li {
+    padding: 0 1em 0 1em;
+    margin: 0 10px 0 10px;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.social-media-footer-bar > li:hover {
+    cursor: pointer;
+}
+
+.social-media-element > i {
+    font-size: 1.3em;
+    padding-top: .6em;
+}
+
+.social-media-element {
+    text-align: center;
+    
 }
