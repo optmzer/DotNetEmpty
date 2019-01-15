@@ -39,41 +39,32 @@ namespace Scoreboards.Controllers
         public IActionResult GameDetail(string gameId)
         {
             var game = _game.GetById(Int32.Parse(gameId));
-
-            var MatchHistoryData = _userGameService.getUserGamesByGameName(game.GameName);
-
-            IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData
-                .OrderByDescending(g => g.GamePlayedOn)
-                .Select((userGameItem) =>
+            var MatchHistoryData = _userGameService.getUserGamesByGameId(gameId);
+            IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData.OrderByDescending((x)=> x.GamePlayedOn).Select((userGameItem) =>
+            {
+                UserGameListingModel model1 = new UserGameListingModel
                 {
-                    var userGame = _userGameService.GetById(userGameItem.Id);
-                    var user_01 = _userService.GetById(userGame.User_01_Id);
-                    var user_02 = _userService.GetById(userGame.User_02_Id);
+                    Id = userGameItem.Id,
+                    //Game played Date
+                    GamePlayedOn = userGameItem.GamePlayedOn,
 
-                    UserGameListingModel model1 = new UserGameListingModel
-                    {
-                        Id = userGame.Id,
-                        //Game played Date
-                        GamePlayedOn = userGame.GamePlayedOn,
+                    //Players detail
+                    User_01 = _userService.GetById(userGameItem.User_01_Id),
+                    User_01_Team = userGameItem.User_01_Team,
+                    User_02 = _userService.GetById(userGameItem.User_02_Id),
+                    User_02_Team = userGameItem.User_02_Team,
 
-                        //Players detail
-                        User_01 = user_01,
-                        User_01_Team = userGame.User_01_Team,
-                        User_02 = user_02,
-                        User_02_Team = userGame.User_02_Team,
+                    // Game Name
+                    GameName = userGameItem.GamePlayed.GameName,
 
-                        // Game Name
-                        GameName = userGame.GamePlayed.GameName,
+                    //Score 
+                    GameScore = userGameItem.GameScore,
 
-                        //Score 
-                        GameScore = userGame.GameScore,
-
-                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                        Winner = userGame.Winner,
-                    };
-
-                    return model1;
-                });
+                    //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                    Winner = userGameItem.Winner,
+                };
+                return model1;
+            });
 
             var model = new GameDetailModel
             {

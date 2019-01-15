@@ -14,17 +14,14 @@ namespace Scoreboards.Data
         Task SetGameImageAsync(int userGameId, Uri uri);
         
         // Lewis added
-        IEnumerable<UserGame> getUserGamesByUserId(string userId);
-        IEnumerable<UserGame> getUserGamesByGameName(string gameName);
-        UserGame getUserGameByGameName(string gameName);
-        int getWinsById(string userId);
-        int getLosesById(string userId);
-        decimal getRatioWithId(string userId);
-        int getWinsByIdAndGameName(string userId, string gameName);
-        int getLosesByIdAndGameName(string userId, string gameName);
-        decimal getRatioWithIdAndGameName(string userId, string gameName);
+        IEnumerable<UserGame> getUserGamesByGameId(string gameId);
+        int getWinsByIdAndGameId(string userId, string gameId);
+        int getDrawsByIdAndGameId(string userId, string gameId);
+        int getLosesByIdAndGameId(string userId, string gameId);
+        decimal getRatioWithIdAndGameId(string userId, string gameId);
+        decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId);
         ///////////////////////////////////////
-        
+
         // CRUD Operations
         Task AddUserGameAsync(UserGame userGame);
         Task Delete(int userGameId);
