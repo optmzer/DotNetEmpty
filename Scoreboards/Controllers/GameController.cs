@@ -42,30 +42,26 @@ namespace Scoreboards.Controllers
             var MatchHistoryData = _userGameService.getUserGameByGameId(gameId);
             IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData.OrderByDescending((x)=> x.GamePlayedOn).Select((userGameItem) =>
             {
-                var userGame = _userGameService.GetById(userGameItem.Id);
-                var user_01 = _userService.GetById(userGame.User_01_Id);
-                var user_02 = _userService.GetById(userGame.User_02_Id);
-
                 UserGameListingModel model1 = new UserGameListingModel
                 {
-                    Id = userGame.Id,
+                    Id = userGameItem.Id,
                     //Game played Date
-                    GamePlayedOn = userGame.GamePlayedOn,
+                    GamePlayedOn = userGameItem.GamePlayedOn,
 
                     //Players detail
-                    User_01 = user_01,
-                    User_01_Team = userGame.User_01_Team,
-                    User_02 = user_02,
-                    User_02_Team = userGame.User_02_Team,
+                    User_01 = _userService.GetById(userGameItem.User_01_Id),
+                    User_01_Team = userGameItem.User_01_Team,
+                    User_02 = _userService.GetById(userGameItem.User_02_Id),
+                    User_02_Team = userGameItem.User_02_Team,
 
                     // Game Name
-                    GameName = userGame.GamePlayed.GameName,
+                    GameName = userGameItem.GamePlayed.GameName,
 
                     //Score 
-                    GameScore = userGame.GameScore,
+                    GameScore = userGameItem.GameScore,
 
                     //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                    Winner = userGame.Winner,
+                    Winner = userGameItem.Winner,
                 };
                 return model1;
             });

@@ -22,7 +22,7 @@
                             "-- Select Game --",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?gameName=' + this.options[this.selectedIndex].value ;"
+                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value ;"
                             })
         </div>
     </div>
@@ -33,7 +33,7 @@
                     <tr>
                         <th><label>Rank</label></th>
                         <th><label>Name</label></th>
-                        <th><label>Win/Lose</label></th>
+                        <th><label>Win/Draw/Lose</label></th>
                         <th><label>Win Ratio</label></th>
                     </tr>
                 </thead>
@@ -51,7 +51,7 @@
                             </td>
                             <td>
                                 <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @game.Wins W  -  @game.Loses L
+                                    @game.Wins W - @game.Draws D -  @game.Loses L
                                 </div>
                             </td>
                             <td>
