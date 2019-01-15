@@ -74,7 +74,7 @@ namespace Scoreboards.Controllers
                     History = GetMatchDataWithId(user.Id)
                 });
                 var MatchHistoryData = _userGameService.GetAll();
-                MatchHistoryList = MatchHistoryData.Select((userGameItem) =>
+                MatchHistoryList = MatchHistoryData.OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
                 {
                     var userGame = _userGameService.GetById(userGameItem.Id);
                     var user_01 = _userService.GetById(userGame.User_01_Id);
@@ -130,7 +130,7 @@ namespace Scoreboards.Controllers
                 }
                 //var gameId = _userGameService.getUserGameByGameName(gameName);
                 var MatchHistoryData = _userGameService.getUserGameByGameId(gameName);
-                MatchHistoryList = MatchHistoryData.Select((userGameItem) =>
+                MatchHistoryList = MatchHistoryData.OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
                 {
                     var userGame = _userGameService.GetById(userGameItem.Id);
                     var user_01 = _userService.GetById(userGame.User_01_Id);
