@@ -68,6 +68,8 @@ body {
 .page-content {
     background-repeat: no-repeat;
     background-size: cover;
+    min-height: 750px;
+    padding: 15px;
 }
 
 /*HOME PAGE*/
@@ -92,19 +94,16 @@ body {
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
-    padding: 15px;
 }
 
 /*REGISTER PAGE*/
 .register-page {
     background-image: url(/images/contact-banner.jpg);
-    padding: 15px;
 }
 
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
-    padding: 15px;
 }
 
 #GamePlayedName {
@@ -126,7 +125,6 @@ body {
 /*CONTACT AND ABOUT PAGE*/
 .company-info {
     padding: 15px;
-    min-height: 750px;
 }
 
 /* FOOTER */
