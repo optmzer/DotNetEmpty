@@ -11,77 +11,17 @@ body {
     font-size: 16px;
 }
 
-.container {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: auto;
-}
-
 .body-content {
     padding: 0;
     margin: 0;
 }
 
-/*HOME PAGE*/
-.home-page {
-    background-image: url(/images/banner-home.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px 30px;
-    min-height: 750px;
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: rgb(39, 39, 39);
+    cursor: pointer;
 }
 
-/*LOGIN PAGE*/
-.login-page {
-    background-image: url(/images/contact-banner.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px;
-}
-
-/*REGISTER PAGE*/
-.register-page {
-    background-image: url(/images/contact-banner.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px;
-}
-
-/* NEW USER GAME PAGE*/
-.new-user-game {
-    background-image: url(/images/shutterstock_217325476.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px;
-}
-
-#GamePlayedName {
-    width: 50%;
-}
-
-#GameScore {
-    width: 50%;
-}
-
-#submitUserGameBtn {
-    color: #a6a6a6;
-}
-
-#submitUserGameBtn:hover {
-    color: #262626;
-}
-
-/*CONTACT AND ABOUT PAGE*/
-.company-info {
-    padding: 15px;
-}
-
-/* Navbar Custom coloring */
-.navigation {
-    padding: 0 15px 0 25px;
-}
-
+/* NAVBAR CUSTOM COLORING */
 .navbar-inverse, .navbar-collapse, .collapse {
     background-color: #000;
 }
@@ -95,7 +35,7 @@ body {
     background-color: #000;
 }
 
-.navbar-header{
+.navbar-header {
     padding: 7px 0;
 }
 
@@ -119,34 +59,93 @@ body {
     padding-bottom: 0;
 }
 
-.instillery-logo-navbar{
+/* LOGO */
+.instillery-logo-navbar {
     width: 7em;
 }
 
-/*table-hover color changer*/
-/*.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: rgba(38, 38, 38, 0.1) !important;
-}*/
-
-.table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: rgb(39, 39, 39);
-    cursor: pointer;
+/*COMMON FOR ALL PAGES*/
+.page-content {
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 750px;
+    padding: 15px;
 }
 
-/*FOOTER*/
-/*.footer {
+/*HOME PAGE*/
+.home-page {
+    background-image: url(/images/banner-home.jpg);
+    padding: 15px 30px;
+}
 
-}*/
+.float-left1, .float-right1 {
+    padding: 10px 0 10px 15px;
+}
 
+.display-next-to-each-other {
+    margin-top: 5px;
+}
+
+.float-left1 > h3 {
+    margin: 0;
+    padding: 0;
+}
+
+/*LOGIN PAGE*/
+.login-page {
+    background-image: url(/images/contact-banner.jpg);
+}
+
+/*REGISTER PAGE*/
+.register-page {
+    background-image: url(/images/contact-banner.jpg);
+}
+
+/* NEW USER GAME PAGE*/
+.new-user-game {
+    background-image: url(/images/shutterstock_217325476.jpg);
+}
+
+#GamePlayedName {
+    width: 50%;
+}
+
+#GameScore {
+    width: 50%;
+}
+
+#submitUserGameBtn {
+    color: #a6a6a6;
+}
+
+#submitUserGameBtn:hover {
+    color: #262626;
+}
+
+/*CONTACT AND ABOUT PAGE*/
+.company-info {
+    padding: 15px;
+}
+
+/* FOOTER */
 .footer-partial {
+    padding-top: 60px;
+    background-color: #000;
     text-align: center;
+}
+
+.footer-row {
+    margin-right: 15px !important;
+    margin-left: 15px !important;
 }
 
 .footer-partial > p {
     font-size: 0.75em;
+    margin: 0;
+    padding: 10px 0;
 }
 
-.social-media-footer-bar{
+.social-media-footer-bar {
     display: inline-flex;
 }
 
@@ -170,5 +169,5 @@ body {
 
 .social-media-element {
     text-align: center;
-    
 }
+

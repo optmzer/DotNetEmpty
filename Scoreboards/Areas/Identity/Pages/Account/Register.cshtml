@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Register";
 }
-<div class="register-page">
-    <h2>@ViewData["Title"]</h2>
-
+<div class="page-content register-page">
+    <div>
+        <h2>@ViewData["Title"]</h2>
+    </div>
     <div class="row">
         <div class="col-md-4">
             <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -41,7 +42,6 @@
             </form>
         </div>
     </div>
-    <partial name="_FooterPartial" />
 </div>
 
 @section Scripts {
