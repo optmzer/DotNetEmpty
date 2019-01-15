@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
 using Scoreboards.Models.GamePage;
@@ -39,41 +38,48 @@ namespace Scoreboards.Controllers
         public IActionResult GameDetail(string gameId)
         {
             var game = _game.GetById(Int32.Parse(gameId));
-            var MatchHistoryData = _userGameService.getUserGameByGameId(gameId);
-            IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData.OrderByDescending((x)=> x.GamePlayedOn).Select((userGameItem) =>
-            {
-                var userGame = _userGameService.GetById(userGameItem.Id);
-                var user_01 = _userService.GetById(userGame.User_01_Id);
-                var user_02 = _userService.GetById(userGame.User_02_Id);
 
-                UserGameListingModel model1 = new UserGameListingModel
+            var MatchHistoryData = _userGameService.getUserGamesByGameName(game.GameName);
+
+            IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData
+                .OrderByDescending(g => g.GamePlayedOn)
+                .Select((userGameItem) =>
                 {
-                    Id = userGame.Id,
-                    //Game played Date
-                    GamePlayedOn = userGame.GamePlayedOn,
+                    var userGame = _userGameService.GetById(userGameItem.Id);
+                    var user_01 = _userService.GetById(userGame.User_01_Id);
+                    var user_02 = _userService.GetById(userGame.User_02_Id);
 
-                    //Players detail
-                    User_01 = user_01,
-                    User_01_Team = userGame.User_01_Team,
-                    User_02 = user_02,
-                    User_02_Team = userGame.User_02_Team,
+                    UserGameListingModel model1 = new UserGameListingModel
+                    {
+                        Id = userGame.Id,
+                        //Game played Date
+                        GamePlayedOn = userGame.GamePlayedOn,
 
-                    // Game Name
-                    GameName = userGame.GamePlayed.GameName,
+                        //Players detail
+                        User_01 = user_01,
+                        User_01_Team = userGame.User_01_Team,
+                        User_02 = user_02,
+                        User_02_Team = userGame.User_02_Team,
 
-                    //Score 
-                    GameScore = userGame.GameScore,
+                        // Game Name
+                        GameName = userGame.GamePlayed.GameName,
 
-                    //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                    Winner = userGame.Winner,
-                };
-                return model1;
-            });
+                        //Score 
+                        GameScore = userGame.GameScore,
+
+                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                        Winner = userGame.Winner,
+                    };
+
+                    return model1;
+                });
+
             var model = new GameDetailModel
             {
                 GameDetail = game,
                 GameSpecificMatchHistory = GameSpecificMatchHistory
             };
+
             return View(model);
         }
     }

@@ -35,10 +35,12 @@ namespace Scoreboards.Controllers
 
         public IEnumerable<MatchHistoryModel> GetMatchDataWithId(string userId)
         {
-            var history = _userGameService.GetAll().Where(user => user.User_01_Id == userId || user.User_02_Id == userId).Select(user => new MatchHistoryModel
-            {
-                UserId = userId
-            });
+            var history = _userGameService.GetAll()
+                .Where(user => user.User_01_Id == userId || user.User_02_Id == userId)
+                .Select(user => new MatchHistoryModel
+                {
+                    UserId = userId
+                });
             return history;
         }
 
@@ -61,48 +63,56 @@ namespace Scoreboards.Controllers
 
             // prepare match history for specific game or overall game
             IEnumerable<UserGameListingModel> MatchHistoryList;
+
             if (gameName == "Overall" || gameName == null)
             {
 
-                leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Wins = _userGameService.getWinsById(user.Id).ToString(),
-                    Loses = _userGameService.getLosesById(user.Id).ToString(),
-                    Ratio = _userGameService.getRatioWithId(user.Id).ToString(),
-                    History = GetMatchDataWithId(user.Id)
-                });
-                var MatchHistoryData = _userGameService.GetAll();
-                MatchHistoryList = MatchHistoryData.OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
-                {
-                    var userGame = _userGameService.GetById(userGameItem.Id);
-                    var user_01 = _userService.GetById(userGame.User_01_Id);
-                    var user_02 = _userService.GetById(userGame.User_02_Id);
-
-                    UserGameListingModel model1 = new UserGameListingModel
+                leaderBoardData = _userService
+                    .GetAll()
+                    .Select(user => new LeaderboardUserModel
                     {
-                        Id = userGame.Id,
-                        //Game played Date
-                        GamePlayedOn = userGame.GamePlayedOn,
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        Wins = _userGameService.getWinsById(user.Id).ToString(),
+                        Loses = _userGameService.getLosesById(user.Id).ToString(),
+                        Ratio = _userGameService.getRatioWithId(user.Id).ToString(),
+                        History = GetMatchDataWithId(user.Id)
+                    });
 
-                        //Players detail
-                        User_01 = user_01,
-                        User_01_Team = userGame.User_01_Team,
-                        User_02 = user_02,
-                        User_02_Team = userGame.User_02_Team,
+                var MatchHistoryData = _userGameService.GetAll();
 
-                        // Game Name
-                        GameName = userGame.GamePlayed.GameName,
+                MatchHistoryList = MatchHistoryData
+                    .OrderByDescending((x) => x.GamePlayedOn)
+                    .Select((userGameItem) =>
+                    {
+                        var userGame = _userGameService.GetById(userGameItem.Id);
+                        var user_01 = _userService.GetById(userGame.User_01_Id);
+                        var user_02 = _userService.GetById(userGame.User_02_Id);
 
-                        //Score 
-                        GameScore = userGame.GameScore,
+                        UserGameListingModel model1 = new UserGameListingModel
+                        {
+                            Id = userGame.Id,
+                            //Game played Date
+                            GamePlayedOn = userGame.GamePlayedOn,
 
-                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                        Winner = userGame.Winner,
-                    };
-                    return model1;
-                });
+                            //Players detail
+                            User_01 = user_01,
+                            User_01_Team = userGame.User_01_Team,
+                            User_02 = user_02,
+                            User_02_Team = userGame.User_02_Team,
+
+                            // Game Name
+                            GameName = userGame.GamePlayed.GameName,
+
+                            //Score 
+                            GameScore = userGame.GameScore,
+
+                            //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                            Winner = userGame.Winner,
+                        };
+                        return model1;
+                    })
+                    .Take<UserGameListingModel>(5);
             }
             else
             {
@@ -116,6 +126,7 @@ namespace Scoreboards.Controllers
                     Ratio = _userGameService.getRatioWithIdAndGameName(user.Id, gameName).ToString(),
                     History = GetMatchDataWithId(user.Id)
                 });
+
                 leaderBoardData = leaderBoardData.Where(option => option.Wins + option.Loses != "00").Select(user => user);
                 foreach (var item1 in listItems)
                 {
@@ -128,38 +139,44 @@ namespace Scoreboards.Controllers
                         item1.Selected = false;
                     }
                 }
+
                 //var gameId = _userGameService.getUserGameByGameName(gameName);
-                var MatchHistoryData = _userGameService.getUserGameByGameId(gameName);
-                MatchHistoryList = MatchHistoryData.OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
-                {
-                    var userGame = _userGameService.GetById(userGameItem.Id);
-                    var user_01 = _userService.GetById(userGame.User_01_Id);
-                    var user_02 = _userService.GetById(userGame.User_02_Id);
+                var MatchHistoryData = _userGameService.getUserGamesByGameName(gameName);
 
-                    UserGameListingModel model1 = new UserGameListingModel
+                MatchHistoryList = MatchHistoryData
+                    .OrderByDescending(game => game.GamePlayedOn)
+                    .Select(userGameItem =>
                     {
-                        Id = userGame.Id,
-                        //Game played Date
-                        GamePlayedOn = userGame.GamePlayedOn,
+                        var userGame = _userGameService.GetById(userGameItem.Id);
+                        var user_01 = _userService.GetById(userGame.User_01_Id);
+                        var user_02 = _userService.GetById(userGame.User_02_Id);
 
-                        //Players detail
-                        User_01 = user_01,
-                        User_01_Team = userGame.User_01_Team,
-                        User_02 = user_02,
-                        User_02_Team = userGame.User_02_Team,
+                        UserGameListingModel model1 = new UserGameListingModel
+                        {
+                            Id = userGame.Id,
+                            //Game played Date
+                            GamePlayedOn = userGame.GamePlayedOn,
 
-                        // Game Name
-                        GameName = userGame.GamePlayed.GameName,
+                            //Players detail
+                            User_01 = user_01,
+                            User_01_Team = userGame.User_01_Team,
+                            User_02 = user_02,
+                            User_02_Team = userGame.User_02_Team,
 
-                        //Score 
-                        GameScore = userGame.GameScore,
+                            // Game Name
+                            GameName = userGame.GamePlayed.GameName,
 
-                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                        Winner = userGame.Winner,
-                    };
-                    return model1;
-                });
+                            //Score 
+                            GameScore = userGame.GameScore,
+
+                            //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                            Winner = userGame.Winner,
+                        };
+                        return model1;
+                    })
+                    .Take(5);
             }
+
             var model = new HomeIndexModel
             {
                 UsersData = leaderBoardData.OrderBy(user => decimal.Parse(user.Ratio)).Reverse(),

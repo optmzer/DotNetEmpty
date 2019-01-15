@@ -34,11 +34,19 @@ namespace Scoreboards.Services
         // Lewis added
         public int getWinsById(string userId)
         {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+            return GetAll()
+                .Where(userGame => 
+                    (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
+                    && userGame.Winner == userId)
+                .Count();
         }
         public int getLosesById(string userId)
         {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
+            return GetAll()
+                .Where(userGame => 
+                    (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
+                    && userGame.Winner != userId && userGame.Winner.ToLower() != "draw")
+                .Count();
         }
         public decimal getRatioWithId(string userId)
         {
@@ -57,11 +65,20 @@ namespace Scoreboards.Services
         }
         public int getWinsByIdAndGameName(string userId, string gameName)
         {
-            return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameName == userGame.GamePlayed.Id.ToString()).Count();
+            return GetAll()
+                .Where(userGame => 
+                    ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
+                    && userGame.Winner == userId) && gameName == userGame.GamePlayed.Id.ToString())
+                .Count();
         }
         public int getLosesByIdAndGameName(string userId, string gameName)
         {
-            return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameName == userGame.GamePlayed.Id.ToString()).Count();
+            return GetAll()
+                .Where(userGame => 
+                    ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
+                    && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") 
+                    && gameName == userGame.GamePlayed.Id.ToString())
+                .Count();
         }
         public decimal getRatioWithIdAndGameName(string userId, string gameName)
         {
@@ -80,15 +97,20 @@ namespace Scoreboards.Services
         }
         public UserGame getUserGameByGameName(string gameName)
         {
-            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameName)).FirstOrDefault();
+            return GetAll()
+                .Where(userGame => (userGame.GamePlayed.Id.ToString() == gameName))
+                .FirstOrDefault();
         }
+
         public IEnumerable<UserGame> getUserGameById(string userId)
         {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId));
+            return GetAll()
+                .Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId));
         }
-        public IEnumerable<UserGame> getUserGameByGameId(string gameId)
+
+        public IEnumerable<UserGame> getUserGamesByGameName(string gameName)
         {
-            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameId));
+            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameName));
         }
         ///////////////////////////////////////////
 
