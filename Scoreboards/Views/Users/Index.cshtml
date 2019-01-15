@@ -3,6 +3,10 @@
 }
 
 <script type="text/javascript">
+    function goToUser() {
+
+    }
+    // TODO: Get page search working without refreshing
     //function getURLParams() {
     //    const urlParams = new URLSearchParams(window.location.search);
     //    return urlParams.get('usrsearch');
@@ -26,12 +30,15 @@
         {
             @foreach (var user in Model.AppUsers.Where(usr => usr.UserName.ToLower().Contains(searchInput.ToLower())))
             {
-                <div class="card">
-                    <picture class="card-picture">
-                        <img src="~/images/profile-picture-default.png" />
-                    </picture>
-                    @user.UserName
-                </div>
+                string userURL = "/Users/" + user.Id;
+                <a href=@userURL>
+                    <div class="card" onclick="goToUser(@user.Id)">
+                        <picture class="card-picture">
+                            <img src="~/images/profile-picture-default.png" />
+                        </picture>
+                        @user.UserName
+                    </div>
+                </a>
             }
         }
         else

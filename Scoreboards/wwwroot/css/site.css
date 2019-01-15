@@ -23,27 +23,15 @@ body {
     margin: 0;
 }
 
-.login-page {
-    background-image: url(/images/contact-banner.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px;
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: rgb(39, 39, 39);
+    cursor: pointer;
 }
 
+/* NAVBAR CUSTOM COLORING */
 .navigation {
     padding: 0 15px 0 25px;
 }
-
-/*.footer {
-    background-color: #2b2122;
-}*/
-
-/*.home-winners-list{
-    background-image: url(/images/banner-home.jpg);
-}*/
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-
 
 /* Navbar Custom coloring */
 .navbar-inverse, .navbar-collapse, .collapse {
@@ -56,15 +44,12 @@ body {
 
 .nav, .navbar-nav, .navbar-right, .navbar-header {
     height: 68px;
-    /*padding: 15px 5px;*/
-    /*margin: 15px 0;*/
     background-color: #000;
 }
 
-.navbar-header{
+.navbar-header {
     padding: 7px 0;
 }
-
 
 .navbar-inverse .navbar-nav > li > a, button {
     font-family: inherit;
@@ -86,7 +71,8 @@ body {
     padding-bottom: 0;
 }
 
-.instillery-logo-navbar{
+/* LOGO */
+.instillery-logo-navbar {
     width: 7em;
 }
 
@@ -125,3 +111,116 @@ body {
 .usr-search-btn {
     width: 50px;
 }
+
+/*COMMON FOR ALL PAGES*/
+.page-content {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/*HOME PAGE*/
+.home-page {
+    background-image: url(/images/banner-home.jpg);
+    padding: 15px 30px;
+    min-height: 750px;
+}
+
+.float-left1, .float-right1 {
+    padding: 10px 0 10px 15px;
+}
+
+.display-next-to-each-other {
+    margin-top: 5px;
+}
+
+.float-left1 > h3 {
+    margin: 0;
+    padding: 0;
+}
+
+/*LOGIN PAGE*/
+.login-page {
+    background-image: url(/images/contact-banner.jpg);
+    padding: 15px;
+    min-height: 750px;
+}
+
+/*REGISTER PAGE*/
+.register-page {
+    background-image: url(/images/contact-banner.jpg);
+    padding: 15px;
+    min-height: 850px;
+}
+
+/* NEW USER GAME PAGE*/
+.new-user-game {
+    background-image: url(/images/shutterstock_217325476.jpg);
+    padding: 15px;
+    min-height: 750px;
+}
+
+#GamePlayedName {
+    width: 50%;
+}
+
+#GameScore {
+    width: 50%;
+}
+
+#submitUserGameBtn {
+    color: #a6a6a6;
+}
+
+#submitUserGameBtn:hover {
+    color: #262626;
+}
+
+/*CONTACT AND ABOUT PAGE*/
+.company-info {
+    padding: 15px;
+    min-height: 750px;
+}
+
+/* FOOTER */
+.footer {
+    bottom: 0;
+    position: absolute;
+}
+
+.footer-partial {
+    text-align: center;
+}
+
+.footer-partial > p {
+    font-size: 0.75em;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.social-media-footer-bar{
+    display: inline-flex;
+}
+
+.social-media-footer-bar > li {
+    padding: 0 1em 0 1em;
+    margin: 0 10px 0 10px;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.social-media-footer-bar > li:hover {
+    cursor: pointer;
+}
+
+.social-media-element > i {
+    font-size: 1.3em;
+    padding-top: .6em;
+}
+
+.social-media-element {
+    text-align: center;
+}
+
