@@ -56,11 +56,19 @@ body {
     padding: 15px;
 }
 
-.btn-submitUserGame {
+#GamePlayedName {
+    width: 50%;
+}
+
+#GameScore {
+    width: 50%;
+}
+
+#submitUserGameBtn {
     color: #a6a6a6;
 }
 
-.btn-submitUserGame:hover {
+#submitUserGameBtn:hover {
     color: #262626;
 }
 
@@ -125,8 +133,42 @@ body {
     cursor: pointer;
 }
 
+.footer-partial {
+    text-align: center;
+}
+
+.footer-partial > p {
+    font-size: 0.75em;
+}
+
+.social-media-footer-bar{
+    display: inline-flex;
+}
+
+.social-media-footer-bar > li {
+    padding: 0 1em 0 1em;
+    margin: 0 10px 0 10px;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.social-media-footer-bar > li:hover {
+    cursor: pointer;
+}
+
+.social-media-element > i {
+    font-size: 1.3em;
+    padding-top: .6em;
+}
+
+.social-media-element {
+    text-align: center;
+}
+
 .float-left1, .float-right1 {
-    padding: 15px 0 10px 15px;
+    padding: 10px 0 10px 15px;
 }
 .float-right1 {
     float: right;
