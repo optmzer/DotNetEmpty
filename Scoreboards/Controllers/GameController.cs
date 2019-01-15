@@ -23,6 +23,7 @@ namespace Scoreboards.Controllers
             _userGameService = userGameService;
             _userService = userService;
         }
+
         public IActionResult Index()
         {
             // Wrap them into the model

@@ -102,7 +102,7 @@ namespace Scoreboards.Services
                 .FirstOrDefault();
         }
 
-        public IEnumerable<UserGame> getUserGameById(string userId)
+        public IEnumerable<UserGame> getUserGamesByUserId(string userId)
         {
             return GetAll()
                 .Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId));
@@ -110,7 +110,7 @@ namespace Scoreboards.Services
 
         public IEnumerable<UserGame> getUserGamesByGameName(string gameName)
         {
-            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameName));
+            return GetAll().Where(userGame => (userGame.GamePlayed.GameName == gameName));
         }
         ///////////////////////////////////////////
 
@@ -147,13 +147,6 @@ namespace Scoreboards.Services
         public Task SetGameImageAsync(int userGameId, Uri uri)
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<UserGame> GetGamesByGameName(string gameName)
-        {
-            return _context.UserGames
-                .Include(uGame => uGame.GamePlayed)
-                .Where(game => game.GamePlayed.GameName == gameName);
         }
 
         public int CountWinsForUser(string userId)

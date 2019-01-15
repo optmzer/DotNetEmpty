@@ -82,8 +82,9 @@ namespace Scoreboards.Controllers
                 var MatchHistoryData = _userGameService.GetAll();
 
                 MatchHistoryList = MatchHistoryData
-                    .OrderByDescending((x) => x.GamePlayedOn)
-                    .Select((userGameItem) =>
+                    .OrderByDescending(userGame => userGame.GamePlayedOn)
+                    .Take(5)
+                    .Select(userGameItem =>
                     {
                         var userGame = _userGameService.GetById(userGameItem.Id);
                         var user_01 = _userService.GetById(userGame.User_01_Id);
@@ -112,7 +113,7 @@ namespace Scoreboards.Controllers
                         };
                         return model1;
                     })
-                    .Take<UserGameListingModel>(5);
+                    ;
             }
             else
             {
@@ -144,7 +145,8 @@ namespace Scoreboards.Controllers
                 var MatchHistoryData = _userGameService.getUserGamesByGameName(gameName);
 
                 MatchHistoryList = MatchHistoryData
-                    .OrderByDescending(game => game.GamePlayedOn)
+                    .OrderByDescending(userGame => userGame.GamePlayedOn)
+                    .Take(5)
                     .Select(userGameItem =>
                     {
                         var userGame = _userGameService.GetById(userGameItem.Id);
@@ -173,8 +175,7 @@ namespace Scoreboards.Controllers
                             Winner = userGame.Winner,
                         };
                         return model1;
-                    })
-                    .Take(5);
+                    });
             }
 
             var model = new HomeIndexModel

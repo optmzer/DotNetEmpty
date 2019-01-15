@@ -10,12 +10,11 @@ namespace Scoreboards.Data
     {
         IEnumerable<UserGame> GetAll();
         IEnumerable<UserGame> GetLatest(int howMany);
-        IEnumerable<UserGame> GetGamesByGameName(string gameName);
         UserGame GetById(int userGameId);
         Task SetGameImageAsync(int userGameId, Uri uri);
         
         // Lewis added
-        IEnumerable<UserGame> getUserGameById(string userId);
+        IEnumerable<UserGame> getUserGamesByUserId(string userId);
         IEnumerable<UserGame> getUserGamesByGameName(string gameName);
         UserGame getUserGameByGameName(string gameName);
         int getWinsById(string userId);
