@@ -18,13 +18,23 @@ namespace Scoreboards.Controllers
             _userService = userService;
         }
 
-        public IActionResult Index(string SearchInput)
+        public IActionResult Index()
         {
             var model = new UsersModel
             {
                 AppUsers = _userService.GetAll()
             };
             // Display to the page
+            return View(model);
+        }
+
+        public IActionResult Profile(string userID)
+        {
+
+            var model = new UserProfileModel
+            {
+                User = _userService.GetById(userID)
+            };
             return View(model);
         }
     }

@@ -1,0 +1,28 @@
+﻿    @model Scoreboards.Models.Users.UserProfileModel
+@{
+}
+<div class="row container">
+    <div class="profile-grid-container">
+        <div class="item-picture items-centred">
+            <picture class="profile-picture">
+                <img src="~/images/profile-picture-default.png" />
+            </picture>
+        </div>
+        <div class="item-personal-info items-centred">
+            <label>@Model.User.UserName</label><br />
+            <label>@Model.User.Email</label><br />
+            <label>@Model.User.Motto</label><br />
+        </div>
+        <div class="item-stats items-centred">
+            <label>Wins: 1000</label><br/>
+            <label>Losses: 0</label><br />
+            <label>Draws: 0</label><br />
+            <label>Most Played Game: Fifa</label><br />
+            <label>Win Ratio: 100%</label><br />
+            <label>Rank: 1</label><br />
+        </div>
+        <div class="item-matches items-centred">
+            Recent Matches
+        </div>
+    </div>
+</div>
