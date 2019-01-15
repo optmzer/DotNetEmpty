@@ -142,7 +142,7 @@ namespace Scoreboards.Controllers
                 }
 
                 //var gameId = _userGameService.getUserGameByGameName(gameName);
-                var MatchHistoryData = _userGameService.getUserGamesByGameName(gameName);
+                var MatchHistoryData = _userGameService.getUserGamesByGameId(gameName);
 
                 MatchHistoryList = MatchHistoryData
                     .OrderByDescending(userGame => userGame.GamePlayedOn)
