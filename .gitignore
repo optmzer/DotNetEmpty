@@ -262,3 +262,6 @@ __pycache__/
 
 # Ignore DataSeed
 DataSeed.*
+
+# Ignore .min.css
+*.min.css

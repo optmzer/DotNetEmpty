@@ -16,8 +16,8 @@ body {
     margin: 0;
 }
 
-.table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: rgb(39, 39, 39);
+tbody > tr:hover {
+    background-color: rgba(39, 39, 39, 0.8);
     cursor: pointer;
 }
 
@@ -224,4 +224,19 @@ body {
 }
 .game-card-detail {
     color: white;
+}
+
+/* GAME DETAIL PAGE*/
+.game-detail-table-div {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.game-detail-thead > tr {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    padding-top: 20px !important;
 }
