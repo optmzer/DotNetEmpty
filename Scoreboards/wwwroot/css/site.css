@@ -11,13 +11,6 @@ body {
     font-size: 16px;
 }
 
-.container {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: auto;
-}
-
 .body-content {
     padding: 0;
     margin: 0;
@@ -29,10 +22,6 @@ body {
 }
 
 /* NAVBAR CUSTOM COLORING */
-.navigation {
-    padding: 0 15px 0 25px;
-}
-
 .navbar-inverse, .navbar-collapse, .collapse {
     background-color: #000;
 }
@@ -79,14 +68,12 @@ body {
 .page-content {
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
 }
 
 /*HOME PAGE*/
 .home-page {
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
-    min-height: 750px;
 }
 
 .float-left1, .float-right1 {
@@ -106,21 +93,18 @@ body {
 .login-page {
     background-image: url(/images/contact-banner.jpg);
     padding: 15px;
-    min-height: 750px;
 }
 
 /*REGISTER PAGE*/
 .register-page {
     background-image: url(/images/contact-banner.jpg);
     padding: 15px;
-    min-height: 850px;
 }
 
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
     padding: 15px;
-    min-height: 750px;
 }
 
 #GamePlayedName {
@@ -146,13 +130,15 @@ body {
 }
 
 /* FOOTER */
-.footer {
-    bottom: 0;
-    position: absolute;
+.footer-partial {
+    padding-top: 60px;
+    background-color: #000;
+    text-align: center;
 }
 
-.footer-partial {
-    text-align: center;
+.footer-row {
+    margin-right: 15px !important;
+    margin-left: 15px !important;
 }
 
 .footer-partial > p {
@@ -161,7 +147,7 @@ body {
     padding: 10px 0;
 }
 
-.social-media-footer-bar{
+.social-media-footer-bar {
     display: inline-flex;
 }
 
