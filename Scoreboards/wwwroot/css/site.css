@@ -10,7 +10,9 @@ body {
     line-height: 1.7;
     font-size: 16px;
 }
-
+home-page, user-page, game-page > h3, label {
+    color: #fff;
+}
 .body-content {
     padding: 0;
     margin: 0;
@@ -164,9 +166,10 @@ tbody > tr:hover {
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    align-items:center;
-    color: #5d5e5e;
+    align-items: center;
+    color: #fff;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .user-card-picture img {
@@ -194,6 +197,7 @@ tbody > tr:hover {
 
 /*HOME PAGE*/
 .home-page, .game-page, .user-page {
+    color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
 }
