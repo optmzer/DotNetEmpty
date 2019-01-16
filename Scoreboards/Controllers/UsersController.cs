@@ -71,6 +71,7 @@ namespace Scoreboards.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Wins = _userGameService.getWinsByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
+                    Draws = _userGameService.getDrawsByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
                     Loses = _userGameService.getLosesByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, Game.Id.ToString()).ToString()
                 })).ToDictionary(x => x.Key, x => x.Value);
@@ -80,6 +81,7 @@ namespace Scoreboards.Controllers
                 UserId = user.Id,
                 UserName = user.UserName,
                 Wins = _userGameService.getWinsByIdAndGameId(user.Id, "").ToString(),
+                Draws = _userGameService.getDrawsByIdAndGameId(user.Id, "").ToString(),
                 Loses = _userGameService.getLosesByIdAndGameId(user.Id, "").ToString(),
                 Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, "").ToString()
             });
