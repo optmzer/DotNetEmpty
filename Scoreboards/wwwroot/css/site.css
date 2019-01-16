@@ -317,7 +317,7 @@ tbody > tr:hover {
     overflow-y: auto;
 }
 
-.game-detail-thead > tr {
+.game-detail-thead > tr, th {
     position: sticky;
     top: 0;
     background-color: #000;
