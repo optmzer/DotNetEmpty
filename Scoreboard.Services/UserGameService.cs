@@ -113,6 +113,14 @@ namespace Scoreboards.Services
             
         }
 
+        public IEnumerable<UserGame> getUserGamesByUserId(string userId)
+        {
+            return GetAll()
+                .Where(userGame => 
+                    (userGame.User_01_Id.ToString() == userId) 
+                    || userGame.User_02_Id.ToString() == userId);
+        }
+
         ///////////////////////////////////////////
 
         public UserGame GetById(int userGameId)
