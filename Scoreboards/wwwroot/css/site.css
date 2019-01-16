@@ -186,11 +186,15 @@ tbody > tr:hover {
 /* SEARCH SIZES*/
 .usr-search-bar {
     width: 400px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
+    color: black;
+    font-weight: bold;
 }
 
 .usr-search-btn {
     width: 50px;
+    color:black;
+    font-weight:bold;
 }
 
 /* COMMON FOR ALL PAGES */

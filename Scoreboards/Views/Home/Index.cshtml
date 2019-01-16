@@ -85,7 +85,10 @@
                                     <div>
                                         @match.GameName
                                         <div style="flex-direction:row">
-                                            @match.User_01_Team vs @match.User_02_Team
+                                            @match.User_01.UserName vs @match.User_02.UserName
+                                        </div>
+                                        <div style="flex-direction:row">
+                                            @match.User_01_Team &nbsp; @match.User_02_Team
                                         </div>
                                         <div style="flex-direction:row">
                                             @match.GameScore
