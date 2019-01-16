@@ -81,16 +81,23 @@
                         foreach (var match in Model.LatestGames)
                         {
                             <tr>
-                                <td style="text-align:center;">
-                                    <div>
+                                <td class="match-history-table-td">
+                                    <div class="match-history-table-outer-div">
                                         @match.GameName
-                                        <div style="flex-direction:row">
-                                            @match.User_01.UserName vs @match.User_02.UserName
+                                        <div class="match-history-table-middle-div">
+                                            <div class="match-history-table-inner-edge-div">
+                                                @match.User_01.UserName
+                                                @match.User_01_Team
+                                            </div>
+                                            <div class="match-history-table-inner-center-div">
+                                                vs
+                                            </div>
+                                            <div class="match-history-table-inner-edge-div">
+                                                @match.User_02.UserName
+                                                @match.User_02_Team
+                                            </div>
                                         </div>
-                                        <div style="flex-direction:row">
-                                            @match.User_01_Team &nbsp; @match.User_02_Team
-                                        </div>
-                                        <div style="flex-direction:row">
+                                        <div style="flex-direction:row;">
                                             @match.GameScore
                                         </div>
                                     </div>

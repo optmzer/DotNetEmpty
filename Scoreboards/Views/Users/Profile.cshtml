@@ -86,19 +86,29 @@
                         {
                             foreach (var match in Model.UsersGames)
                             {
-                                <tr>
-                                    <td style="text-align:center;">
-                                        <div>
-                                            @match.GameName
-                                            <div style="flex-direction:row">
-                                                @match.User_01_Team vs @match.User_02_Team
-                                            </div>
-                                            <div style="flex-direction:row">
-                                                @match.GameScore
-                                            </div>
+                        <tr>
+                            <td class="match-history-table-td">
+                                <div class="match-history-table-outer-div">
+                                    @match.GameName
+                                    <div class="match-history-table-middle-div">
+                                        <div class="match-history-table-inner-edge-div">
+                                            @match.User_01.UserName<br />
+                                            @match.User_01_Team
                                         </div>
-                                    </td>
-                                </tr>
+                                        <div class="match-history-table-inner-center-div">
+                                            vs
+                                        </div>
+                                        <div class="match-history-table-inner-edge-div">
+                                            @match.User_02.UserName<br />
+                                            @match.User_02_Team
+                                        </div>
+                                    </div>
+                                    <div style="flex-direction:row;">
+                                        @match.GameScore
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                             }
                         }
                     </tbody>
