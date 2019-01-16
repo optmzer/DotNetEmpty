@@ -36,7 +36,7 @@ namespace Scoreboards.Controllers
 
         public IActionResult Profile(string userID)
         {
-            var MatchHistoryData = _userGameService.getUserGameById(userID);
+            var MatchHistoryData = _userGameService.getUserGameByUserId(userID);
             IEnumerable<UserGameListingModel> MatchHistory = MatchHistoryData.Select(userGame =>
             {
                 UserGameListingModel ugameModel = new UserGameListingModel
@@ -70,18 +70,18 @@ namespace Scoreboards.Controllers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    Wins = _userGameService.getWinsByIdAndGameName(user.Id, Game.Id.ToString()).ToString(),
-                    Loses = _userGameService.getLosesByIdAndGameName(user.Id, Game.Id.ToString()).ToString(),
-                    Ratio = _userGameService.getRatioWithIdAndGameName(user.Id, Game.Id.ToString()).ToString()
+                    Wins = _userGameService.getWinsByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
+                    Loses = _userGameService.getLosesByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
+                    Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, Game.Id.ToString()).ToString()
                 })).ToDictionary(x => x.Key, x => x.Value);
 
             gameStats.Add("Overall", new LeaderboardUserModel
             {
                 UserId = user.Id,
                 UserName = user.UserName,
-                Wins = _userGameService.getWinsById(user.Id).ToString(),
-                Loses = _userGameService.getLosesById(user.Id).ToString(),
-                Ratio = _userGameService.getRatioWithId(user.Id).ToString()
+                Wins = _userGameService.getWinsByIdAndGameId(user.Id, "").ToString(),
+                Loses = _userGameService.getLosesByIdAndGameId(user.Id, "").ToString(),
+                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, "").ToString()
             });
 
             var model = new UserProfileModel
