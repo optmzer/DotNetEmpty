@@ -86,35 +86,59 @@ body {
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
-    border: 2px solid;
 }
 
 .item-picture {
     grid-area: 1 / 1 / 4 / 2;
-
-    border: 2px solid;
 }
 
 .item-personal-info {
     grid-area: 4 / 1 / 6 / 2;
-    border: 2px solid;
 }
 
 .item-stats {
     grid-area: 1 / 2 / 3 / 3;
-    border: 2px solid;
 }
 
 .item-matches {
     grid-area: 3 / 2 / 6 / 3;
-    border: 2px solid;
 }
 
-.items-centred {
-    text-align:center;
-    align-items:center;
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
 }
 
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
 
 .user-cards{
     margin:20px;
