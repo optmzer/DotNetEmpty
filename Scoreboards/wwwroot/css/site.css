@@ -214,7 +214,33 @@ tbody > tr:hover {
     margin: 0;
     padding: 0;
 }
-
+.match-history-table-td {
+    text-align: center;
+}
+.match-history-table-outer-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+}
+.match-history-table-middle-div {
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+}
+.match-history-table-inner-edge-div {
+    flex-direction:column;
+    justify-content: center;
+    text-align: center;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match-history-table-inner-center-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    width: 20%;
+}
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
