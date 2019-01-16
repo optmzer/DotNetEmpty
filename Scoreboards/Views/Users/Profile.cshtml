@@ -71,7 +71,36 @@
             }
         </div>
         <div class="item-matches">
-            Recent Matches
+                <table class="table">
+                    <thead class="game-detail-thead">
+                        <tr>
+                            <th style="text-align:center;background-color: #000;">
+                                <label>Match History</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.UsersGames != null)
+                        {
+                            foreach (var match in Model.UsersGames)
+                            {
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <div>
+                                            @match.GameName
+                                            <div style="flex-direction:row">
+                                                @match.User_01_Team vs @match.User_02_Team
+                                            </div>
+                                            <div style="flex-direction:row">
+                                                @match.GameScore
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
         </div>
     </div>
 </div>
