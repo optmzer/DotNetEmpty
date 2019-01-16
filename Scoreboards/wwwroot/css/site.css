@@ -75,14 +75,15 @@ tbody > tr:hover {
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
+    justify-content: flex-start;
 }
 
 .item-picture {
-    grid-area: 1 / 1 / 4 / 2;
+    grid-area: 1 / 1 / 3 / 2;
 }
 
 .item-personal-info {
-    grid-area: 4 / 1 / 6 / 2;
+    grid-area: 3 / 1 / 6 / 2;
 }
 
 .item-stats {
@@ -91,8 +92,18 @@ tbody > tr:hover {
 
 .item-matches {
     grid-area: 3 / 2 / 6 / 3;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: auto;
+    height: 400px;
+    overflow-y: auto;
 }
-
+    .item-matches > tr, th {
+        position: sticky;
+        top: 0;
+        background-color: #000;
+        padding-top: 20px !important;
+    }
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -101,8 +112,13 @@ tbody > tr:hover {
 }
 
 /* Style the buttons that are used to open the tab content */
+.tab {
+    background-color: #000;
+}
 .tab button {
-    background-color: inherit;
+    background-color: #000;
+    color: #909090;
+    font-weight:bold;
     float: left;
     border: none;
     outline: none;
@@ -112,9 +128,10 @@ tbody > tr:hover {
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
+    .tab button:hover {
+        background-color: #ddd;
+        color: #909090;
+    }
 
 /* Create an active/current tablink class */
 .tab button.active {
@@ -316,10 +333,15 @@ tbody > tr:hover {
     height: 400px;
     overflow-y: auto;
 }
-
+.game-profile-table-div {
+    padding-top: 0;
+    padding-bottom: 0;
+    width:auto;
+    height: 300px;
+    overflow-y: auto;
+}
 .game-detail-thead > tr, th {
     position: sticky;
     top: 0;
-    background-color: #000;
     padding-top: 20px !important;
 }

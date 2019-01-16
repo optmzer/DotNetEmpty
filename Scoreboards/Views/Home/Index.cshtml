@@ -38,25 +38,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var game in Model.UsersData)
+                    @foreach (var user in Model.UsersData)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Index", "Home", new { userId = game.UserId }))'">
+                        <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
                             <td>
                                 <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
                                     @i
                                 </div>
                             </td>
                             <td>
-                                @game.UserName
+                                @user.UserName
                             </td>
                             <td>
                                 <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @game.Wins W - @game.Draws D -  @game.Loses L
+                                    @user.Wins W - @user.Draws D -  @user.Loses L
                                 </div>
                             </td>
                             <td>
                                 <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @game.Ratio %
+                                    @user.Ratio %
                                 </div>
                             </td>
 
@@ -67,7 +67,7 @@
             </table>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-            <table class="table float-mid1 ">
+            <table class="table">
                 <thead>
                     <tr>
                         <th style="text-align:center;">
