@@ -172,9 +172,10 @@ tbody > tr:hover {
     -ms-flex-direction: column;
     flex-direction: column;
     align-items: center;
-    color: #fff;
+    color: white;
     cursor: pointer;
     font-weight: bold;
+    background-color: rgba(16,9,1,0.5);
 }
 
 .user-card-picture img {
@@ -186,9 +187,9 @@ tbody > tr:hover {
 /* SEARCH SIZES*/
 .usr-search-bar {
     width: 400px;
-    margin-bottom: 20px;
+    margin-bottom:20px;
     color: black;
-    font-weight: bold;
+    font-weight:bold;
 }
 
 .usr-search-btn {
