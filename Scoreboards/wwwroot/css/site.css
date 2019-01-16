@@ -176,7 +176,7 @@ tbody > tr:hover {
 }
 
 /*HOME PAGE*/
-.home-page, .game-page {
+.home-page, .game-page, .user-page {
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
 }
