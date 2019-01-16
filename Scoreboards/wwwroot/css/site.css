@@ -258,7 +258,7 @@ tbody > tr:hover {
     text-align: center;
 }
 
-.footer-row {
+.zero-row-margin {
     margin-right: 15px !important;
     margin-left: 15px !important;
 }
