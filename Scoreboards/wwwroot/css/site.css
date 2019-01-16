@@ -112,8 +112,13 @@ tbody > tr:hover {
 }
 
 /* Style the buttons that are used to open the tab content */
+.tab {
+    background-color: #000;
+}
 .tab button {
-    background-color: inherit;
+    background-color: #000;
+    color: #909090;
+    font-weight:bold;
     float: left;
     border: none;
     outline: none;
@@ -123,9 +128,10 @@ tbody > tr:hover {
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
+    .tab button:hover {
+        background-color: #ddd;
+        color: #909090;
+    }
 
 /* Create an active/current tablink class */
 .tab button.active {
