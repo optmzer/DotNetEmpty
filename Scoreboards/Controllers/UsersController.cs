@@ -36,7 +36,7 @@ namespace Scoreboards.Controllers
 
         public IActionResult Profile(string userID)
         {
-            var MatchHistoryData = _userGameService.getUserGameByUserId(userID);
+            var MatchHistoryData = _userGameService.getUserGamesByUserId(userID);
             IEnumerable<UserGameListingModel> MatchHistory = MatchHistoryData.Select(userGame =>
             {
                 UserGameListingModel ugameModel = new UserGameListingModel
