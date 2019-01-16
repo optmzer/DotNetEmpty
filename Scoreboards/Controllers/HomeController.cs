@@ -73,31 +73,35 @@ namespace Scoreboards.Controllers
         public IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
         {
             // prepare match history for specific game or overall game
-            IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService.getUserGamesByGameId(gameId).OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
-            {
-                UserGameListingModel model1 = new UserGameListingModel
+            IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
+                .getUserGamesByGameId(gameId)
+                .OrderByDescending((x) => x.GamePlayedOn)
+                .Take(5)
+                .Select((userGameItem) =>
                 {
-                    Id = userGameItem.Id,
-                    //Game played Date
-                    GamePlayedOn = userGameItem.GamePlayedOn,
+                    UserGameListingModel model1 = new UserGameListingModel
+                    {
+                        Id = userGameItem.Id,
+                        //Game played Date
+                        GamePlayedOn = userGameItem.GamePlayedOn,
 
-                    //Players detail
-                    User_01 = _userService.GetById(userGameItem.User_01_Id),
-                    User_01_Team = userGameItem.User_01_Team,
-                    User_02 = _userService.GetById(userGameItem.User_02_Id),
-                    User_02_Team = userGameItem.User_02_Team,
+                        //Players detail
+                        User_01 = _userService.GetById(userGameItem.User_01_Id),
+                        User_01_Team = userGameItem.User_01_Team,
+                        User_02 = _userService.GetById(userGameItem.User_02_Id),
+                        User_02_Team = userGameItem.User_02_Team,
 
-                    // Game Name
-                    GameName = userGameItem.GamePlayed.GameName,
+                        // Game Name
+                        GameName = userGameItem.GamePlayed.GameName,
 
-                    //Score 
-                    GameScore = userGameItem.GameScore,
+                        //Score 
+                        GameScore = userGameItem.GameScore,
 
-                    //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                    Winner = userGameItem.Winner,
-                };
-                return model1;
-            }).Take(5);
+                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                        Winner = userGameItem.Winner,
+                    };
+                    return model1;
+                });
             return MatchHistoryList;
         }
         public IActionResult Index(string gameId)
