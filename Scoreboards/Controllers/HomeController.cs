@@ -10,7 +10,6 @@ using Scoreboards.Data.Models;
 using Scoreboards.Models;
 using Scoreboards.Models.Home;
 using Scoreboards.Models.UserGames;
-using Scoreboards.Models.Users;
 
 namespace Scoreboards.Controllers
 {
@@ -32,141 +31,88 @@ namespace Scoreboards.Controllers
             _userManager = userManager;
             _userService = userService;
         }
-
-        public IEnumerable<MatchHistoryModel> GetMatchDataWithId(string userId)
+        public List<SelectListItem> GetGameList(string gameId)
         {
-            var history = _userGameService.GetAll().Where(user => user.User_01_Id == userId || user.User_02_Id == userId).Select(user => new MatchHistoryModel
-            {
-                UserId = userId
-            });
-            return history;
-        }
-
-        public IActionResult Index(string gameName)
-        {
-            IEnumerable<LeaderboardUserModel> leaderBoardData;
-
-            // prepare games list
+            // prepare games list that will be used for dropdown
+            // if gameName is provided => set that game to be 'Selected'
+            // else => no 'Selected' game
             List<SelectListItem> listItems = new List<SelectListItem>();
             var gameList = _gameService.GetAll();
             foreach (var game in gameList)
             {
-                listItems.Add(new SelectListItem
+                var listItem = new SelectListItem
                 {
                     Text = game.GameName,
                     Value = game.Id.ToString(),
                     Selected = false
-                });
-            }
-
-            // prepare match history for specific game or overall game
-            IEnumerable<UserGameListingModel> MatchHistoryList;
-            if (gameName == "Overall" || gameName == null)
-            {
-
-                leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
+                };
+                if (gameId == listItem.Value)
                 {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Wins = _userGameService.getWinsById(user.Id).ToString(),
-                    Loses = _userGameService.getLosesById(user.Id).ToString(),
-                    Ratio = _userGameService.getRatioWithId(user.Id).ToString(),
-                    History = GetMatchDataWithId(user.Id)
-                });
-                var MatchHistoryData = _userGameService.GetAll();
-                MatchHistoryList = MatchHistoryData.Select((userGameItem) =>
-                {
-                    var userGame = _userGameService.GetById(userGameItem.Id);
-                    var user_01 = _userService.GetById(userGame.User_01_Id);
-                    var user_02 = _userService.GetById(userGame.User_02_Id);
-
-                    UserGameListingModel model1 = new UserGameListingModel
-                    {
-                        Id = userGame.Id,
-                        //Game played Date
-                        GamePlayedOn = userGame.GamePlayedOn,
-
-                        //Players detail
-                        User_01 = user_01,
-                        User_01_Team = userGame.User_01_Team,
-                        User_02 = user_02,
-                        User_02_Team = userGame.User_02_Team,
-
-                        // Game Name
-                        GameName = userGame.GamePlayed.GameName,
-
-                        //Score 
-                        GameScore = userGame.GameScore,
-
-                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                        Winner = userGame.Winner,
-                    };
-                    return model1;
-                });
-            }
-            else
-            {
-
-                leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Wins = _userGameService.getWinsByIdAndGameName(user.Id, gameName).ToString(),
-                    Loses = _userGameService.getLosesByIdAndGameName(user.Id, gameName).ToString(),
-                    Ratio = _userGameService.getRatioWithIdAndGameName(user.Id, gameName).ToString(),
-                    History = GetMatchDataWithId(user.Id)
-                });
-                leaderBoardData = leaderBoardData.Where(option => option.Wins + option.Loses != "00").Select(user => user);
-                foreach (var item1 in listItems)
-                {
-                    if (item1.Value == gameName)
-                    {
-                        item1.Selected = true;
-                    }
-                    else
-                    {
-                        item1.Selected = false;
-                    }
+                    listItem.Selected = true;
                 }
-                //var gameId = _userGameService.getUserGameByGameName(gameName);
-                var MatchHistoryData = _userGameService.getUserGameByGameId(gameName);
-                MatchHistoryList = MatchHistoryData.Select((userGameItem) =>
-                {
-                    var userGame = _userGameService.GetById(userGameItem.Id);
-                    var user_01 = _userService.GetById(userGame.User_01_Id);
-                    var user_02 = _userService.GetById(userGame.User_02_Id);
-
-                    UserGameListingModel model1 = new UserGameListingModel
-                    {
-                        Id = userGame.Id,
-                        //Game played Date
-                        GamePlayedOn = userGame.GamePlayedOn,
-
-                        //Players detail
-                        User_01 = user_01,
-                        User_01_Team = userGame.User_01_Team,
-                        User_02 = user_02,
-                        User_02_Team = userGame.User_02_Team,
-
-                        // Game Name
-                        GameName = userGame.GamePlayed.GameName,
-
-                        //Score 
-                        GameScore = userGame.GameScore,
-
-                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                        Winner = userGame.Winner,
-                    };
-                    return model1;
-                });
+                listItems.Add(listItem);
             }
+            return listItems;
+        }
+        public IEnumerable<LeaderboardUserModel> GetLeaderboardData(string gameId)
+        {
+            // prepare leaderboard
+            // if gameName is provided => game specific leaderboard
+            // else => overall leaderboard
+            IEnumerable<LeaderboardUserModel> leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                Wins = _userGameService.getWinsByIdAndGameId(user.Id, gameId).ToString(),
+                Draws = _userGameService.getDrawsByIdAndGameId(user.Id, gameId).ToString(),
+                Loses = _userGameService.getLosesByIdAndGameId(user.Id, gameId).ToString(),
+                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString()
+            });
+            return leaderBoardData.Where(option => option.Wins + option.Loses != "00").Select(user => user);
+        }
+        public IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
+        {
+            // prepare match history for specific game or overall game
+            IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService.getUserGamesByGameId(gameId).OrderByDescending((x) => x.GamePlayedOn).Select((userGameItem) =>
+            {
+                UserGameListingModel model1 = new UserGameListingModel
+                {
+                    Id = userGameItem.Id,
+                    //Game played Date
+                    GamePlayedOn = userGameItem.GamePlayedOn,
+
+                    //Players detail
+                    User_01 = _userService.GetById(userGameItem.User_01_Id),
+                    User_01_Team = userGameItem.User_01_Team,
+                    User_02 = _userService.GetById(userGameItem.User_02_Id),
+                    User_02_Team = userGameItem.User_02_Team,
+
+                    // Game Name
+                    GameName = userGameItem.GamePlayed.GameName,
+
+                    //Score 
+                    GameScore = userGameItem.GameScore,
+
+                    //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                    Winner = userGameItem.Winner,
+                };
+                return model1;
+            }).Take(5);
+            return MatchHistoryList;
+        }
+        public IActionResult Index(string gameId)
+        {
+            List<SelectListItem> listItems = GetGameList(gameId);
+            IEnumerable<LeaderboardUserModel> leaderBoardData = GetLeaderboardData(gameId);
+            IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
+            
             var model = new HomeIndexModel
             {
                 UsersData = leaderBoardData.OrderBy(user => decimal.Parse(user.Ratio)).Reverse(),
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
                 LatestGames = MatchHistoryList,
                 DropDownData = listItems,
-                itemSelected = gameName == null ? "0" : gameName
+                itemSelected = gameId == null ? "0" : gameId
             };
             // Display to the page
             return View(model);

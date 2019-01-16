@@ -32,18 +32,48 @@ namespace Scoreboards.Services
         }
 
         // Lewis added
-        public int getWinsById(string userId)
+        public int getWinsByIdAndGameId(string userId, string gameId)
         {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+            // if gameName is null, provide overall
+            // else provide overall
+            if (gameId == null || gameId == "")
+            {
+                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+            } else
+            {
+                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameId == userGame.GamePlayed.Id.ToString()).Count();
+            }
         }
-        public int getLosesById(string userId)
+        public int getDrawsByIdAndGameId(string userId, string gameId)
         {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
+            // if gameName is null, provide overall
+            // else provide overall
+            if (gameId == null || gameId == "")
+            {
+                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw").Count();
+            }
+            else
+            {
+                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+            }
         }
-        public decimal getRatioWithId(string userId)
+        public int getLosesByIdAndGameId(string userId, string gameId)
         {
-            int wins = getWinsById(userId);
-            int loses = getLosesById(userId);
+            // if gameName is null, provide overall
+            // else provide overall
+            if (gameId == null || gameId == "")
+            {
+                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
+            }
+            else
+            {
+                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+            }
+        }
+        public decimal getRatioWithIdAndGameId(string userId, string gameId)
+        {
+            int wins = getWinsByIdAndGameId(userId, gameId);
+            int loses = getLosesByIdAndGameId(userId, gameId);
             int total = wins + loses;
             if (total == 0)
             {
@@ -55,19 +85,12 @@ namespace Scoreboards.Services
                 return Math.Round(ratio, 2);
             }
         }
-        public int getWinsByIdAndGameName(string userId, string gameName)
+        public decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId)
         {
-            return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameName == userGame.GamePlayed.Id.ToString()).Count();
-        }
-        public int getLosesByIdAndGameName(string userId, string gameName)
-        {
-            return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameName == userGame.GamePlayed.Id.ToString()).Count();
-        }
-        public decimal getRatioWithIdAndGameName(string userId, string gameName)
-        {
-            int wins = getWinsByIdAndGameName(userId, gameName);
-            int loses = getLosesByIdAndGameName(userId, gameName);
-            int total = wins + loses;
+            int wins = getWinsByIdAndGameId(userId, gameId);
+            int draws = getDrawsByIdAndGameId(userId, gameId);
+            int loses = getLosesByIdAndGameId(userId, gameId);
+            int total = wins + draws + loses;
             if (total == 0)
             {
                 return 0;
@@ -78,18 +101,18 @@ namespace Scoreboards.Services
                 return Math.Round(ratio, 2);
             }
         }
-        public UserGame getUserGameByGameName(string gameName)
+        public IEnumerable<UserGame> getUserGamesByGameId(string gameId)
         {
-            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameName)).FirstOrDefault();
+            if (gameId==null||gameId=="")
+            {
+                return GetAll();
+            } else
+            {
+                return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameId));
+            }
+            
         }
-        public IEnumerable<UserGame> getUserGameById(string userId)
-        {
-            return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId));
-        }
-        public IEnumerable<UserGame> getUserGameByGameId(string gameId)
-        {
-            return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameId));
-        }
+
         ///////////////////////////////////////////
 
         public UserGame GetById(int userGameId)
@@ -125,13 +148,6 @@ namespace Scoreboards.Services
         public Task SetGameImageAsync(int userGameId, Uri uri)
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<UserGame> GetGamesByGameName(string gameName)
-        {
-            return _context.UserGames
-                .Include(uGame => uGame.GamePlayed)
-                .Where(game => game.GamePlayed.GameName == gameName);
         }
 
         public int CountWinsForUser(string userId)

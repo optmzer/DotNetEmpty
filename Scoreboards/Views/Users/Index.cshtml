@@ -45,7 +45,7 @@
             @foreach (var user in Model.AppUsers)
             {
                 <div class="card" onclick="location.href = '@(Url.Action("Profile", "Users", new { userID = user.Id }))'">
-                    <picture class="card-picture">
+                    <picture class="user-card-picture">
                         <img src="~/images/profile-picture-default.png" />
                     </picture>
                     @user.UserName

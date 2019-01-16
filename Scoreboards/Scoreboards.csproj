@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Models\Users\" />
     <Folder Include="wwwroot\images\Game\" />
     <Folder Include="wwwroot\images\Default\" />
   </ItemGroup>

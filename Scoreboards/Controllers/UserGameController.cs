@@ -108,7 +108,7 @@ namespace Scoreboards.Controllers
             // SignalR send message to All that DB was updated
             await _hubContext.Clients.All.SendAsync("Notify", $"Created new UserGame at : {DateTime.Now}");
 
-            return RedirectToAction("Index", "UserGame", new { userGameId = userGame.Id });
+            return RedirectToAction("Index", "Home");
         }
 
         // =====================

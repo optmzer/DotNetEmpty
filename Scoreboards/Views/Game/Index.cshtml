@@ -1,1 +1,25 @@
-﻿
+﻿@model Scoreboards.Models.GamePage.GameIndexModel
+
+@{
+    ViewData["Title"] = "Game List Page";
+}
+
+<div class="page-content game-page">
+    <div class="row display-next-to-each-other">
+        <div class="float-left1 col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <h3>Games</h3>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div class="user-cards">
+                @foreach (var game in Model.gameList)
+                {
+                <div class="card" onclick="location.href = '@(Url.Action("GameDetail", "Game", new { gameId = game.Id }))'">
+                    @{string imgSourceString = string.Concat("~", game.GameLogo);}
+                    <img class="card-picture" src="@Url.Content(imgSourceString)" alt="~/images/defaultImage.png" />
+                    <label class="game-card-detail">@game.GameName</label>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
