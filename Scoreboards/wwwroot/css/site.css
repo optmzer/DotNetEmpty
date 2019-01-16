@@ -267,7 +267,7 @@ tbody > tr:hover {
     padding: 10px 0;
 }
 
-.footer-row > p {
+.zero-row-margin > p {
     font-size: 0.75em;
     margin: 0;
     padding-bottom: 20px;
