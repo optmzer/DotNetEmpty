@@ -15,6 +15,7 @@ namespace Scoreboards.Data
         
         // Lewis added
         IEnumerable<UserGame> getUserGamesByGameId(string gameId);
+        IEnumerable<UserGame> getUserGamesByUserId(string userId);
         int getWinsByIdAndGameId(string userId, string gameId);
         int getDrawsByIdAndGameId(string userId, string gameId);
         int getLosesByIdAndGameId(string userId, string gameId);
