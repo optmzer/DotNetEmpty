@@ -24,17 +24,8 @@ tbody > tr:hover {
 }
 
 /* NAVBAR CUSTOM COLORING */
-.navbar-inverse, .navbar-collapse, .collapse {
-    background-color: #000;
-}
-
-.navbar, .navbar-inverse, .navbar-fixed-top {
-    background-color: #000;
-}
-
-.nav, .navbar-nav, .navbar-right, .navbar-header {
-    height: 68px;
-    background-color: #000;
+.navbar {
+    background-color: #000 !important;
 }
 
 .navbar-header {
@@ -100,12 +91,14 @@ tbody > tr:hover {
     height: 400px;
     overflow-y: auto;
 }
-    .item-matches > tr, th {
-        position: sticky;
-        top: 0;
-        background-color: #000;
-        padding-top: 20px !important;
-    }
+
+.item-matches > tr, th {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    padding-top: 20px !important;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -117,6 +110,7 @@ tbody > tr:hover {
 .tab {
     background-color: #000;
 }
+
 .tab button {
     background-color: #000;
     color: #909090;
