@@ -26,7 +26,7 @@
     }
 </script>
 
-<div class="row page-content user-page">
+<div class="row page-content user-page row-margin-override">
     <div class="profile-grid-container">
         <div class="item-picture">
             <picture class="profile-picture">
@@ -57,6 +57,7 @@
                 <p>Losses: @Model.GameStatistcs["Overall"].Loses</p>
                 <p>Win Ratio: @Model.GameStatistcs["Overall"].Ratio %</p>
             </div>
+
             <!-- Tab content -->
             @foreach (var gameName in Model.GameStatistcs.Keys)
             {
@@ -86,19 +87,29 @@
                         {
                             foreach (var match in Model.UsersGames)
                             {
-                                <tr>
-                                    <td style="text-align:center;">
-                                        <div>
-                                            @match.GameName
-                                            <div style="flex-direction:row">
-                                                @match.User_01_Team vs @match.User_02_Team
-                                            </div>
-                                            <div style="flex-direction:row">
-                                                @match.GameScore
-                                            </div>
+                        <tr>
+                            <td class="match-history-table-td">
+                                <div class="match-history-table-outer-div">
+                                    @match.GameName
+                                    <div class="match-history-table-middle-div">
+                                        <div class="match-history-table-inner-edge-div">
+                                            @match.User_01.UserName<br />
+                                            @match.User_01_Team
                                         </div>
-                                    </td>
-                                </tr>
+                                        <div class="match-history-table-inner-center-div">
+                                            vs
+                                        </div>
+                                        <div class="match-history-table-inner-edge-div">
+                                            @match.User_02.UserName<br />
+                                            @match.User_02_Team
+                                        </div>
+                                    </div>
+                                    <div style="flex-direction:row;">
+                                        @match.GameScore
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                             }
                         }
                     </tbody>

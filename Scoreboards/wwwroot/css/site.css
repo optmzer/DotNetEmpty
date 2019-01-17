@@ -71,6 +71,11 @@ tbody > tr:hover {
     justify-content: flex-start;
 }
 
+.row-margin-override {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .item-picture {
     grid-area: 1 / 1 / 3 / 2;
 }
@@ -113,7 +118,7 @@ tbody > tr:hover {
 
 .tab button {
     background-color: #000;
-    color: #909090;
+    color: white;
     font-weight:bold;
     float: left;
     border: none;
@@ -161,9 +166,10 @@ tbody > tr:hover {
     -ms-flex-direction: column;
     flex-direction: column;
     align-items: center;
-    color: #fff;
+    color: white;
     cursor: pointer;
     font-weight: bold;
+    background-color: rgba(16,9,1,0.5);
 }
 
 .user-card-picture img {
@@ -175,10 +181,15 @@ tbody > tr:hover {
 /* SEARCH SIZES*/
 .usr-search-bar {
     width: 400px;
+    margin-bottom:20px;
+    color: black;
+    font-weight:bold;
 }
 
 .usr-search-btn {
     width: 50px;
+    color:black;
+    font-weight:bold;
 }
 
 /* COMMON FOR ALL PAGES */
@@ -208,7 +219,33 @@ tbody > tr:hover {
     margin: 0;
     padding: 0;
 }
-
+.match-history-table-td {
+    text-align: center;
+}
+.match-history-table-outer-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+}
+.match-history-table-middle-div {
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+}
+.match-history-table-inner-edge-div {
+    flex-direction:column;
+    justify-content: center;
+    text-align: center;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match-history-table-inner-center-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    width: 20%;
+}
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
