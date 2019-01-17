@@ -32,17 +32,21 @@ tbody > tr:hover {
     padding: 7px 0;
 }
 
-.navbar-inverse .navbar-nav > li > a, button {
+.navbar-nav {
+    padding-top: .65em;
+}
+
+.navbar-inverse, .navbar-nav > li > a, button {
     font-family: inherit;
     font-style: normal;
     font-weight: 200;
     line-height: 1;
     text-transform: uppercase;
     color: hsl(0,0%,100%);
-    padding: 25px 15px;
+    /*padding: 25px 15px;*/
 }
 
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
