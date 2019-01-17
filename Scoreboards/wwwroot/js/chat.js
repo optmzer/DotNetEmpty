@@ -1,6 +1,5 @@
 ﻿"use strict";
 
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/scoreboardsHub").build();
 
 //On getting "ReceiveMessage" tag updates <ul> with new data (name, message)
