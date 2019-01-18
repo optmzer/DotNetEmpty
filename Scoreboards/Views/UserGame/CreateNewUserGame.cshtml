@@ -6,7 +6,7 @@
     </div>
     <div class="row">
         <form asp-action="AddUserGame" method="post" id="addUserGame">
-            <div class="user-game-game-select col-xs-12 col-sm-12 col-md-12 col-lg-12"
+            <div class="user-game-game-select row"
                  align="center"     
             >
                 <div class="form-group">
@@ -22,66 +22,65 @@
                     </select>
                 </div>
             </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <fieldset class="user-game-fieldset">
-                        <legend class="user-game-legend">Player 1</legend>
-                        <div class="user-game-player">
-                            <div class="form-group userGame-player">
-                                <label asp-for="User_01_Id">Select Player 1</label>
-                                <select asp-for="User_01_Id"
-                                        class="form-control"
-                                        id="User_01_Id"
-                                        required>
-                                    @foreach (var user in Model.UsersList)
-                                    {
-                                        <option value="@user.Id">@user.UserName</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User_01_Team">Player 1 Team</label>
-                                <input asp-for="User_01_Team" class="form-control" type="text" placeholder="Player 1 team..." required />
-                                <span asp-validation-for="User_01_Team" class="text-danger"></span>
-                            </div>
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <fieldset class="user-game-fieldset">
+                    <legend class="user-game-legend">Player 1</legend>
+                    <div class="">
+                        <div class="form-group userGame-player">
+                            <label asp-for="User_01_Id">Select Player 1</label>
+                            <select asp-for="User_01_Id"
+                                    class="form-control"
+                                    id="User_01_Id"
+                                    required>
+                                @foreach (var user in Model.UsersList)
+                                {
+                                    <option value="@user.Id">@user.UserName</option>
+                                }
+                            </select>
                         </div>
-                    </fieldset>
-                </div>
-            
-                <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <fieldset class="user-game-fieldset">
-                        <legend class="user-game-legend">Player 2</legend>
-                        <div class="user-game-player">
-                            <div class="form-group userGame-player">
-                                <label asp-for="User_02_Id">Select Player 2</label>
-                                <select asp-for="User_02_Id"
-                                        class="form-control"
-                                        id="User_02_Id"
-                                        required>
-                                    @foreach (var user in Model.UsersList)
-                                    {
-                                        <option value="@user.Id">@user.UserName</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User_02_Team">Player 2 Team</label>
-                                <input asp-for="User_02_Team" class="form-control" type="text" placeholder="Player 2 team..." required />
-                                <span asp-validation-for="GameScore" class="text-danger"></span>
-                            </div>
+                        <div class="form-group">
+                            <label asp-for="User_01_Team">Player 1 Team</label>
+                            <input asp-for="User_01_Team" class="form-control" type="text" placeholder="Player 1 team..." required />
+                            <span asp-validation-for="User_01_Team" class="text-danger"></span>
                         </div>
-                    </fieldset>
-                </div>
-
-            <div class="user-game-score col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                 align="center"
-            >
-                <div class="form-group">
-                    <label asp-for="GameScore">Game Final Score</label>
-                    <input asp-for="GameScore" class="form-control" type="text" placeholder="Player1:Player2" required />
-                    <span asp-validation-for="GameScore" class="text-danger"></span>
-                </div>
+                        <div class="form-group" align="center">
+                            <label asp-for="GameScore">Game Final Score</label>
+                            <input asp-for="GameScore" class="form-control" type="text" placeholder="Player1 score" required />
+                            <span asp-validation-for="GameScore" class="text-danger"></span>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-            <div class="btn-submitUserGame col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <fieldset class="user-game-fieldset">
+                    <legend class="user-game-legend">Player 2</legend>
+                    <div class="user-game-player">
+                        <div class="form-group userGame-player">
+                            <label asp-for="User_02_Id">Select Player 2</label>
+                            <select asp-for="User_02_Id"
+                                    class="form-control"
+                                    id="User_02_Id"
+                                    required>
+                                @foreach (var user in Model.UsersList)
+                                {
+                                    <option value="@user.Id">@user.UserName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="User_02_Team">Player 2 Team</label>
+                            <input asp-for="User_02_Team" class="form-control" type="text" placeholder="Player 2 team..." required />
+                            <span asp-validation-for="GameScore" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" align="center" >
+                            <label asp-for="GameScore">Game Final Score</label>
+                            <input asp-for="GameScore" class="form-control" type="text" placeholder="Player2 score" required />
+                            <span asp-validation-for="GameScore" class="text-danger"></span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row btn-submitUserGame">
                 <button type="submit" id="submitUserGameBtn" class="btn">
                     Submit
                 </button>
