@@ -24,34 +24,29 @@ tbody > tr:hover {
 }
 
 /* NAVBAR CUSTOM COLORING */
-.navbar-inverse, .navbar-collapse, .collapse {
-    background-color: #000;
-}
-
-.navbar, .navbar-inverse, .navbar-fixed-top {
-    background-color: #000;
-}
-
-.nav, .navbar-nav, .navbar-right, .navbar-header {
-    height: 68px;
-    background-color: #000;
+.navbar {
+    background-color: #000 !important;
 }
 
 .navbar-header {
     padding: 7px 0;
 }
 
-.navbar-inverse .navbar-nav > li > a, button {
+.navbar-nav {
+    padding-top: .65em;
+}
+
+.navbar-inverse, .navbar-nav > li > a, button {
     font-family: inherit;
     font-style: normal;
     font-weight: 200;
     line-height: 1;
     text-transform: uppercase;
     color: hsl(0,0%,100%);
-    padding: 25px 15px;
+    /*padding: 25px 15px;*/
 }
 
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
@@ -105,12 +100,14 @@ tbody > tr:hover {
     height: 400px;
     overflow-y: auto;
 }
-    .item-matches > tr, th {
-        position: sticky;
-        top: 0;
-        background-color: #000;
-        padding-top: 20px !important;
-    }
+
+.item-matches > tr, th {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    padding-top: 20px !important;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -122,6 +119,7 @@ tbody > tr:hover {
 .tab {
     background-color: #000;
 }
+
 .tab button {
     background-color: #000;
     color: white;
@@ -172,9 +170,10 @@ tbody > tr:hover {
     -ms-flex-direction: column;
     flex-direction: column;
     align-items: center;
-    color: #fff;
+    color: white;
     cursor: pointer;
     font-weight: bold;
+    background-color: rgba(16,9,1,0.5);
 }
 .game-cards-container {
     margin: 20px;
@@ -212,9 +211,9 @@ tbody > tr:hover {
 /* SEARCH SIZES*/
 .usr-search-bar {
     width: 400px;
-    margin-bottom: 20px;
+    margin-bottom:20px;
     color: black;
-    font-weight: bold;
+    font-weight:bold;
 }
 
 .usr-search-btn {
