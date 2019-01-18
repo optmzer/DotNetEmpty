@@ -263,6 +263,8 @@ tbody > tr:hover {
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 #GamePlayedName {
@@ -279,6 +281,19 @@ tbody > tr:hover {
 
 #submitUserGameBtn:hover {
     color: #262626;
+}
+
+fieldset.user-game-fieldset {
+    border: solid 1px #DDD !important;
+    padding: 0 10px 10px 10px;
+    border-bottom: none;
+}
+
+legend.user-game-legend {
+    width: auto !important;
+    border: none;
+    font-size: 1em;
+    color: white;
 }
 
 /* CONTACT AND ABOUT PAGE */
