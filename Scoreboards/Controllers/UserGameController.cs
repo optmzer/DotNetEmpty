@@ -60,7 +60,7 @@ namespace Scoreboards.Controllers
                 GameName = userGame.GamePlayed.GameName,
 
                 //Score 
-                GameScore = userGame.GameScore,
+                GameScore = userGame.GameScoreUser01 + " : " + userGame.GameScoreUser02,
 
                 //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                 Winner = userGame.Winner,
@@ -120,15 +120,16 @@ namespace Scoreboards.Controllers
 
             // Check the winner
             var winner = "DRAW";
-            var scores = model.GameScore.Split(":");
-            var player1Score = 0;
-            var player2Score = 0;
 
-            if (scores.Length != 0)
-            {
-                player1Score = Convert.ToInt32(scores.GetValue(0));
-                player2Score = Convert.ToInt32(scores.GetValue(1));
-            }
+            //var scores = model.GameScore.Split(":");
+            var player1Score = Convert.ToInt32(model.GameScoreUser01);
+            var player2Score = Convert.ToInt32(model.GameScoreUser02);
+
+            //if (scores.Length != 0)
+            //{
+            //    player1Score = Convert.ToInt32(scores.GetValue(0));
+            //    player2Score = Convert.ToInt32(scores.GetValue(1));
+            //}
             
             if(player1Score > player2Score)
             {
@@ -151,7 +152,9 @@ namespace Scoreboards.Controllers
                 User_02_Team = model.User_02_Team,
 
                 //Score 
-                GameScore = model.GameScore,
+                //GameScore = model.GameScore,
+                GameScoreUser01 = "" + player1Score,
+                GameScoreUser02 = "" + player2Score,
 
                 //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                 Winner = winner,

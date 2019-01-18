@@ -8,5 +8,9 @@ namespace Scoreboards.Data.Models
         [Required]
         public string GameName { get; set; }
         public string GameLogo { get; set; }
+        [Required]
+        public int WinPoints { get; set; }
+        [Required]
+        public int DrawPoints { get; set; }
     }
 }

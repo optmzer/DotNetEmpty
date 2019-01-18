@@ -21,7 +21,11 @@ namespace Scoreboards.Models.UserGames
         public string User_02_Team { get; set; }
 
         //Score 
-        public string GameScore { get; set; }
+        //public string GameScore { get; set; }
+        [Range(0, 200, ErrorMessage = "Please enter integers in a range of {1} to {2}" )]
+        public string GameScoreUser01 { get; set; }
+        [Range(0, 200, ErrorMessage = "Please enter integers in a range of {1} to {2}")]
+        public string GameScoreUser02 { get; set; }
 
         //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
         public string Winner { get; set; }

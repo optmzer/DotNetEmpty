@@ -95,7 +95,7 @@ namespace Scoreboards.Controllers
                         GameName = userGameItem.GamePlayed.GameName,
 
                         //Score 
-                        GameScore = userGameItem.GameScore,
+                        GameScore = userGameItem.GameScoreUser01 + " : " + userGameItem.GameScoreUser02,
 
                         //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                         Winner = userGameItem.Winner,
