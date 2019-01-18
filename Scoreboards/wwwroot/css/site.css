@@ -154,11 +154,11 @@ tbody > tr:hover {
 }
 
 /* STYLE FOR THE CARD FORMAT ON USER AND GAME SEARCH*/
-.user-cards{
-    margin:20px;
-    display:grid;
+.user-cards {
+    margin: 20px;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-auto-rows:minmax(100px, auto);
+    grid-auto-rows: minmax(100px, auto);
     grid-gap: 1rem;
 }
 
@@ -176,7 +176,33 @@ tbody > tr:hover {
     cursor: pointer;
     font-weight: bold;
 }
+.game-cards-container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 1rem;
+    max-width: 80%;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
 
+.game-card {
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
 .user-card-picture img {
     fill: #c7c4c4;
     height: 135px;
@@ -385,3 +411,5 @@ tbody > tr:hover {
     top: 0;
     padding-top: 20px !important;
 }
+
+
