@@ -289,6 +289,8 @@ tbody > tr:hover {
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 #GamePlayedName {
