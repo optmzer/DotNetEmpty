@@ -289,6 +289,9 @@ tbody > tr:hover {
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
+}
+
+.user-game-player {
     padding-left: 5%;
     padding-right: 5%;
 }
@@ -301,12 +304,31 @@ tbody > tr:hover {
     width: 50%;
 }
 
+.btn-submitUserGame {
+    padding-left: 5%;
+}
+
 #submitUserGameBtn {
     color: #a6a6a6;
+    margin-left: 1.1em;
+    margin-top: 1em;
 }
 
 #submitUserGameBtn:hover {
     color: #262626;
+}
+
+fieldset.user-game-fieldset {
+    border: solid 1px #DDD !important;
+    padding: 0 10px 10px 10px;
+    border-bottom: none;
+}
+
+legend.user-game-legend {
+    width: auto !important;
+    border: none;
+    font-size: 1em;
+    color: white;
 }
 
 /* CONTACT AND ABOUT PAGE */
