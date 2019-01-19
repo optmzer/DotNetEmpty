@@ -10,7 +10,9 @@ body {
     line-height: 1.7;
     font-size: 16px;
 }
-
+home-page, user-page, game-page > h3, label {
+    color: #fff;
+}
 .body-content {
     padding: 0;
     margin: 0;
@@ -22,34 +24,29 @@ tbody > tr:hover {
 }
 
 /* NAVBAR CUSTOM COLORING */
-.navbar-inverse, .navbar-collapse, .collapse {
-    background-color: #000;
-}
-
-.navbar, .navbar-inverse, .navbar-fixed-top {
-    background-color: #000;
-}
-
-.nav, .navbar-nav, .navbar-right, .navbar-header {
-    height: 68px;
-    background-color: #000;
+.navbar {
+    background-color: #000 !important;
 }
 
 .navbar-header {
     padding: 7px 0;
 }
 
-.navbar-inverse .navbar-nav > li > a, button {
+.navbar-nav {
+    padding-top: .65em;
+}
+
+.navbar-inverse, .navbar-nav > li > a, button {
     font-family: inherit;
     font-style: normal;
     font-weight: 200;
     line-height: 1;
     text-transform: uppercase;
     color: hsl(0,0%,100%);
-    padding: 25px 15px;
+    /*padding: 25px 15px;*/
 }
 
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
@@ -78,6 +75,11 @@ tbody > tr:hover {
     justify-content: flex-start;
 }
 
+.row-margin-override {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .item-picture {
     grid-area: 1 / 1 / 3 / 2;
 }
@@ -98,12 +100,14 @@ tbody > tr:hover {
     height: 400px;
     overflow-y: auto;
 }
-    .item-matches > tr, th {
-        position: sticky;
-        top: 0;
-        background-color: #000;
-        padding-top: 20px !important;
-    }
+
+.item-matches > tr, th {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    padding-top: 20px !important;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -115,9 +119,10 @@ tbody > tr:hover {
 .tab {
     background-color: #000;
 }
+
 .tab button {
     background-color: #000;
-    color: #909090;
+    color: white;
     font-weight:bold;
     float: left;
     border: none;
@@ -147,11 +152,11 @@ tbody > tr:hover {
 }
 
 /* STYLE FOR THE CARD FORMAT ON USER AND GAME SEARCH*/
-.user-cards{
-    margin:20px;
-    display:grid;
+.user-cards {
+    margin: 20px;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-auto-rows:minmax(100px, auto);
+    grid-auto-rows: minmax(100px, auto);
     grid-gap: 1rem;
 }
 
@@ -164,11 +169,39 @@ tbody > tr:hover {
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    align-items:center;
-    color: #5d5e5e;
+    align-items: center;
+    color: white;
     cursor: pointer;
+    font-weight: bold;
+    background-color: rgba(16,9,1,0.5);
+}
+.game-cards-container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 1rem;
+    max-width: 80%;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
 }
 
+.game-card {
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
 .user-card-picture img {
     fill: #c7c4c4;
     height: 135px;
@@ -178,10 +211,15 @@ tbody > tr:hover {
 /* SEARCH SIZES*/
 .usr-search-bar {
     width: 400px;
+    margin-bottom:20px;
+    color: black;
+    font-weight:bold;
 }
 
 .usr-search-btn {
     width: 50px;
+    color:black;
+    font-weight:bold;
 }
 
 /* COMMON FOR ALL PAGES */
@@ -194,6 +232,7 @@ tbody > tr:hover {
 
 /*HOME PAGE*/
 .home-page, .game-page, .user-page {
+    color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
 }
@@ -210,7 +249,33 @@ tbody > tr:hover {
     margin: 0;
     padding: 0;
 }
-
+.match-history-table-td {
+    text-align: center;
+}
+.match-history-table-outer-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+}
+.match-history-table-middle-div {
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+}
+.match-history-table-inner-edge-div {
+    flex-direction:column;
+    justify-content: center;
+    text-align: center;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match-history-table-inner-center-div {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    width: 20%;
+}
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
@@ -224,6 +289,8 @@ tbody > tr:hover {
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 #GamePlayedName {
@@ -254,7 +321,7 @@ tbody > tr:hover {
     text-align: center;
 }
 
-.footer-row {
+.zero-row-margin {
     margin-right: 15px !important;
     margin-left: 15px !important;
 }
@@ -263,7 +330,7 @@ tbody > tr:hover {
     padding: 10px 0;
 }
 
-.footer-row > p {
+.zero-row-margin > p {
     font-size: 0.75em;
     margin: 0;
     padding-bottom: 20px;
@@ -345,3 +412,5 @@ tbody > tr:hover {
     top: 0;
     padding-top: 20px !important;
 }
+
+
