@@ -152,9 +152,8 @@ namespace Scoreboards.Controllers
                 User_02_Team = model.User_02_Team,
 
                 //Score 
-                //GameScore = model.GameScore,
-                GameScoreUser01 = "" + player1Score,
-                GameScoreUser02 = "" + player2Score,
+                GameScoreUser01 = player1Score,
+                GameScoreUser02 = player2Score,
 
                 //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                 Winner = winner,
