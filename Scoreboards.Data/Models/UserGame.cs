@@ -20,6 +20,10 @@ namespace Scoreboards.Data.Models
 
         //Score 
         public string GameScore { get; set; }
+        [Required]
+        public int GameScoreUser01 {get; set;}
+        [Required]
+        public int GameScoreUser02 { get; set; }
 
         //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
         public string Winner { get; set; }
@@ -32,5 +36,9 @@ namespace Scoreboards.Data.Models
         
         // Name of the game
         public virtual Game GamePlayed { get; set; }
+
+        // User points for this game
+        public int User_01_Awarder_Points { get; set; }
+        public int User_02_Awarder_Points { get; set; }
     }
 }
