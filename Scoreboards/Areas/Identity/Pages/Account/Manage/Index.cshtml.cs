@@ -132,7 +132,10 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
             //    }
             //}
 
-            await UploadUserProfileImage(ImageUpload);
+            if(ImageUpload != null)
+            {
+                await UploadUserProfileImage(ImageUpload);
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
