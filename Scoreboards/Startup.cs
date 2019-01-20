@@ -51,11 +51,15 @@ namespace Scoreboards
 
             // Injects IUserGame interface into Scoreboards.
             services.AddScoped<IUserGame, UserGameService>();
+
             // Injects IUserGame interface into Scoreboards.
             services.AddScoped<IApplicationUser, ApplicationUserService>();
 
             // Injects IGame interface into Scoreboards.
             services.AddScoped<IGame, GameService>();
+
+            // Injects IUpload interface to upload UserProfile pictures
+            services.AddScoped<IUpload, UploadService>();
 
             ////Add DataSeed Comment out for Deployment
             //services.AddTransient<DataSeed>();

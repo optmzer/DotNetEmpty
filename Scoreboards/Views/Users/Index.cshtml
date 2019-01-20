@@ -34,7 +34,7 @@
                 string userURL = "/Users/" + user.Id;
                 <div class="card" onclick="location.href = '@(Url.Action("Profile", "Users", new { userID = user.Id }))'">
                      <picture class="user-card-picture">
-                         <img src="~/images/profile-picture-default.png" />
+                         <img src="@user.ProfileImageUrl" />
                      </picture>
                      @user.UserName
                 </div>
@@ -46,7 +46,7 @@
             {
                 <div class="card" onclick="location.href = '@(Url.Action("Profile", "Users", new { userID = user.Id }))'">
                     <picture class="user-card-picture">
-                        <img src="~/images/profile-picture-default.png" />
+                        <img src="@user.ProfileImageUrl" />
                     </picture>
                     @user.UserName
                 </div>

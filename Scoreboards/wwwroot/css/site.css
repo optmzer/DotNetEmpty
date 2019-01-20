@@ -289,6 +289,7 @@ tbody > tr:hover {
 /* NEW USER GAME PAGE*/
 .new-user-game {
     background-image: url(/images/shutterstock_217325476.jpg);
+    padding: 15px 30px;
 }
 
 .user-game-player {
@@ -434,5 +435,8 @@ legend.user-game-legend {
     top: 0;
     padding-top: 20px !important;
 }
+
+/* MANAGE USER ACCOUNT PAGE */
+
 
 
