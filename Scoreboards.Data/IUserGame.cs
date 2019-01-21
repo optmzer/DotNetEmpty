@@ -21,6 +21,8 @@ namespace Scoreboards.Data
         int getLosesByIdAndGameId(string userId, string gameId);
         decimal getRatioWithIdAndGameId(string userId, string gameId);
         decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId);
+        int getUserPoint(string userId);
+        int getTotalGamePlayedByUserId(string userId);
         ///////////////////////////////////////
 
         // CRUD Operations

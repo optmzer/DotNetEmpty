@@ -35,32 +35,37 @@
                         <th><label>Name</label></th>
                         <th><label>Win/Draw/Lose</label></th>
                         <th><label>Win Ratio</label></th>
+                        <th><label>Points</label></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model.UsersData)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
-                            <td>
-                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @i
-                                </div>
-                            </td>
-                            <td>
-                                @user.UserName
-                            </td>
-                            <td>
-                                <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @user.Wins W - @user.Draws D -  @user.Loses L
-                                </div>
-                            </td>
-                            <td>
-                                <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                    @user.Ratio %
-                                </div>
-                            </td>
-
-                        </tr>
+                    <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
+                        <td>
+                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                @i
+                            </div>
+                        </td>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                @user.Wins W - @user.Draws D -  @user.Loses L
+                            </div>
+                        </td>
+                        <td>
+                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                @user.Ratio %
+                            </div>
+                        </td>
+                        <td>
+                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                @user.Points
+                            </div>
+                        </td>
+                    </tr>
                         i++;
                     }
                 </tbody>

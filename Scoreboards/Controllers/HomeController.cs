@@ -66,7 +66,8 @@ namespace Scoreboards.Controllers
                 Wins = _userGameService.getWinsByIdAndGameId(user.Id, gameId).ToString(),
                 Draws = _userGameService.getDrawsByIdAndGameId(user.Id, gameId).ToString(),
                 Loses = _userGameService.getLosesByIdAndGameId(user.Id, gameId).ToString(),
-                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString()
+                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString(),
+                Points = _userGameService.getUserPoint(user.Id).ToString()
             });
             return leaderBoardData.Where(option => option.Wins + option.Loses != "00").Select(user => user);
         }

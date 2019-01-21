@@ -13,5 +13,6 @@ namespace Scoreboards.Models.Home
         public string Draws { get; set; }
         public string Loses { get; set; }
         public string Ratio { get; set; }
+        public string Points { get; set; }
     }
 }

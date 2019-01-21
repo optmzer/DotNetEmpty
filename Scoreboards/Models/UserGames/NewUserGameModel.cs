@@ -35,5 +35,12 @@ namespace Scoreboards.Models.UserGames
 
         // Name of the game
         public string GamePlayedName { get; set; }
+
+
+        // User_01_Awarder_Points
+        public string User_01_Awarder_Points { get; set; }
+
+        // User_02_Awarder_Points
+        public string User_02_Awarder_Points { get; set; }
     }
 }

@@ -112,6 +112,59 @@ namespace Scoreboards.Controllers
         }
 
         // =====================
+        private int CalculatePoints(string userId, int user_01_Points, int user_02_Points, string winner)
+        {
+            var noOfGamePlayed = _userGameService.getTotalGamePlayedByUserId(userId);
+            if (winner.ToLower() == "draw")
+            {//in case the game is "draw"
+                if (user_01_Points >= user_02_Points)
+                {
+                    return 0;
+                } else
+                {
+                    return (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                }
+            } else
+            {// in case game is not "draw"
+                if (winner == userId)
+                {// user1 win
+                    if (user_01_Points == user_02_Points)
+                    {
+                        return 15;
+                    }
+                    else if (user_01_Points > user_02_Points)
+                    {
+                        return 15 - (user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * 10;
+                    }
+                    else
+                    {
+                        return 15 + (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                    }
+                } else
+                {// user 2 win
+                    if (noOfGamePlayed < 5)
+                    {// played less than 5
+                        return 0;
+                    } else
+                    {// played more than 5
+                        if (user_01_Points == user_02_Points)
+                        {
+                            return -15;
+                        }
+                        else if (user_01_Points > user_02_Points)
+                        {
+                            return -15 - (user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * 10;
+                        }
+                        else
+                        {
+                            return -15 + (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                        }
+                    }
+                    
+                }
+            }
+        }
+
         private UserGame BuildUserGame(NewUserGameModel model)
         {
             var user1 = _userService.GetById(model.User_01_Id);
@@ -130,20 +183,24 @@ namespace Scoreboards.Controllers
             //    player1Score = Convert.ToInt32(scores.GetValue(0));
             //    player2Score = Convert.ToInt32(scores.GetValue(1));
             //}
-            
-            if(player1Score > player2Score)
-            {
+
+            var User_01_Points = _userGameService.getUserPoint(user1.Id);
+            var User_02_Points = _userGameService.getUserPoint(user2.Id);
+
+
+            if (player1Score > player2Score)
+            {// user1 won
                 winner = user1.Id;
             }
 
             if (player1Score < player2Score)
-            {
+            {// user2 won
                 winner = user2.Id;
             }
 
-
-
-
+            var pointUser1Gain = CalculatePoints(user1.Id, User_01_Points, User_02_Points, winner);
+            var pointUser2Gain = CalculatePoints(user2.Id, User_02_Points, User_01_Points, winner);
+            
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,
@@ -162,7 +219,13 @@ namespace Scoreboards.Controllers
                 RefereeUserId = model.RefereeUserId,
 
                 // Name of the game
-                GamePlayed = gamePlayed
+                GamePlayed = gamePlayed,
+
+                // User_01_Awarder_Points
+                User_01_Awarder_Points = pointUser1Gain,
+                // User_02_Awarder_Points
+                User_02_Awarder_Points = pointUser2Gain
+
             };
         }
     }

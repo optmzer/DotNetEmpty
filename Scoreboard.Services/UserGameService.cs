@@ -120,9 +120,22 @@ namespace Scoreboards.Services
                     (userGame.User_01_Id.ToString() == userId) 
                     || userGame.User_02_Id.ToString() == userId);
         }
+        public int getTotalGamePlayedByUserId(string userId)
+        {
+            return GetAll()
+                .Where(userGame =>
+                    (userGame.User_01_Id.ToString() == userId)
+                    || userGame.User_02_Id.ToString() == userId).Count();
+        }
 
         ///////////////////////////////////////////
-
+        public int getUserPoint(string userId)
+        {
+            var listOfUserGames = getUserGamesByUserId(userId);
+            var point1 = listOfUserGames.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
+            var point2 = listOfUserGames.Where(game => game.User_02_Id == userId).Sum(game => game.User_02_Awarder_Points);
+            return point1 + point2;
+        }
         public UserGame GetById(int userGameId)
         {
             return GetAll().FirstOrDefault(userGame => userGame.Id == userGameId);
