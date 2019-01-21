@@ -184,7 +184,13 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
 
             var fileName = contentDisposition.FileName.Trim('"');
-            var blockBlob = container.GetBlockBlobReference(fileName);
+            var fileExtension = fileName.Substring(fileName.LastIndexOf('.'));
+            var userIdFileName = String.Concat(userId, fileExtension);
+            
+            // TODO: Repace file name with User Id. Alex.jpg
+            // replace 
+
+            var blockBlob = container.GetBlockBlobReference(userIdFileName);
 
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             await _applicationUserService.SetProfileImageAsync(userId, blockBlob.Uri);
