@@ -181,15 +181,15 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
         {
             var userId = _userManager.GetUserId(User);
             var container = _uploadService.GetStorageContainer(AzureBlobStorageConnection);
+            // Get file name
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
-
             var fileName = contentDisposition.FileName.Trim('"');
+
+            // Replace it with userId to save space in Azure blob
+            // As the file with the same name will overrite the old file.
             var fileExtension = fileName.Substring(fileName.LastIndexOf('.'));
             var userIdFileName = String.Concat(userId, fileExtension);
             
-            // TODO: Repace file name with User Id. Alex.jpg
-            // replace 
-
             var blockBlob = container.GetBlockBlobReference(userIdFileName);
 
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
