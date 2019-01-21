@@ -113,7 +113,9 @@ namespace Scoreboards.Controllers
             
             var model = new HomeIndexModel
             {
-                UsersData = leaderBoardData.OrderBy(user => decimal.Parse(user.Ratio)).Reverse(),
+                UsersData = leaderBoardData.OrderByDescending(user => user.Points)
+                                .ThenByDescending(user => decimal.Parse(user.Ratio))
+                                .ThenBy(user=> user.UserName),
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
                 LatestGames = MatchHistoryList,
                 DropDownData = listItems,

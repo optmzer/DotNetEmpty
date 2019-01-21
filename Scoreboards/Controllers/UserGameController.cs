@@ -112,9 +112,11 @@ namespace Scoreboards.Controllers
         }
 
         // =====================
-        private int CalculatePoints(string userId, int user_01_Points, int user_02_Points, string winner)
+        private int CalculatePoints(int flatPoints, double multiplier, string userId, string opponentId, string winner)
         {
             var noOfGamePlayed = _userGameService.getTotalGamePlayedByUserId(userId);
+            var user_01_Points = _userGameService.getUserPoint(userId);
+            var user_02_Points = _userGameService.getUserPoint(opponentId);
             if (winner.ToLower() == "draw")
             {//in case the game is "draw"
                 if (user_01_Points >= user_02_Points)
@@ -122,7 +124,7 @@ namespace Scoreboards.Controllers
                     return 0;
                 } else
                 {
-                    return (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                    return (int)((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier);
                 }
             } else
             {// in case game is not "draw"
@@ -130,15 +132,27 @@ namespace Scoreboards.Controllers
                 {// user1 win
                     if (user_01_Points == user_02_Points)
                     {
-                        return 15;
+                        return flatPoints;
                     }
                     else if (user_01_Points > user_02_Points)
                     {
-                        return 15 - (user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * 10;
+                        if (user_01_Points + user_02_Points <= 100)
+                        {
+                            return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points)/100.0 * multiplier));
+                        } else
+                        {
+                            return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
+                        }
                     }
                     else
                     {
-                        return 15 + (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                        if (user_01_Points + user_02_Points <= 100)
+                        {
+                            return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (100.0) * multiplier));
+                        } else
+                        {
+                            return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier));
+                        }
                     }
                 } else
                 {// user 2 win
@@ -149,15 +163,28 @@ namespace Scoreboards.Controllers
                     {// played more than 5
                         if (user_01_Points == user_02_Points)
                         {
-                            return -15;
+                            return -flatPoints;
                         }
                         else if (user_01_Points > user_02_Points)
                         {
-                            return -15 - (user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * 10;
+                            if (user_01_Points + user_02_Points <= 100)
+                            {
+                                return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (100.0) * multiplier));
+                            } else
+                            {
+                                return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
+                            }
                         }
                         else
                         {
-                            return -15 + (user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * 10;
+                            if (user_01_Points + user_02_Points <= 100)
+                            {
+                                return (int)(-flatPoints + Math.Round((user_02_Points - user_01_Points) / (100.0) * multiplier));
+                            }
+                            else
+                            {
+                                return (int)(-flatPoints + Math.Round((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier));
+                            }
                         }
                     }
                     
@@ -184,9 +211,6 @@ namespace Scoreboards.Controllers
             //    player2Score = Convert.ToInt32(scores.GetValue(1));
             //}
 
-            var User_01_Points = _userGameService.getUserPoint(user1.Id);
-            var User_02_Points = _userGameService.getUserPoint(user2.Id);
-
 
             if (player1Score > player2Score)
             {// user1 won
@@ -198,8 +222,18 @@ namespace Scoreboards.Controllers
                 winner = user2.Id;
             }
 
-            var pointUser1Gain = CalculatePoints(user1.Id, User_01_Points, User_02_Points, winner);
-            var pointUser2Gain = CalculatePoints(user2.Id, User_02_Points, User_01_Points, winner);
+            // set flat points & multiplier that will be used to calculate the point that each user will get
+            var flatPoints = 15;
+            var multiplier = 10.0;
+
+            // CalculatePoints method passes 5 parameters
+            // 1. flat points
+            // 2. multiplier
+            // 3. user id that you want to calculate
+            // 4. opponent user id
+            // 5. winner id of current game
+            var pointUser1Gain = CalculatePoints(flatPoints, multiplier, user1.Id, user2.Id, winner);
+            var pointUser2Gain = CalculatePoints(flatPoints, multiplier, user2.Id, user1.Id, winner);
             
             return new UserGame
             {
