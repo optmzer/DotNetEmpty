@@ -112,7 +112,7 @@ namespace Scoreboards.Controllers
         }
 
         // =====================
-        private int CalculatePoints(int flatPoints, double multiplier, string userId, string opponentId, string winner)
+        private int CalculatePoints(int flatPoints, decimal multiplier, string userId, string opponentId, string winner)
         {
             var noOfGamePlayed = _userGameService.getTotalGamePlayedByUserId(userId);
             var user_01_Points = _userGameService.getUserPoint(userId);
@@ -124,7 +124,7 @@ namespace Scoreboards.Controllers
                     return 0;
                 } else
                 {
-                    return (int)((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier);
+                    return (int) Math.Round((decimal)(user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier, 2);
                 }
             } else
             {// in case game is not "draw"
@@ -138,7 +138,7 @@ namespace Scoreboards.Controllers
                     {
                         if (user_01_Points + user_02_Points <= 100)
                         {
-                            return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points)/100.0 * multiplier));
+                            return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points)/(decimal)100.0 * multiplier));
                         } else
                         {
                             return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
@@ -148,7 +148,7 @@ namespace Scoreboards.Controllers
                     {
                         if (user_01_Points + user_02_Points <= 100)
                         {
-                            return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (100.0) * multiplier));
+                            return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (decimal)(100.0) * multiplier));
                         } else
                         {
                             return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier));
@@ -169,7 +169,7 @@ namespace Scoreboards.Controllers
                         {
                             if (user_01_Points + user_02_Points <= 100)
                             {
-                                return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (100.0) * multiplier));
+                                return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (decimal)(100.0) * multiplier));
                             } else
                             {
                                 return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
@@ -179,7 +179,7 @@ namespace Scoreboards.Controllers
                         {
                             if (user_01_Points + user_02_Points <= 100)
                             {
-                                return (int)(-flatPoints + Math.Round((user_02_Points - user_01_Points) / (100.0) * multiplier));
+                                return (int)(-flatPoints + Math.Round((user_02_Points - user_01_Points) / (decimal)(100.0) * multiplier));
                             }
                             else
                             {
@@ -224,7 +224,7 @@ namespace Scoreboards.Controllers
 
             // set flat points & multiplier that will be used to calculate the point that each user will get
             var flatPoints = 15;
-            var multiplier = 10.0;
+            var multiplier = (decimal)10.0;
 
             // CalculatePoints method passes 5 parameters
             // 1. flat points
