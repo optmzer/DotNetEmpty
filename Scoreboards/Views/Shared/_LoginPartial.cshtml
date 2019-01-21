@@ -14,14 +14,21 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                    <picture>
-                        <img class="navbar-avatar" src="@user.ProfileImageUrl" />
-                    </picture>
-                        @UserManager.GetUserName(User)!
+                    <div>
+                        <span>
+                            <img src="@user.ProfileImageUrl" style="width: auto; height: 1.2em; object-fit: cover;" />
+                        </span>
+                        <span>
+                            @UserManager.GetUserName(User)!
+                        </span>
+                    </div>
                 </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                <button type="submit" 
+                        class="btn btn-link navbar-btn navbar-link"
+                        style="text-decoration: none; margin: .45em .2em 0 0;"
+                >Logout</button>
             </li>
         </ul>
     </form>
