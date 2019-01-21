@@ -1,5 +1,16 @@
 ﻿@model Scoreboards.Models.UserGames.NewUserGameModel
+<SCRIPT language=Javascript>
 
+      function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+
+</SCRIPT>
 <div class="page-content new-user-game">
     <div>
         <h1>Create New Game</h1>
@@ -45,7 +56,7 @@
                         </div>
                         <div class="form-group" align="center">
                             <label asp-for="GameScoreUser01">Game Final Score</label>
-                            <input asp-for="GameScoreUser01" class="form-control" type="text" placeholder="Player1 score" required />
+                            <input asp-for="GameScoreUser01" class="form-control" type="number" min="0" max="500" onkeypress="return isNumberKey(event)" placeholder="Player1 score" required />
                             <span asp-validation-for="GameScoreUser01" class="text-danger"></span>
                         </div>
                     </div>
@@ -74,7 +85,7 @@
                         </div>
                         <div class="form-group" align="center" >
                             <label asp-for="GameScoreUser02">Game Final Score</label>
-                            <input asp-for="GameScoreUser02" class="form-control" type="text" placeholder="Player2 score" required />
+                            <input asp-for="GameScoreUser02" class="form-control" type="number" min="0" max="500" onkeypress="return isNumberKey(event)" placeholder="Player2 score" required />
                             <span asp-validation-for="GameScoreUser02" class="text-danger"></span>
                         </div>
                     </div>
