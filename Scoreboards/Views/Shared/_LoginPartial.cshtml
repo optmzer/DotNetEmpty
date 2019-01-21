@@ -4,15 +4,31 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{ 
+    var user = UserManager.GetUserAsync(User).Result;
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                    <div>
+                        <span>
+                            <img src="@user.ProfileImageUrl" style="width: auto; height: 1.2em; object-fit: cover;" />
+                        </span>
+                        <span>
+                            @UserManager.GetUserName(User)!
+                        </span>
+                    </div>
+                </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                <button type="submit" 
+                        class="btn btn-link navbar-btn navbar-link"
+                        style="text-decoration: none; margin: .45em .2em 0 0;"
+                >Logout</button>
             </li>
         </ul>
     </form>

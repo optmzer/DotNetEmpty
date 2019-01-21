@@ -43,10 +43,9 @@ tbody > tr:hover {
     line-height: 1;
     text-transform: uppercase;
     color: hsl(0,0%,100%);
-    /*padding: 25px 15px;*/
 }
 
-.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+.navbar-nav > li:hover, .navbar-nav > li:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
