@@ -24,6 +24,15 @@ tbody > tr:hover {
 }
 
 /* NAVBAR CUSTOM COLORING */
+.navbar-avatar-picture {
+    padding: 0;
+}
+
+.navbar-avatar {
+    height: auto;
+    width: 1.5em;
+}
+
 .navbar {
     background-color: #000 !important;
 }
