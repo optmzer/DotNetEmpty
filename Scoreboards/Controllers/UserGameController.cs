@@ -33,7 +33,7 @@ namespace Scoreboards.Controllers
             _hubContext = hubContext;
         }
 
-        public IActionResult Index(int userGameId)
+        public IActionResult EditUserGame(int userGameId)
         {
             // When new game is created it is redirected to index page not Home
             // 
@@ -51,22 +51,30 @@ namespace Scoreboards.Controllers
                 GamePlayedOn = userGame.GamePlayedOn,
 
                 //Players detail
-                User_01 = user_01,
+                User_01_Name = user_01.UserName,
                 User_01_Team = userGame.User_01_Team,
-                User_02 = user_02,
+                User_02_Name = user_02.UserName,
                 User_02_Team = userGame.User_02_Team,
 
                 // Game Name
                 GameName = userGame.GamePlayed.GameName,
 
                 //Score 
-                GameScore = userGame.GameScoreUser01 + " : " + userGame.GameScoreUser02,
+                GameScoreUser01 = userGame.GameScoreUser01,
+                GameScoreUser02 = userGame.GameScoreUser02,
 
                 //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                 Winner = userGame.Winner,
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserGame(NewUserGameModel model)
+        {
+
+            return RedirectToAction("Index", "Home");
         }
 
         /**
@@ -140,9 +148,6 @@ namespace Scoreboards.Controllers
             {
                 winner = user2.Id;
             }
-
-
-
 
             return new UserGame
             {

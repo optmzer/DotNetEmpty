@@ -82,6 +82,9 @@
                         {
                             <tr>
                                 <td class="match-history-table-td">
+                                    <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
+                                        Edit
+                                    </a>
                                     <div class="match-history-table-outer-div">
                                         @match.GameName
                                         <div class="match-history-table-middle-div">

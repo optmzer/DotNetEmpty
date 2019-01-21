@@ -331,9 +331,10 @@ legend.user-game-legend {
     color: white;
 }
 
-/* CONTACT AND ABOUT PAGE */
-.company-info {
-    padding: 15px;
+/* EDIT USER GAME PAGE */
+.btn-cancel {
+    background-color: #f0f0f0;
+    text-transform: capitalize;
 }
 
 /* FOOTER */
