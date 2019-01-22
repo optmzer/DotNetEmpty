@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -39,7 +43,15 @@
                         <li><a asp-area="" asp-controller="Game" asp-action="Index">Game</a></li>
                         <li><a asp-controller="Users" asp-action="Index">Users</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-controller="UserGame" asp-action="CreateNewUserGame">New Game</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-controller="Users" asp-action="Admin">Admin</a></li>
+                        }
+                        <li>
+                            <a asp-controller="UserGame" asp-action="CreateNewUserGame">
+                                <i class="fa fa-plus-square-o"></i>
+                            </a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
