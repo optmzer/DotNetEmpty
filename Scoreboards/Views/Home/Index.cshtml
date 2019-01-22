@@ -39,34 +39,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.UsersData)
+                    @if (Model.UsersData.Any())
                     {
-                    <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
-                        <td>
-                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @i
-                            </div>
-                        </td>
-                        <td>
-                            @user.UserName
-                        </td>
-                        <td>
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Wins W - @user.Draws D -  @user.Loses L
-                            </div>
-                        </td>
-                        <td>
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Ratio %
-                            </div>
-                        </td>
-                        <td>
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Points
-                            </div>
-                        </td>
-                    </tr>
-                        i++;
+                        @foreach (var user in Model.UsersData)
+                        {
+                            <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
+                                <td>
+                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @i
+                                    </div>
+                                </td>
+                                <td>
+                                    @user.UserName
+                                </td>
+                                <td>
+                                    <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @user.Wins W - @user.Draws D -  @user.Loses L
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @user.Ratio %
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                        @user.Points
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                <div>
+                                    No games played!
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

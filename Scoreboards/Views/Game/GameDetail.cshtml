@@ -22,34 +22,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.GameSpecificMatchHistory != null)
+                    @if (Model.GameSpecificMatchHistory.Any())
                     {
-                        foreach (var match in Model.GameSpecificMatchHistory)
+                        @if (Model.GameSpecificMatchHistory != null)
                         {
-                            <tr>
-                                <td class="match-history-table-td">
-                                    <div class="match-history-table-outer-div">
-                                        @match.GameName
-                                        <div class="match-history-table-middle-div">
-                                            <div class="match-history-table-inner-edge-div">
-                                                @match.User_01.UserName<br/>
-                                                @match.User_01_Team
+                            foreach (var match in Model.GameSpecificMatchHistory)
+                            {
+                                <tr>
+                                    <td class="match-history-table-td">
+                                        <div class="match-history-table-outer-div">
+                                            @match.GameName
+                                            <div class="match-history-table-middle-div">
+                                                <div class="match-history-table-inner-edge-div">
+                                                    @match.User_01.UserName<br />
+                                                    @match.User_01_Team
+                                                </div>
+                                                <div class="match-history-table-inner-center-div">
+                                                    vs
+                                                </div>
+                                                <div class="match-history-table-inner-edge-div">
+                                                    @match.User_02.UserName<br />
+                                                    @match.User_02_Team
+                                                </div>
                                             </div>
-                                            <div class="match-history-table-inner-center-div">
-                                                vs
-                                            </div>
-                                            <div class="match-history-table-inner-edge-div">
-                                                @match.User_02.UserName<br />
-                                                @match.User_02_Team
+                                            <div style="flex-direction:row;">
+                                                @match.GameScore
                                             </div>
                                         </div>
-                                        <div style="flex-direction:row;">
-                                            @match.GameScore
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            }
                         }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                <div style="text-align:center;">
+                                    No games played!
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

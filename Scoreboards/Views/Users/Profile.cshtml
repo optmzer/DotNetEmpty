@@ -76,15 +76,17 @@
             }
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <table class="table">
-                    <thead class="game-detail-thead">
-                        <tr>
-                            <th style="text-align:center;background-color: #000;">
-                                <label>Match History</label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table class="table">
+                <thead class="game-detail-thead">
+                    <tr>
+                        <th style="text-align:center;background-color: #000;">
+                            <label>Match History</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.UsersGames.Any())
+                    {
                         @if (Model.UsersGames != null)
                         {
                             foreach (var match in Model.UsersGames)
@@ -114,8 +116,19 @@
                                 </tr>
                             }
                         }
-                    </tbody>
-                </table>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                <div style="text-align:center;">
+                                    No games played!
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
