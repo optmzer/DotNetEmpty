@@ -34,7 +34,7 @@
                     <img src="@Model.User.ProfileImageUrl" />
                 </picture>
             </div>
-            <div class="profile-info">
+            <div class="profile-info text-truncate">
                 <label>@Model.User.UserName</label><br />
                 <label>@Model.User.Email</label><br />
                 <label>@Model.User.Motto</label><br />
@@ -42,17 +42,17 @@
         </div>
         <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
             <div class="tab">
-                <button class="tablinks active" onclick="openTab(event, 'Overall')">Overall</button>
+                <button class="tablinks active text-truncate" onclick="openTab(event, 'Overall')">Overall</button>
                 @foreach (var gameName in Model.GameStatistcs.Keys)
                 {
                     if (gameName != "Overall")
                     {
-                        <button class="tablinks" onclick="openTab(event, '@gameName')">@gameName</button>
+                        <button class="tablinks text-truncate" onclick="openTab(event, '@gameName')">@gameName</button>
                     }
                 }
             </div>
 
-            <div id="Overall" class="tabcontent" style="display:block">
+            <div id="Overall" class="tabcontent text-truncate" style="display:block">
                 <h3>Overall</h3>
                 <p>Wins: @Model.GameStatistcs["Overall"].Wins</p>
                 <p>Draws: @Model.GameStatistcs["Overall"].Draws</p>
@@ -65,7 +65,7 @@
             {
                 if (gameName != "Overall")
                 {
-                    <div id="@gameName" class="tabcontent">
+                    <div id="@gameName" class="tabcontent text-truncate">
                         <h3>@gameName</h3>
                         <p>Wins: @Model.GameStatistcs[gameName].Wins</p>
                         <p>Draws: @Model.GameStatistcs[gameName].Draws</p>

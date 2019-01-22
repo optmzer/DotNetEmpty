@@ -79,6 +79,13 @@ tbody > tr:hover {
 
 .profile-info {
     margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.text-truncate {
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Style the tab */
@@ -104,13 +111,14 @@ tbody > tr:hover {
     line-height: 17px;
     padding: 19px 16px;
     transition: 0.3s;
+    width: 25%; 
 }
 
 /* Change background color of buttons on hover */
-    .tab button:hover {
-        background-color: #ddd;
-        color: #909090;
-    }
+.tab button:hover {
+    background-color: #ddd;
+    color: #909090;
+}
 
 /* Create an active/current tablink class */
 .tab button.active {
@@ -249,6 +257,19 @@ tbody > tr:hover {
     align-self: center;
     width: 20%;
 }
+
+.match-history-game-name {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.edit-delete-game {
+    margin-left: .4em;
+    margin-right: -2.5em;
+}
+
+
+
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
@@ -305,9 +326,10 @@ legend.user-game-legend {
     color: white;
 }
 
-/* CONTACT AND ABOUT PAGE */
-.company-info {
-    padding: 15px;
+/* EDIT USER GAME PAGE */
+.btn-cancel {
+    background-color: #f0f0f0;
+    text-transform: capitalize;
 }
 
 /* FOOTER */
