@@ -27,7 +27,7 @@ namespace Scoreboards.Data
 
         // CRUD Operations
         Task AddUserGameAsync(UserGame userGame);
-        Task Delete(int userGameId);
+        Task DeleteUserGame(int userGameId);
         Task EditUserGame(UserGame newUserGameContent);
     }
 }

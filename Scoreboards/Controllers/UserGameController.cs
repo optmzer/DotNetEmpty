@@ -33,7 +33,7 @@ namespace Scoreboards.Controllers
             _hubContext = hubContext;
         }
 
-        public IActionResult Index(int userGameId)
+        public IActionResult EditUserGame(int userGameId)
         {
             // When new game is created it is redirected to index page not Home
             // 
@@ -51,22 +51,56 @@ namespace Scoreboards.Controllers
                 GamePlayedOn = userGame.GamePlayedOn,
 
                 //Players detail
-                User_01 = user_01,
+                User_01_Id = user_01.Id,
+                User_01_Name = user_01.UserName,
                 User_01_Team = userGame.User_01_Team,
-                User_02 = user_02,
+
+                User_02_Id = user_02.Id,
+                User_02_Name = user_02.UserName,
                 User_02_Team = userGame.User_02_Team,
 
                 // Game Name
                 GameName = userGame.GamePlayed.GameName,
 
                 //Score 
-                GameScore = userGame.GameScoreUser01 + " : " + userGame.GameScoreUser02,
+                GameScoreUser01 = userGame.GameScoreUser01,
+                GameScoreUser02 = userGame.GameScoreUser02,
 
                 //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                 Winner = userGame.Winner,
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserGame(UserGameListingModel model)
+        {
+            var newUserGameContent = new NewUserGameModel
+            {
+                GamePlayedName = model.GameName,
+
+                //Players detail
+                User_01_Id = model.User_01_Id,
+                User_01_Team = model.User_01_Team,
+
+                User_02_Id = model.User_02_Id,
+                User_02_Team = model.User_02_Team,
+
+                //Score 
+                GameScoreUser01 = model.GameScoreUser01,
+                GameScoreUser02 = model.GameScoreUser02,
+            };
+
+            var userGame = BuildUserGame(newUserGameContent);
+            userGame.Id = model.Id;
+
+            await _userGameService.EditUserGame(userGame);
+
+            // SignalR send message to All that DB was updated
+            await _hubContext.Clients.All.SendAsync("Notify", $"Created new UserGame at : {DateTime.Now}");
+
+            return RedirectToAction("Index", "Home");
         }
 
         /**
@@ -111,6 +145,42 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult DeleteUserGame(int userGameId)
+        {
+            // Get game and Ask user if they sure they want to delete it
+            var game = _userGameService.GetById(userGameId);
+            var user01 = _userService.GetById(game.User_01_Id);
+            var user02 = _userService.GetById(game.User_02_Id);
+
+            var model = new UserGameListingModel
+            {
+                Id = game.Id,
+
+                GameName = game.GamePlayed.GameName,
+
+                User_01_Name = user01.UserName,
+                User_01_Team = game.User_01_Team,
+                GameScoreUser01 = game.GameScoreUser01,
+                
+                User_02_Name = user02.UserName,
+                User_02_Team = game.User_02_Team,
+                GameScoreUser02 = game.GameScoreUser02,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserGame(UserGameListingModel model)
+        {
+            await _userGameService.DeleteUserGame(model.Id);
+
+            // SignalR send message to All that DB was updated
+            await _hubContext.Clients.All.SendAsync("Notify", $"Deleted UserGame at : {DateTime.Now}");
+
+            return RedirectToAction("Index", "Home");
+        }
+
         // =====================
         private int CalculatePoints(int flatPoints, decimal multiplier, string userId, string opponentId, string winner)
         {
@@ -122,11 +192,13 @@ namespace Scoreboards.Controllers
                 if (user_01_Points >= user_02_Points)
                 {
                     return 0;
-                } else
+                }
+                else
                 {
                     return (int) Math.Round((decimal)(user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier, 2);
                 }
-            } else
+            }
+            else
             {// in case game is not "draw"
                 if (winner == userId)
                 {// user1 win
@@ -139,7 +211,8 @@ namespace Scoreboards.Controllers
                         if (user_01_Points + user_02_Points <= 100)
                         {
                             return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points)/(decimal)100.0 * multiplier));
-                        } else
+                        }
+                        else
                         {
                             return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
                         }
@@ -149,17 +222,20 @@ namespace Scoreboards.Controllers
                         if (user_01_Points + user_02_Points <= 100)
                         {
                             return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (decimal)(100.0) * multiplier));
-                        } else
+                        }
+                        else
                         {
                             return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier));
                         }
                     }
-                } else
+                }
+                else
                 {// user 2 win
                     if (noOfGamePlayed < 5)
                     {// played less than 5
                         return 0;
-                    } else
+                    }
+                    else
                     {// played more than 5
                         if (user_01_Points == user_02_Points)
                         {
@@ -170,7 +246,8 @@ namespace Scoreboards.Controllers
                             if (user_01_Points + user_02_Points <= 100)
                             {
                                 return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (decimal)(100.0) * multiplier));
-                            } else
+                            }
+                            else
                             {
                                 return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
                             }
