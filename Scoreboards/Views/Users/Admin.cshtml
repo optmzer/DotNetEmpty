@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model Scoreboards.Models.Users.UsersModel
+
+@inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
+
+<div class="page-content new-user-game">
+    <div>
+        <h1>Admin Page</h1>
+    </div>
+    <div class="row">
+        <div>
+            <h3>Admins</h3>
+            <p>Admins total @Model.ListOfAdmins.Count()</p>
+            <ul>
+                @foreach (var admin in Model.ListOfAdmins)
+                {
+                    <li> 
+                        <div class="row">
+                            <img src="@admin.ProfileImageUrl" alt="@admin.UserName" class="user-list-avatar" />
+                            <span>
+                                @admin.UserName | @admin.Email | 
+                                <a asp-controller="Users" asp-action="RemoveUserFromRole" asp-route-userId="@admin.Id">
+                                    <i class="fa fa-minus-circle"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div>
+            <h3>List of Users</h3>
+            <p>add to admin list, remove from admins, lockout user, remove lock from user, delete profile, </p>
+            <ul>
+                @foreach (var user in Model.AppUsers)
+                {
+                    <li>
+                        <div class="row">
+                            <img src="@user.ProfileImageUrl " alt="@user.UserName" class="user-list-avatar" />
+                                @if (await _userManager.IsInRoleAsync(user, "Admin"))
+	                            {
+                                    <span>
+		                                ADMIN | 
+                                    </span>
+	                            }
+                            <span>
+                                @user.UserName | @user.Email
+                            </span>
+                            <span>
+                                <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

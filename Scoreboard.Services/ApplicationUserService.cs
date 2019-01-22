@@ -1,4 +1,5 @@
-﻿using Scoreboards.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Scoreboards.Data;
 using Scoreboards.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,12 @@ namespace Scoreboards.Services
     public class ApplicationUserService : IApplicationUser
     {
         private readonly ApplicationDbContext _context;
-        public ApplicationUserService(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ApplicationUserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IEnumerable<ApplicationUser> GetAll()
@@ -50,6 +54,16 @@ namespace Scoreboards.Services
 
             _context.Update(user);
             await _context.SaveChangesAsync();
+        }
+
+        public IEnumerable<ApplicationUser> GetByRole(string userRole)
+        {
+            return
+                from user in GetAll()
+                join u_roles in _context.UserRoles on user.Id equals u_roles.UserId
+                join roles in _context.Roles on u_roles.RoleId equals roles.Id
+                where roles.Name == userRole
+                select user;
         }
     }
 }
