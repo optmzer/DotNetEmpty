@@ -129,6 +129,117 @@ namespace Scoreboards.Services
         }
 
         ///////////////////////////////////////////
+        public int[] CalculatePoints(int flatPoints, decimal multiplier, string user1Id, string user2Id, string winner)
+        {
+            var noOfGamePlayed1 = getTotalGamePlayedByUserId(user1Id);
+            var noOfGamePlayed2 = getTotalGamePlayedByUserId(user2Id);
+            var user_01_Points = getUserPoint(user1Id);
+            var user_02_Points = getUserPoint(user2Id);
+
+            var multiplierModified = (decimal)0;
+            if (user_01_Points + user_02_Points <= 100)
+            {
+                multiplierModified = Math.Round(Math.Abs(user_01_Points - user_02_Points) / (decimal)100.0 * multiplier);
+            }
+            else
+            {
+                multiplierModified = Math.Round(Math.Abs(user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier);
+            }
+
+            if (winner.ToLower() == "draw")
+            {//in case the game is "draw"
+                if (user_01_Points > user_02_Points)
+                {
+                    return new int[2] { 0, (int)multiplierModified };
+                }
+                else if (user_01_Points < user_02_Points)
+                {
+                    return new int[2] { (int)multiplierModified, 0 };
+                }
+                else
+                {
+                    return new int[2] { 0, 0 };
+                }
+            }
+            else
+            {// in case game is not "draw"
+                if (user_01_Points == user_02_Points)
+                {
+                    if (winner == user1Id)
+                    {
+                        if (noOfGamePlayed2 < 5)
+                        {// played less than 5
+                            return new int[2] { flatPoints, 0 };
+                        }
+                        else
+                        {// played more than 5
+                            return new int[2] { flatPoints, -flatPoints };
+                        }
+                    }
+                    else
+                    {
+                        if (noOfGamePlayed1 < 5)
+                        {// played less than 5
+                            return new int[2] { 0, flatPoints };
+                        }
+                        else
+                        {// played more than 5
+                            return new int[2] { -flatPoints, flatPoints };
+                        }
+                    }
+                }
+                else if (user_01_Points > user_02_Points)
+                {
+                    if (winner == user1Id)
+                    {
+                        if (noOfGamePlayed2 < 5)
+                        {// played less than 5
+                            return new int[2] { (int)(flatPoints - multiplierModified), 0 };
+                        }
+                        else
+                        {
+                            return new int[2] { (int)(flatPoints - multiplierModified), (int)(-flatPoints + multiplierModified) };
+                        }
+                    }
+                    else
+                    {
+                        if (noOfGamePlayed1 < 5)
+                        {// played less than 5
+                            return new int[2] { 0, (int)(flatPoints + multiplierModified) };
+                        }
+                        else
+                        {
+                            return new int[2] { (int)(-flatPoints - multiplierModified), (int)(flatPoints + multiplierModified) };
+                        }
+                    }
+                }
+                else
+                {
+                    if (winner == user1Id)
+                    {
+                        if (noOfGamePlayed2 < 5)
+                        {// played less than 5
+                            return new int[2] { (int)(flatPoints + multiplierModified), 0 };
+                        }
+                        else
+                        {
+                            return new int[2] { (int)(flatPoints + multiplierModified), (int)(-flatPoints - multiplierModified) };
+                        }
+                    }
+                    else
+                    {
+                        if (noOfGamePlayed1 < 5)
+                        {// played less than 5
+                            return new int[2] { 0, (int)(flatPoints - multiplierModified) };
+                        }
+                        else
+                        {
+                            return new int[2] { (int)(-flatPoints + multiplierModified), (int)(flatPoints - multiplierModified) };
+                        }
+                    }
+                }
+            }
+        }
         public int getUserPoint(string userId)
         {
             var listOfUserGames = getUserGamesByUserId(userId);

@@ -23,6 +23,7 @@ namespace Scoreboards.Data
         decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId);
         int getUserPoint(string userId);
         int getTotalGamePlayedByUserId(string userId);
+        int[] CalculatePoints(int flatPoints, decimal multiplier, string user1Id, string user2Id, string winner);
         ///////////////////////////////////////
 
         // CRUD Operations
