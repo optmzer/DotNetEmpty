@@ -1,9 +1,6 @@
 ﻿using Scoreboards.Data.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scoreboards.Models.UserGames
 {
@@ -23,9 +20,9 @@ namespace Scoreboards.Models.UserGames
         //Score 
         //public string GameScore { get; set; }
         [Range(0, 200, ErrorMessage = "Please enter integers in a range of {1} to {2}" )]
-        public string GameScoreUser01 { get; set; }
+        public int GameScoreUser01 { get; set; }
         [Range(0, 200, ErrorMessage = "Please enter integers in a range of {1} to {2}")]
-        public string GameScoreUser02 { get; set; }
+        public int GameScoreUser02 { get; set; }
 
         //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
         public string Winner { get; set; }

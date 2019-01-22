@@ -14,9 +14,11 @@ namespace Scoreboards.Models.UserGames
 
         //Players detail
         public IdentityUser User_01 { get; set; }
+        public string User_01_Id { get; set; }
         public string User_01_Name { get; set; }
         public string User_01_Team { get; set; }
         public IdentityUser User_02 { get; set; }
+        public string User_02_Id { get; set; }
         public string User_02_Name { get; set; }
         public string User_02_Team { get; set; }
 

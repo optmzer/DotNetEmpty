@@ -51,8 +51,11 @@ namespace Scoreboards.Controllers
                 GamePlayedOn = userGame.GamePlayedOn,
 
                 //Players detail
+                User_01_Id = user_01.Id,
                 User_01_Name = user_01.UserName,
                 User_01_Team = userGame.User_01_Team,
+
+                User_02_Id = user_02.Id,
                 User_02_Name = user_02.UserName,
                 User_02_Team = userGame.User_02_Team,
 
@@ -71,8 +74,28 @@ namespace Scoreboards.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUserGame(NewUserGameModel model)
+        public async Task<IActionResult> EditUserGame(UserGameListingModel model)
         {
+            var newUserGameContent = new NewUserGameModel
+            {
+                GamePlayedName = model.GameName,
+
+                //Players detail
+                User_01_Id = model.User_01_Id,
+                User_01_Team = model.User_01_Team,
+
+                User_02_Id = model.User_02_Id,
+                User_02_Team = model.User_02_Team,
+
+                //Score 
+                GameScoreUser01 = model.GameScoreUser01,
+                GameScoreUser02 = model.GameScoreUser02,
+            };
+
+            var userGame = BuildUserGame(newUserGameContent);
+            userGame.Id = model.Id;
+
+            await _userGameService.EditUserGame(userGame);
 
             return RedirectToAction("Index", "Home");
         }
