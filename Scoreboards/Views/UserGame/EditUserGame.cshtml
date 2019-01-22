@@ -1,0 +1,83 @@
+﻿@model Scoreboards.Models.UserGames.UserGameListingModel
+
+<div class="page-content new-user-game">
+    <div>
+        <h1>Edit User Game</h1>
+    </div>
+    <div class="row">
+        <form asp-action="EditUserGame" method="post" id="EditUserGame">
+            <div class="user-game-game-select row"
+                 align="center">
+                <div class="form-group">
+                    <label asp-for="GameName">Game</label>
+                    <input asp-for="GameName"
+                           class="form-control"
+                           id="GamePlayedName"
+                           value="@Model.GameName"
+                           disabled />
+                </div>
+            </div>
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <fieldset class="user-game-fieldset">
+                    <legend class="user-game-legend">Player 1</legend>
+                    <div class="">
+                        <div class="form-group">
+                            <label asp-for="User_01_Name">Select Player 1</label>
+                            <input asp-for="User_01_Name"
+                                   class="form-control"
+                                   id="User_01_Name"
+                                   value="@Model.User_01_Name"
+                                   disabled />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="User_01_Team">Player 1 Team</label>
+                            <input asp-for="User_01_Team" class="form-control" type="text" value="@Model.User_01_Team" required />
+                            <span asp-validation-for="User_01_Team" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" align="center">
+                            <label asp-for="GameScoreUser01">Game Final Score</label>
+                            <input asp-for="GameScoreUser01" class="form-control" type="text" value="@Model.GameScoreUser01" required />
+                            <span asp-validation-for="GameScoreUser01" class="text-danger"></span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <fieldset class="user-game-fieldset">
+                    <legend class="user-game-legend">Player 2</legend>
+                    <div class="user-game-player">
+                        <div class="form-group">
+                            <label asp-for="User_02_Name">Select Player 1</label>
+                            <input asp-for="User_02_Name"
+                                   class="form-control"
+                                   id="User_02_Name"
+                                   disabled />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="User_02_Team">Player 1 Team</label>
+                            <input asp-for="User_02_Team" class="form-control" type="text" required />
+                            <span asp-validation-for="User_02_Team" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" align="center">
+                            <label asp-for="GameScoreUser02">Game Final Score</label>
+                            <input asp-for="GameScoreUser02" class="form-control" type="text" required />
+                            <span asp-validation-for="GameScoreUser02" class="text-danger"></span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row btn-submitUserGame">
+                <button type="submit" id="submitUserGameBtn" class="btn">
+                    Save
+                </button>
+                <a asp-controller="Home" asp-action="Index" role="button" id="submitUserGameBtn" class="btn btn-cancel">CANCEL</a>
+            </div>
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="GameName" type="hidden" />
+            <input asp-for="User_01_Id" type="hidden" />
+            <input asp-for="User_01_Name" type="hidden" />
+            <input asp-for="User_02_Id" type="hidden" />
+            <input asp-for="User_02_Name" type="hidden" />
+        </form>
+    </div>
+</div>

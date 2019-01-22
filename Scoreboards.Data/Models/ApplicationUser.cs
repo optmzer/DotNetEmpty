@@ -6,7 +6,7 @@ namespace Scoreboards.Data.Models
     public class ApplicationUser : IdentityUser
     {
         public int Rating { get; set; } = 0;
-        public string ProfileImageUrl { get; set; } = "~/images/Default/default_avatar.png";
+        public string ProfileImageUrl { get; set; } = "/images/default-profile-image.png";
         public DateTime MemberSince { get; set; } = DateTime.Now;
         //public bool IsActive { get; set; } = true;
         public string Motto { get; set; } = "Game the life";

@@ -152,7 +152,7 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync(); // commits changes to DB.
         }
 
-        public async Task Delete(int userGameId)
+        public async Task DeleteUserGame(int userGameId)
         {
             var userGame = GetById(userGameId);
 
@@ -162,7 +162,18 @@ namespace Scoreboards.Services
 
         public async Task EditUserGame(UserGame newUserGameContent)
         {
-            _context.Entry(newUserGameContent).State = EntityState.Modified;
+            var game = GetById(newUserGameContent.Id);
+            // Mark for update
+            _context.Entry(game).State = EntityState.Modified;
+            // Update values
+            game.GameScoreUser01 = newUserGameContent.GameScoreUser01;
+            game.GameScoreUser02 = newUserGameContent.GameScoreUser02;
+
+            game.User_01_Team = newUserGameContent.User_01_Team;
+            game.User_02_Team = newUserGameContent.User_02_Team;
+
+            game.Winner = newUserGameContent.Winner;
+
             await _context.SaveChangesAsync();
         }
 
