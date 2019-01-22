@@ -275,6 +275,19 @@ tbody > tr:hover {
     align-self: center;
     width: 20%;
 }
+
+.match-history-game-name {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.edit-delete-game {
+    margin-left: .4em;
+    margin-right: -2.5em;
+}
+
+
+
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);

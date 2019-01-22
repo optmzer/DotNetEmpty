@@ -150,9 +150,9 @@ namespace Scoreboards.Services
         public async Task EditUserGame(UserGame newUserGameContent)
         {
             var game = GetById(newUserGameContent.Id);
-
+            // Mark for update
             _context.Entry(game).State = EntityState.Modified;
-
+            // Update values
             game.GameScoreUser01 = newUserGameContent.GameScoreUser01;
             game.GameScoreUser02 = newUserGameContent.GameScoreUser02;
 

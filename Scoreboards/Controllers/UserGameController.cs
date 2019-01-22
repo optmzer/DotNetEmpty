@@ -97,6 +97,9 @@ namespace Scoreboards.Controllers
 
             await _userGameService.EditUserGame(userGame);
 
+            // SignalR send message to All that DB was updated
+            await _hubContext.Clients.All.SendAsync("Notify", $"Created new UserGame at : {DateTime.Now}");
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -141,6 +144,8 @@ namespace Scoreboards.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        
 
         // =====================
         private UserGame BuildUserGame(NewUserGameModel model)
