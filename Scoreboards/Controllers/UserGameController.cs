@@ -181,8 +181,6 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
         // =====================
         private int CalculatePoints(int flatPoints, decimal multiplier, string userId, string opponentId, string winner)
         {
@@ -194,11 +192,13 @@ namespace Scoreboards.Controllers
                 if (user_01_Points >= user_02_Points)
                 {
                     return 0;
-                } else
+                }
+                else
                 {
                     return (int) Math.Round((decimal)(user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier, 2);
                 }
-            } else
+            }
+            else
             {// in case game is not "draw"
                 if (winner == userId)
                 {// user1 win
@@ -211,7 +211,8 @@ namespace Scoreboards.Controllers
                         if (user_01_Points + user_02_Points <= 100)
                         {
                             return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points)/(decimal)100.0 * multiplier));
-                        } else
+                        }
+                        else
                         {
                             return (int)(flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
                         }
@@ -221,17 +222,20 @@ namespace Scoreboards.Controllers
                         if (user_01_Points + user_02_Points <= 100)
                         {
                             return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (decimal)(100.0) * multiplier));
-                        } else
+                        }
+                        else
                         {
                             return (int)(flatPoints + Math.Round((user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier));
                         }
                     }
-                } else
+                }
+                else
                 {// user 2 win
                     if (noOfGamePlayed < 5)
                     {// played less than 5
                         return 0;
-                    } else
+                    }
+                    else
                     {// played more than 5
                         if (user_01_Points == user_02_Points)
                         {
@@ -242,7 +246,8 @@ namespace Scoreboards.Controllers
                             if (user_01_Points + user_02_Points <= 100)
                             {
                                 return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (decimal)(100.0) * multiplier));
-                            } else
+                            }
+                            else
                             {
                                 return (int)(-flatPoints - Math.Round((user_01_Points - user_02_Points) / (user_01_Points + user_02_Points) * multiplier));
                             }
