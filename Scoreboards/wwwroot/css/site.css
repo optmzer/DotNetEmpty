@@ -77,6 +77,10 @@ tbody > tr:hover {
     margin-top: 50px;
 }
 
+.profile-info {
+    margin-top: 30px;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
