@@ -60,6 +60,14 @@ tbody > tr:hover {
     width: 7em;
 }
 
+/* ADMIN PAGE */
+.user-list-avatar{
+    height: 2em;
+    width: 2em;
+    object-fit: cover;
+}
+
+
 /* USER PROFILE PAGE*/
 .profile-picture img {
     max-height: 300px;

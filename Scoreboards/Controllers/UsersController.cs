@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
 using Scoreboards.Data.Models;
@@ -13,15 +14,21 @@ namespace Scoreboards.Controllers
 {
     public class UsersController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUser _userService;
         private readonly IUserGame _userGameService;
         private readonly IGame _gameService;
 
-        public UsersController(IApplicationUser userService, IUserGame userGameService, IGame gameService)
+        public UsersController(
+            IApplicationUser userService,
+            IUserGame userGameService,
+            IGame gameService,
+            UserManager<ApplicationUser> userManager)
         {
             _userService = userService;
             _userGameService = userGameService;
             _gameService = gameService;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -91,9 +98,67 @@ namespace Scoreboards.Controllers
                 User = _userService.GetById(userID),
                 UsersGames = MatchHistory,
                 GameStatistcs = gameStats
+            };
 
-        };
             return View(model);
         }
+
+        public IActionResult Admin()
+        {
+            /**
+             * Admin can edit profile
+             * Delete profile
+             * lockout profile - in case of illegal security breach
+             */
+
+            var model = new UsersModel
+            {
+                AppUsers = _userService.GetAll(),
+                ListOfAdmins = _userService.GetByRole("Admin")
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> AddUserToRole(string userId)
+        {
+            var user = _userService.GetById(userId);
+
+            var result = await _userManager.AddToRoleAsync(user, "Admin");
+            
+            if (!result.Succeeded)
+            {
+                //Show some errors
+            }
+
+            return RedirectToAction("Admin", "Users");
+        }
+
+        public async Task<IActionResult> RemoveUserFromRole(string userId)
+        {
+
+            var user = _userService.GetById(userId);
+
+            var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+
+            if (!result.Succeeded)
+            {
+                //Show some errors
+            }
+
+            return RedirectToAction("Admin", "Users");
+        }
+
+        public IActionResult DeleteUser(string userId)
+        {
+
+            var model = new UserProfileModel
+            {
+                User = _userService.GetById(userId),
+            };
+
+            return View(model);
+        }
+
     }
 }

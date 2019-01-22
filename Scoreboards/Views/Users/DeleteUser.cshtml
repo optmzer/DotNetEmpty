@@ -1,0 +1,25 @@
+﻿
+
+@model Scoreboards.Models.Users.UserProfileModel
+    
+
+<div class="row page-content user-page row-margin-override">
+    <div>
+        <h1>Delete User</h1>
+        <h2>This action will permanently delete user from the database</h2>
+    </div>
+    <div class="profile-margin">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+            <div>
+                <picture class="profile-picture">
+                    <img src="@Model.User.ProfileImageUrl" />
+                </picture>
+            </div>
+            <div class="profile-info">
+                <label>@Model.User.UserName</label><br />
+                <label>@Model.User.Email</label><br />
+                <label>@Model.User.Motto</label><br />
+            </div>
+        </div>
+    </div>
+</div>
