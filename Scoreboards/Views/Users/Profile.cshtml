@@ -27,18 +27,20 @@
 </script>
 
 <div class="row page-content user-page row-margin-override">
-    <div class="profile-grid-container">
-        <div class="item-picture">
-            <picture class="profile-picture">
-                <img src="@Model.User.ProfileImageUrl" />
-            </picture>
+    <div class="profile-margin">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+            <div>
+                <picture class="profile-picture">
+                    <img src="@Model.User.ProfileImageUrl" />
+                </picture>
+            </div>
+            <div>
+                <label>@Model.User.UserName</label><br />
+                <label>@Model.User.Email</label><br />
+                <label>@Model.User.Motto</label><br />
+            </div>
         </div>
-        <div class="item-personal-info">
-            <label>@Model.User.UserName</label><br />
-            <label>@Model.User.Email</label><br />
-            <label>@Model.User.Motto</label><br />
-        </div>
-        <div class="item-stats">
+        <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
             <div class="tab">
                 <button class="tablinks active" onclick="openTab(event, 'Overall')">Overall</button>
                 @foreach (var gameName in Model.GameStatistcs.Keys)
@@ -73,7 +75,7 @@
                 }
             }
         </div>
-        <div class="item-matches">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <table class="table">
                     <thead class="game-detail-thead">
                         <tr>
