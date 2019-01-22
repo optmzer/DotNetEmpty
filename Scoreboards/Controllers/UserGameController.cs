@@ -145,7 +145,43 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+        public IActionResult DeleteUserGame(int userGameId)
+        {
+            // Get game and Ask user if they sure they want to delete it
+            var game = _userGameService.GetById(userGameId);
+            var user01 = _userService.GetById(game.User_01_Id);
+            var user02 = _userService.GetById(game.User_02_Id);
+
+            var model = new UserGameListingModel
+            {
+                Id = game.Id,
+
+                GameName = game.GamePlayed.GameName,
+
+                User_01_Name = user01.UserName,
+                User_01_Team = game.User_01_Team,
+                GameScoreUser01 = game.GameScoreUser01,
+                
+                User_02_Name = user02.UserName,
+                User_02_Team = game.User_02_Team,
+                GameScoreUser02 = game.GameScoreUser02,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserGame(UserGameListingModel model)
+        {
+            await _userGameService.DeleteUserGame(model.Id);
+
+            // SignalR send message to All that DB was updated
+            await _hubContext.Clients.All.SendAsync("Notify", $"Deleted UserGame at : {DateTime.Now}");
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
         // =====================
         private UserGame BuildUserGame(NewUserGameModel model)

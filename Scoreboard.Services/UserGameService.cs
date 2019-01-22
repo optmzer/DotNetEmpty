@@ -139,7 +139,7 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync(); // commits changes to DB.
         }
 
-        public async Task Delete(int userGameId)
+        public async Task DeleteUserGame(int userGameId)
         {
             var userGame = GetById(userGameId);
 
