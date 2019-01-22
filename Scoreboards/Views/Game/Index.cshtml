@@ -17,7 +17,7 @@
                 @foreach (var game in Model.gameList)
                 {
                     <div class="game-card" onclick="location.href = '@(Url.Action("GameDetail", "Game", new { gameId = game.Id }))'">
-                        @{string imgSourceString = string.Concat("~", game.GameLogo);}
+                        @{string imgSourceString = string.Concat("~", game.GameLogo)zz;}
                         <img class="card-picture" src="@Url.Content(imgSourceString)" alt="~/images/defaultImage.png" />
                         <label class="game-card-detail">@game.GameName</label>
                     </div>

@@ -79,6 +79,13 @@ tbody > tr:hover {
 
 .profile-info {
     margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.text-truncate {
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Style the tab */
@@ -104,6 +111,7 @@ tbody > tr:hover {
     line-height: 17px;
     padding: 19px 16px;
     transition: 0.3s;
+    width: 25%; 
 }
 
 /* Change background color of buttons on hover */
