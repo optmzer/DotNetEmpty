@@ -13,5 +13,6 @@ namespace Scoreboards.Data
         Task SetProfileImageAsync(string userId, Uri uri);
         Task SetMottoAsync(string userId, string motto);
         Task SetRating(string userId, Type type);
+        IEnumerable<ApplicationUser> GetByRole(string userRole);
     }
 }
