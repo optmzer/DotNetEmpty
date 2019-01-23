@@ -62,6 +62,7 @@ namespace Scoreboards.Controllers
             IEnumerable<LeaderboardUserModel> leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
             {
                 UserId = user.Id,
+                ProfileImageUrl = user.ProfileImageUrl,
                 UserName = user.UserName,
                 Wins = _userGameService.getWinsByIdAndGameId(user.Id, gameId).ToString(),
                 Draws = _userGameService.getDrawsByIdAndGameId(user.Id, gameId).ToString(),

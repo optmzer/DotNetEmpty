@@ -267,9 +267,23 @@ tbody > tr:hover {
     margin-left: .4em;
     margin-right: -2.5em;
 }
+.leaderboard-table{
+    justify-content:space-between;
+    align-items:stretch;
+    align-content:stretch;
+    align-self:stretch;
+}
+@media only screen and (max-width: 850px) {
+    .toggle-table-column {
+        display: none;
+    }
+}
 
-
-
+@media only screen and (max-width: 600px) {
+    .toggle-table-column2 {
+        display: none;
+    }
+}
 /*LOGIN PAGE*/
 .login-page {
     background-image: url(/images/contact-banner.jpg);
@@ -430,6 +444,7 @@ legend.user-game-legend {
     top: 0;
     padding-top: 20px !important;
 }
+
 
 /* MANAGE USER ACCOUNT PAGE */
 

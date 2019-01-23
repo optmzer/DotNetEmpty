@@ -8,6 +8,7 @@ namespace Scoreboards.Models.Home
     public class LeaderboardUserModel
     {
         public string UserId { get; set; }
+        public string ProfileImageUrl { get; set; }
         public string UserName { get; set; }
         public string Wins { get; set; }
         public string Draws { get; set; }
