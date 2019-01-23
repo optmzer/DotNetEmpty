@@ -129,7 +129,7 @@ namespace Scoreboards.Services
         }
 
         ///////////////////////////////////////////
-        public int[] CalculatePoints(int flatPoints, decimal multiplier, string user1Id, string user2Id, string winner)
+        public int[] CalculatePoints(int flatPoints, decimal multiplier, int flatLoss, decimal lossMultiplier, string user1Id, string user2Id, string winner)
         {
             var noOfGamePlayed1 = getTotalGamePlayedByUserId(user1Id);
             var noOfGamePlayed2 = getTotalGamePlayedByUserId(user2Id);
@@ -137,14 +137,20 @@ namespace Scoreboards.Services
             var user_02_Points = getUserPoint(user2Id);
 
             var multiplierModified = (decimal)0;
+            var modifiedLoss = (decimal)0;
             if (user_01_Points + user_02_Points <= 100)
             {
                 multiplierModified = Math.Round(Math.Abs(user_01_Points - user_02_Points) / (decimal)100.0 * multiplier);
+                modifiedLoss = Math.Round(Math.Abs(user_01_Points - user_02_Points) / (decimal)100.0 * lossMultiplier);
             }
             else
             {
-                multiplierModified = Math.Round(Math.Abs(user_02_Points - user_01_Points) / (user_02_Points + user_01_Points) * multiplier);
+                multiplierModified = Math.Round((Math.Abs(user_02_Points - user_01_Points) / (decimal)(user_02_Points + user_01_Points)) * multiplier);
+                modifiedLoss = Math.Round((Math.Abs(user_02_Points - user_01_Points) / (decimal)(user_02_Points + user_01_Points)) * lossMultiplier);
+
             }
+
+            int[] calculatedPointsChange;
 
             if (winner.ToLower() == "draw")
             {//in case the game is "draw"
@@ -161,85 +167,113 @@ namespace Scoreboards.Services
                     return new int[2] { 0, 0 };
                 }
             }
+
             else
             {// in case game is not "draw"
                 if (user_01_Points == user_02_Points)
                 {
                     if (winner == user1Id)
                     {
-                        if (noOfGamePlayed2 < 5)
-                        {// played less than 5
-                            return new int[2] { flatPoints, 0 };
-                        }
-                        else
-                        {// played more than 5
-                            return new int[2] { flatPoints, -flatPoints };
-                        }
+                        calculatedPointsChange = new int[2] { flatPoints, -flatLoss };
                     }
                     else
                     {
-                        if (noOfGamePlayed1 < 5)
-                        {// played less than 5
-                            return new int[2] { 0, flatPoints };
-                        }
-                        else
-                        {// played more than 5
-                            return new int[2] { -flatPoints, flatPoints };
-                        }
+                        calculatedPointsChange = new int[2] { -flatLoss, flatPoints };
                     }
                 }
                 else if (user_01_Points > user_02_Points)
                 {
                     if (winner == user1Id)
                     {
-                        if (noOfGamePlayed2 < 5)
-                        {// played less than 5
-                            return new int[2] { (int)(flatPoints - multiplierModified), 0 };
-                        }
-                        else
-                        {
-                            return new int[2] { (int)(flatPoints - multiplierModified), (int)(-flatPoints + multiplierModified) };
-                        }
+                        calculatedPointsChange = new int[2] { (int)(flatPoints - multiplierModified), (int)(-flatLoss + modifiedLoss) };
                     }
                     else
                     {
-                        if (noOfGamePlayed1 < 5)
-                        {// played less than 5
-                            return new int[2] { 0, (int)(flatPoints + multiplierModified) };
-                        }
-                        else
-                        {
-                            return new int[2] { (int)(-flatPoints - multiplierModified), (int)(flatPoints + multiplierModified) };
-                        }
+                        calculatedPointsChange =  new int[2] { (int)(-flatLoss - modifiedLoss), (int)(flatPoints + multiplierModified) };
                     }
                 }
                 else
                 {
                     if (winner == user1Id)
                     {
-                        if (noOfGamePlayed2 < 5)
-                        {// played less than 5
-                            return new int[2] { (int)(flatPoints + multiplierModified), 0 };
-                        }
-                        else
-                        {
-                            return new int[2] { (int)(flatPoints + multiplierModified), (int)(-flatPoints - multiplierModified) };
-                        }
+                        calculatedPointsChange =  new int[2] { (int)(flatPoints + multiplierModified), (int)(-flatLoss - modifiedLoss) };
                     }
                     else
                     {
-                        if (noOfGamePlayed1 < 5)
-                        {// played less than 5
-                            return new int[2] { 0, (int)(flatPoints - multiplierModified) };
-                        }
-                        else
-                        {
-                            return new int[2] { (int)(-flatPoints + multiplierModified), (int)(flatPoints - multiplierModified) };
-                        }
+                        calculatedPointsChange =  new int[2] { (int)(-flatLoss + modifiedLoss), (int)(flatPoints - multiplierModified) };
                     }
                 }
             }
+
+            return CheckForInvalidReduction(CheckForGamesPlayed(calculatedPointsChange, noOfGamePlayed1, noOfGamePlayed2), user_01_Points, user_02_Points);
         }
+        /**
+         * This method checks that the scores provided will not reduce either players points below 15 and updates
+         * the score to end with 15 points if it does.
+         * 
+         */
+        public int[] CheckForInvalidReduction(int[] points, int user1Points, int user2Points)
+        {
+            int[] updatedPointsChange = points;
+            // Checks the user won't end below 15 points
+            if (user1Points+points[0] < 15)
+            {
+                // Considers the case when a user has never won a game (still on 0 points)
+                if (user1Points < 15)
+                {
+                    // This is the case where the user has drawn and the points gained doesn't put him over 15.
+                    if (points[0] > 0)
+                    {
+                        updatedPointsChange[0] = points[0]
+                    }
+                    else
+                    {
+                        updatedPointsChange[0] = 0;
+                    }
+                }
+                else
+                {
+                    updatedPointsChange[0] = -user1Points + 15;
+                }
+            }
+            else if (user2Points+points[1] < 15 && user2Points >= 15)
+            {
+                if (user1Points < 15)
+                {
+                    if (points[1] > 0)
+                    {
+                        updatedPointsChange[1] = points[1];
+                    }
+                    else
+                    {
+                        updatedPointsChange[1] = 0;
+                    }
+                }
+                else
+                {
+                    updatedPointsChange[1] = -user2Points + 15;
+                }
+            }
+            return updatedPointsChange;
+        }
+
+        /**
+         * Checks the users have both played more than 5 gameand if they haven't returns updated points change
+         * which contains no points loss.
+        */
+        public int[] CheckForGamesPlayed(int[] points, int gamesPlayed1, int gamesPlayed2)
+        {
+            if (points[0] < 0 && gamesPlayed1 < 5)
+            {
+                points[0] = 0;
+            }
+            else if (points[1] < 0 && gamesPlayed2 < 5)
+            {
+                points[1] = 0;
+            }
+            return points;
+        }
+
         public int getUserPoint(string userId)
         {
             var listOfUserGames = getUserGamesByUserId(userId);

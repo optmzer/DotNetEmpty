@@ -214,6 +214,8 @@ namespace Scoreboards.Controllers
             // set flat points & multiplier that will be used to calculate the point that each user will get
             var flatPoints = 15;
             var multiplier = (decimal)10.0;
+            var flatLoss = 7;
+            var lossMultiplier = (decimal)7.0;
 
             // CalculatePoints method passes 5 parameters
             // 1. flat points
@@ -221,7 +223,7 @@ namespace Scoreboards.Controllers
             // 3. user 1 id
             // 4. user 2 id
             // 5. winner id of current game
-            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, user1.Id, user2.Id, winner);
+            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, flatLoss, lossMultiplier, user1.Id, user2.Id, winner);
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,
