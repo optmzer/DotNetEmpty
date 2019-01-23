@@ -107,6 +107,11 @@ tbody > tr:hover {
   text-overflow: ellipsis;
 }
 
+.label-area {
+    width: 100%;
+    white-space:initial;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
