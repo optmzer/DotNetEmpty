@@ -4,14 +4,24 @@
 
 @inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
+@{ 
+    var adminTotal = @Model.ListOfAdmins.Count();
+}
+
 <div class="page-content new-user-game">
     <div>
         <h1>Admin Page</h1>
     </div>
     <div class="row">
         <div>
-            <h3>Admins</h3>
-            <p>Admins total @Model.ListOfAdmins.Count()</p>
+            <h3>
+                <span> Admins </span>
+                @foreach (var item in @Model.ListOfAdmins)
+                {
+                    <i class="fa fa-key admin-key"></i>
+                }
+            </h3>
+            <p>Admins total @adminTotal</p>
             <ul>
                 @foreach (var admin in Model.ListOfAdmins)
                 {
@@ -32,30 +42,46 @@
         <div>
             <h3>List of Users</h3>
             <p>add to admin list, remove from admins, lockout user, remove lock from user, delete profile, </p>
-            <ul>
-                @foreach (var user in Model.AppUsers)
-                {
-                    <li>
-                        <div class="row">
-                            <img src="@user.ProfileImageUrl " alt="@user.UserName" class="user-list-avatar" />
-                                @if (await _userManager.IsInRoleAsync(user, "Admin"))
-	                            {
-                                    <span>
-		                                ADMIN | 
-                                    </span>
-	                            }
-                            <span>
-                                @user.UserName | @user.Email
-                            </span>
-                            <span>
-                                <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id">
-                                    <i class="fa fa-plus-circle"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </li>
-                }
-            </ul>
+            
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Pic</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Membr Since</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.AppUsers)
+                    {
+                        <tr>
+                            <td><div><img src="@user.ProfileImageUrl" alt="@user.UserName" class="user-list-avatar"/></div></td>
+                            <td>
+                                <div>
+                                    @if (await _userManager.IsInRoleAsync(user, "Admin"))
+                                    {
+                                        <span>
+                                            <i class="fa fa-key admin-key"></i>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    @user.UserName
+                                </div>
+                            </td>
+                            <td><div>@user.Email</div></td>
+                            <td><div>@user.MemberSince</div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

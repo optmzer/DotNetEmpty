@@ -67,6 +67,10 @@ tbody > tr:hover {
     object-fit: cover;
 }
 
+.admin-key {
+    color: gold;
+}
+
 
 /* USER PROFILE PAGE*/
 .profile-picture img {

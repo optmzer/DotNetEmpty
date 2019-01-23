@@ -1,6 +1,8 @@
-﻿@model Scoreboards.Models.Users.UsersModel
-@{
-}
+﻿@using Microsoft.AspNetCore.Identity
+
+@model Scoreboards.Models.Users.UsersModel
+
+@inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
 <script type="text/javascript">
     function goToUser() {
@@ -33,10 +35,18 @@
                 // TODO Link with User profiles
                 string userURL = "/Users/" + user.Id;
                 <div class="card" onclick="location.href = '@(Url.Action("Profile", "Users", new { userID = user.Id }))'">
-                     <picture class="user-card-picture">
-                         <img src="@user.ProfileImageUrl" />
-                     </picture>
-                     @user.UserName
+                    <picture class="user-card-picture">
+                        <img src="@user.ProfileImageUrl" />
+                    </picture>
+                    <div>
+                        <span>
+                            @if (await _userManager.IsInRoleAsync(user, "Admin"))
+                            {
+                                <i class="fa fa-key admin-key"></i>
+                            }
+                            @user.UserName
+                        </span>
+                    </div>
                 </div>
             }
         }
@@ -48,7 +58,15 @@
                     <picture class="user-card-picture">
                         <img src="@user.ProfileImageUrl" />
                     </picture>
-                    @user.UserName
+                    <div>
+                        <span>
+                        @if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            <i class="fa fa-key admin-key"></i>
+                        }
+                            @user.UserName
+                        </span>
+                    </div>
                 </div>
             }
         }
