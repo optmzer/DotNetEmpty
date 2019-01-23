@@ -1,6 +1,8 @@
-﻿    @model Scoreboards.Models.Users.UserProfileModel
-@{
-}
+﻿@using Microsoft.AspNetCore.Identity
+
+@model Scoreboards.Models.Users.UserProfileModel
+
+@inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
 <script type="text/javascript">
     function openTab(evt, gameName) {
@@ -35,7 +37,15 @@
                 </picture>
             </div>
             <div class="profile-info text-truncate">
-                <label>@Model.User.UserName</label><br />
+                <label>
+                    @if (await _userManager.IsInRoleAsync(Model.User, "Admin"))
+                    {
+                        <span>
+                            <i class="fa fa-key admin-key"></i>
+                        </span>
+                    }
+                    @Model.User.UserName
+                </label><br />
                 <label>@Model.User.Email</label><br />
                 <label class="label-area">@Model.User.Motto</label><br />
             </div>

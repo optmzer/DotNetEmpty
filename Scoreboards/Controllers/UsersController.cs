@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
@@ -12,6 +12,7 @@ using Scoreboards.Models.Users;
 
 namespace Scoreboards.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -103,6 +104,7 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
             /**
@@ -120,6 +122,7 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUserToRole(string userId)
         {
             var user = _userService.GetById(userId);
@@ -134,6 +137,7 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Admin", "Users");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveUserFromRole(string userId)
         {
 
@@ -149,6 +153,7 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Admin", "Users");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteUser(string userId)
         {
 

@@ -4,58 +4,105 @@
 
 @inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
+@{
+    var adminTotal = @Model.ListOfAdmins.Count();
+}
+
 <div class="page-content new-user-game">
     <div>
         <h1>Admin Page</h1>
     </div>
     <div class="row">
-        <div>
-            <h3>Admins</h3>
-            <p>Admins total @Model.ListOfAdmins.Count()</p>
-            <ul>
-                @foreach (var admin in Model.ListOfAdmins)
-                {
-                    <li> 
-                        <div class="row">
-                            <img src="@admin.ProfileImageUrl" alt="@admin.UserName" class="user-list-avatar" />
+        <ul class="list-group">
+            <li href="#" class="list-group-item disabled">
+                Admins
+                <span>
+                    @foreach (var item in @Model.ListOfAdmins)
+                    {
+                            <i class="fa fa-key admin-key"></i>
+                    } 
+                    @adminTotal
+                </span>
+            </li>
+            @foreach (var admin in @Model.ListOfAdmins)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="admin-page-user-metadata"
+                             onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = admin.Id }))'">
+                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                <img src="@admin.ProfileImageUrl" alt="@admin.UserName" class="user-list-avatar" />
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                @admin.UserName
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                @admin.Email
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
                             <span>
-                                @admin.UserName | @admin.Email | 
-                                <a asp-controller="Users" asp-action="RemoveUserFromRole" asp-route-userId="@admin.Id">
-                                    <i class="fa fa-minus-circle"></i>
+                                <a asp-controller="Users" asp-action="RemoveUserFromRole" asp-route-userId="@admin.Id" title="Remov User From Admin Role">
+                                    <i class="fa fa-minus-square-o"></i>
                                 </a>
                             </span>
                         </div>
-                    </li>
-                }
-            </ul>
-        </div>
-        <div>
-            <h3>List of Users</h3>
-            <p>add to admin list, remove from admins, lockout user, remove lock from user, delete profile, </p>
-            <ul>
-                @foreach (var user in Model.AppUsers)
-                {
-                    <li>
-                        <div class="row">
-                            <img src="@user.ProfileImageUrl " alt="@user.UserName" class="user-list-avatar" />
-                                @if (await _userManager.IsInRoleAsync(user, "Admin"))
-	                            {
-                                    <span>
-		                                ADMIN | 
-                                    </span>
-	                            }
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="row">
+        <p>add to admin list, remove from admins, lockout user, remove lock from user, delete profile, </p>
+
+        <ul class="list-group">
+            <li class="list-group-item disabled">
+                List of Users
+            </li>
+            @foreach (var user in Model.AppUsers)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="admin-page-user-metadata"
+                             title="User Metadata"
+                             onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.Id }))'">
+                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                <img src="@user.ProfileImageUrl" alt="@user.UserName" class="user-list-avatar" />
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                @user.UserName
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                @user.Email
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                Since: @user.MemberSince.ToShortDateString()
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 admin-page-actions" title="Actions" >
+                            @if (await _userManager.IsInRoleAsync(user, "Admin"))
+                            {
+                                <span>
+                                    <i class="fa fa-key admin-key"></i>
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id" title="Add To Admin Role">
+                                        <i class="fa fa-plus-square-o"></i>
+                                    </a>
+                                </span>
+                            }
                             <span>
-                                @user.UserName | @user.Email
-                            </span>
-                            <span>
-                                <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id">
-                                    <i class="fa fa-plus-circle"></i>
+                                <a asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@user.Id" title="Delete Forever User Profile">
+                                    <i class="fa fa-trash-o"></i>
                                 </a>
                             </span>
                         </div>
-                    </li>
-                }
-            </ul>
-        </div>
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
 </div>
