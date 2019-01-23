@@ -71,6 +71,13 @@ tbody > tr:hover {
     color: gold;
 }
 
+.admin-page-user-metadata{
+    cursor: pointer;
+}
+
+.admin-page-actions > span{
+    padding: 0.3em;
+}
 
 /* USER PROFILE PAGE*/
 .profile-picture img {
