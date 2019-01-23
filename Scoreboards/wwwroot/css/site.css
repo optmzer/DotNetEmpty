@@ -386,6 +386,7 @@ legend.user-game-legend {
 
 .social-media-footer-bar {
     display: inline-flex;
+    margin-left: 0 !important;
 }
 
 .social-media-footer-bar > li {
