@@ -199,7 +199,8 @@ tbody > tr:hover {
 
 /* SEARCH SIZES*/
 .usr-search-bar {
-    width: 400px;
+    max-width: 400px;
+    width: 70%;
     margin-bottom:20px;
     color: black;
     font-weight:bold;
