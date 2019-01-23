@@ -226,10 +226,6 @@ tbody > tr:hover {
     padding: 15px 30px;
 }
 
-.float-left1, .float-right1 {
-    padding: 10px 0 10px 15px;
-}
-
 .display-next-to-each-other {
     margin-top: 5px;
 }
@@ -281,13 +277,13 @@ tbody > tr:hover {
     align-content:stretch;
     align-self:stretch;
 }
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 920px) {
     .toggle-table-column {
         display: none;
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 840px) {
     .toggle-table-column2 {
         display: none;
     }
@@ -403,7 +399,7 @@ legend.user-game-legend {
 }
 
 .float-left1, .float-right1 {
-    padding: 10px 0 10px 15px;
+    padding: 0;
 }
 .float-right1 {
     float: right;

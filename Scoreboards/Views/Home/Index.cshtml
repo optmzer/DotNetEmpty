@@ -27,16 +27,16 @@
         </div>
     </div>
     <div class="row display-next-to-each-other2">
-        <div class="leaderboard-table col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <div class="leaderboard-table col-xs-12 col-sm-8 col-md-9 col-lg-9">
             <table class="table float-left1 ">
                 <thead>
                     <tr>
                         <th><label>Rank</label></th>
-                        <th></th>
+                        <th class="toggle-table-column"></th>
                         <th><label>Name</label></th>
-                        <th class="toggle-table-column2"><label>Wins</label></th>
-                        <th class="toggle-table-column2"><label>Draws</label></th>
-                        <th class="toggle-table-column2"><label>Losses</label></th>
+                        <th class="toggle-table-column2"><label>Wins/Draws/Losses</label></th>
+                        @*<th class="toggle-table-column2"><label>Draws</label></th>
+                        <th class="toggle-table-column2"><label>Losses</label></th>*@
                         <th><label>Win Ratio</label></th>
                         <th><label>Points</label></th>
                     </tr>
@@ -47,41 +47,33 @@
                         @foreach (var user in Model.UsersData)
                         {
                     <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
-                        <td>
-                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                        <td style=" vertical-align:central;">
+                            <div style="height:40px; text-align:center; display:table-cell; vertical-align:middle;">
                                 @i
                             </div>
                         </td>
-                        <td>
-                            <div class="toggle-table-column col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                        <td class="toggle-table-column">
+                            <div>
                                 <img style="width:40px;height:40px;" src="@user.ProfileImageUrl">
                             </div>
                         </td>
                         <td>
-                            @user.UserName
-                        </td>
-                        <td  class="toggle-table-column2">
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Wins
+                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;;">
+                                @user.UserName
                             </div>
                         </td>
-                        <td  class="toggle-table-column2">
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Draws
-                            </div>
-                        </td>
-                        <td  class="toggle-table-column2">
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                @user.Loses
+                        <td class="toggle-table-column2">
+                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                                @user.Wins W - @user.Draws D -  @user.Loses L
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
                                 @user.Ratio %
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap;" class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
                                 @user.Points
                             </div>
                         </td>
@@ -102,7 +94,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
             <table class="table">
                 <thead>
                     <tr>
