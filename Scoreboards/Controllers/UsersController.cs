@@ -165,5 +165,14 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> DeletUserProfile(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            //await _userManager.RemoveFromRoleAsync(user, "Admin");
+            await _userManager.DeleteAsync(user);
+
+            return RedirectToAction("Admin", "Users");
+        }
+
     }
 }

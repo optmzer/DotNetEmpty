@@ -96,13 +96,13 @@ namespace Scoreboards.Areas.Identity.Pages.Account
                                         );
 
                 // User with this UserName does not exist
-                if(user != null)
+                if(user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
                 // If email is not confirmed
-                if ( await _userManager.IsEmailConfirmedAsync(user))
+                if ( !await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError(string.Empty, "Please confirm your email to log in.");
                     return Page();

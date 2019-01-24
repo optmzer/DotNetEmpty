@@ -470,5 +470,11 @@ legend.user-game-legend {
 
 /* MANAGE USER ACCOUNT PAGE */
 
+/* DELETE USER PROFILE PAGE */
+.button-inline-group {
+    display: inline-flex;
+}
 
-
+.button-inline-group-button {
+    margin: 15px;
+}

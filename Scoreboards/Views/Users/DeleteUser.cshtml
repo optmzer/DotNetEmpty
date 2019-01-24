@@ -1,7 +1,4 @@
-﻿
-
-@model Scoreboards.Models.Users.UserProfileModel
-    
+﻿@model Scoreboards.Models.Users.UserProfileModel
 
 <div class="row page-content user-page row-margin-override">
     <div>
@@ -19,6 +16,20 @@
                 <label>@Model.User.UserName</label><br />
                 <label>@Model.User.Email</label><br />
                 <label>@Model.User.Motto</label><br />
+            </div>
+            <!-- Submit form -->
+            <div class="row button-inline-group">
+                <div> 
+                    <a asp-controller="Users" 
+                        asp-action="DeletUserProfile" 
+                        asp-route-userId="@Model.User.Id" 
+                        role="button"
+                        class="btn btn-danger button-inline-group-button"
+                    >DELETE</a>
+                </div>
+                <div>
+                    <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                </div>
             </div>
         </div>
     </div>
