@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scoreboards.Data.Models;
 using Scoreboards.Hubs;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Scoreboards
 {
@@ -60,6 +61,9 @@ namespace Scoreboards
 
             // Injects IUpload interface to upload UserProfile pictures
             services.AddScoped<IUpload, UploadService>();
+
+            // Adding EmailSender service to confirm email via SendGrid
+            services.AddScoped<IEmailSender, EmailService>();
 
             ////Add DataSeed Comment out for Deployment
             //services.AddTransient<DataSeed>();

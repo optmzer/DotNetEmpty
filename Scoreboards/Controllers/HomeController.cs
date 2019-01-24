@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
@@ -13,6 +14,7 @@ using Scoreboards.Models.UserGames;
 
 namespace Scoreboards.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserGame _userGameService;
@@ -31,7 +33,68 @@ namespace Scoreboards.Controllers
             _userManager = userManager;
             _userService = userService;
         }
-        public List<SelectListItem> GetGameList(string gameId)
+
+        [AllowAnonymous]
+        public IActionResult Index(string gameId)
+        {
+            List<SelectListItem> listItems = GetGameList(gameId);
+            IEnumerable<LeaderboardUserModel> leaderBoardData = GetLeaderboardData(gameId);
+            IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
+            
+            var model = new HomeIndexModel
+            {
+                UsersData = leaderBoardData.OrderByDescending(user => int.Parse(user.Points))
+                                .ThenByDescending(user => decimal.Parse(user.Ratio))
+                                .ThenBy(user=> user.UserName),
+                // @lewis: LatestGames was MatchHistoryData from lewis's code
+                LatestGames = MatchHistoryList,
+                DropDownData = listItems,
+                itemSelected = gameId == null ? "0" : gameId
+            };
+            // Display to the page
+            return View(model);
+        }
+        /**
+         * Used to send buuble type notifications to the page from SignalR
+         * Currently it only refreshes the page.
+         *  connection.on("Notify", function (message) {
+         *  //reload the page
+         *      location.reload();
+         *  });
+         */
+        [AllowAnonymous]
+        [Route("notification")]
+        public IActionResult Notify()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Your application description page.";
+
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private List<SelectListItem> GetGameList(string gameId)
         {
             // prepare games list that will be used for dropdown
             // if gameName is provided => set that game to be 'Selected'
@@ -54,7 +117,7 @@ namespace Scoreboards.Controllers
             }
             return listItems;
         }
-        public IEnumerable<LeaderboardUserModel> GetLeaderboardData(string gameId)
+        private IEnumerable<LeaderboardUserModel> GetLeaderboardData(string gameId)
         {
             // prepare leaderboard
             // if gameName is provided => game specific leaderboard
@@ -72,7 +135,7 @@ namespace Scoreboards.Controllers
             });
             return leaderBoardData.Where(option => option.Wins + option.Loses + option.Draws != "000").Select(user => user);
         }
-        public IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
+        private IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
         {
             // prepare match history for specific game or overall game
             IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
@@ -105,56 +168,6 @@ namespace Scoreboards.Controllers
                     return model1;
                 });
             return MatchHistoryList;
-        }
-        public IActionResult Index(string gameId)
-        {
-            List<SelectListItem> listItems = GetGameList(gameId);
-            IEnumerable<LeaderboardUserModel> leaderBoardData = GetLeaderboardData(gameId);
-            IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
-            
-            var model = new HomeIndexModel
-            {
-                UsersData = leaderBoardData.OrderByDescending(user => int.Parse(user.Points))
-                                .ThenByDescending(user => decimal.Parse(user.Ratio))
-                                .ThenBy(user=> user.UserName),
-                // @lewis: LatestGames was MatchHistoryData from lewis's code
-                LatestGames = MatchHistoryList,
-                DropDownData = listItems,
-                itemSelected = gameId == null ? "0" : gameId
-            };
-            // Display to the page
-            return View(model);
-        }
-
-        [Route("notification")]
-        public IActionResult Notify()
-        {
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
