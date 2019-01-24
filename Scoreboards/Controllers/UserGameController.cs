@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Scoreboards.Data;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Scoreboards.Controllers
 {
+    [Authorize]
     public class UserGameController : Controller
     {
         private readonly IUserGame _userGameService;
@@ -33,6 +35,7 @@ namespace Scoreboards.Controllers
             _hubContext = hubContext;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditUserGame(int userGameId)
         {
             // When new game is created it is redirected to index page not Home
@@ -73,6 +76,7 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditUserGame(UserGameListingModel model)
         {
@@ -144,7 +148,8 @@ namespace Scoreboards.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteUserGame(int userGameId)
         {
             // Get game and Ask user if they sure they want to delete it
@@ -170,6 +175,7 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteUserGame(UserGameListingModel model)
         {
