@@ -70,7 +70,7 @@ namespace Scoreboards.Controllers
                 Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString(),
                 Points = _userGameService.getUserPoint(user.Id).ToString()
             });
-            return leaderBoardData.Where(option => option.Wins + option.Loses != "00").Select(user => user);
+            return leaderBoardData.Where(option => option.Wins + option.Loses + option.Draws != "000").Select(user => user);
         }
         public IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
         {

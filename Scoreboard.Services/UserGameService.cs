@@ -224,7 +224,7 @@ namespace Scoreboards.Services
                     // This is the case where the user has drawn and the points gained doesn't put him over 15.
                     if (points[0] > 0)
                     {
-                        updatedPointsChange[0] = points[0]
+                        updatedPointsChange[0] = points[0];
                     }
                     else
                     {
