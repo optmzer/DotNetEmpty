@@ -214,12 +214,14 @@ namespace Scoreboards.Services
          */
         public int[] CheckForInvalidReduction(int[] points, int user1Points, int user2Points)
         {
+            // Sets the minimum number a points a player can fall to.
+            int minimumPoints = 15;
             int[] updatedPointsChange = points;
             // Checks the user won't end below 15 points
-            if (user1Points+points[0] < 15)
+            if (user1Points+points[0] < minimumPoints)
             {
                 // Considers the case when a user has never won a game (still on 0 points)
-                if (user1Points < 15)
+                if (user1Points < minimumPoints)
                 {
                     // This is the case where the user has drawn and the points gained doesn't put him over 15.
                     if (points[0] > 0)
@@ -233,12 +235,12 @@ namespace Scoreboards.Services
                 }
                 else
                 {
-                    updatedPointsChange[0] = -user1Points + 15;
+                    updatedPointsChange[0] = -user1Points + minimumPoints;
                 }
             }
-            else if (user2Points+points[1] < 15 && user2Points >= 15)
+            else if (user2Points+points[1] < minimumPoints)
             {
-                if (user1Points < 15)
+                if (user2Points < minimumPoints)
                 {
                     if (points[1] > 0)
                     {
@@ -251,7 +253,7 @@ namespace Scoreboards.Services
                 }
                 else
                 {
-                    updatedPointsChange[1] = -user2Points + 15;
+                    updatedPointsChange[1] = -user2Points + minimumPoints;
                 }
             }
             return updatedPointsChange;
