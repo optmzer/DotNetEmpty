@@ -223,7 +223,7 @@ namespace Scoreboards.Controllers
             // 3. user 1 id
             // 4. user 2 id
             // 5. winner id of current game
-            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, flatLoss, lossMultiplier, user1.Id, user2.Id, winner);
+            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, flatLoss, lossMultiplier, user1.Id, user2.Id, winner, gamePlayed.Id.ToString());
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,
