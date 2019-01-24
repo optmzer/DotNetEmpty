@@ -41,8 +41,8 @@ namespace Scoreboards.Services
 
             SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
             NetworkCredential credentials = new NetworkCredential(
-                _config["SendGridCredentials:SEND_GRID_USERNAME"],
-                _config["SendGridCredentials:SEND_GRID_PASSWORD"]);
+                _config.GetConnectionString("SEND_GRID_USERNAME"),
+                _config.GetConnectionString("SEND_GRID_PASSWORD"));
             smtpClient.Credentials = credentials;
             smtpClient.EnableSsl = true;
             smtpClient.Send(msg);
