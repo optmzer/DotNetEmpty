@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
 using Scoreboards.Data.Models;
@@ -19,17 +21,20 @@ namespace Scoreboards.Controllers
         private readonly IApplicationUser _userService;
         private readonly IUserGame _userGameService;
         private readonly IGame _gameService;
+        private readonly IEmailSender _emailService;
 
         public UsersController(
             IApplicationUser userService,
             IUserGame userGameService,
             IGame gameService,
+            IEmailSender emailService,
             UserManager<ApplicationUser> userManager)
         {
             _userService = userService;
             _userGameService = userGameService;
             _gameService = gameService;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -171,6 +176,29 @@ namespace Scoreboards.Controllers
             //await _userManager.RemoveFromRoleAsync(user, "Admin");
             await _userManager.DeleteAsync(user);
 
+            return RedirectToAction("Admin", "Users");
+        }
+
+        public async Task<IActionResult> ResendEmailConfirmation(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                // TODO: Create a helper message usernot found
+                return RedirectToAction("Admin", "Users");
+            }
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = user.Id, code = code },
+                protocol: Request.Scheme);
+
+            await _emailService.SendEmailAsync(user.Email, "Confirm your email at The Instillery Scoreboards",
+                            $"Please confirm your account at The Instillery Scoreboards website by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            // Add message that confirmation email was sent to Email address
             return RedirectToAction("Admin", "Users");
         }
 

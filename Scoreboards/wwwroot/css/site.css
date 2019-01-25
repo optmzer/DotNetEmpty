@@ -75,8 +75,25 @@ tbody > tr:hover {
     cursor: pointer;
 }
 
-.admin-page-actions > span{
-    padding: 0.3em;
+.admin-page-actions{
+    display: inline-flex;
+}
+
+.admin-page-actions-item {
+    padding: 0.2em;
+    width: 1.5em;
+}
+
+.admin-email-confirmed {
+    color: green !important;
+}
+
+.admin-delete-account {
+    margin-left: 1em;
+}
+
+.admin-delete-account > a {
+    color: red !important;
 }
 
 /* USER PROFILE PAGE*/
