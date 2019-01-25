@@ -79,26 +79,40 @@
                                 Since: @user.MemberSince.ToShortDateString()
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 admin-page-actions" title="Actions" >
+                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 admin-page-actions" title="Actions">
                             @if (await _userManager.IsInRoleAsync(user, "Admin"))
                             {
-                                <span>
+                                <div class="admin-page-actions-item">
                                     <i class="fa fa-key admin-key"></i>
-                                </span>
+                                </div>
                             }
                             else
                             {
-                                <span>
+                                <div class="admin-page-actions-item">
                                     <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id" title="Add To Admin Role">
                                         <i class="fa fa-plus-square-o"></i>
                                     </a>
-                                </span>
+                                </div>
                             }
-                            <span>
+                            @if (await _userManager.IsEmailConfirmedAsync(user))
+                            {
+                                <div class="admin-page-actions-item admin-email-confirmed" title="Email Confirmed">
+                                    <i class="fa fa-envelope-o"></i>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="admin-page-actions-item" title="Resend Account Confirmation Email">
+                                    <a asp-controller="Users" asp-action="ResendEmailConfirmation" asp-route-userId="@user.Id">
+                                        <i class="fa fa-send-o"></i>
+                                    </a>
+                                </div>
+                            }
+                            <div class="admin-page-actions-item admin-delete-account">
                                 <a asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@user.Id" title="Delete Forever User Profile">
-                                    <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-remove"></i>
                                 </a>
-                            </span>
+                            </div>
                         </div>
                     </div>
                 </li>

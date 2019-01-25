@@ -96,8 +96,10 @@ namespace Scoreboards.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email at The Instillery Scoreboards",
                         $"Please confirm your account at The Instillery Scoreboards website by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    // Redirect to We send you an email to ... Please confirm your email to be able to login
+                    //return LocalRedirect(returnUrl);
+                    return RedirectToAction("EmailConfirmation", "Home");
                 }
                 foreach (var error in result.Errors)
                 {

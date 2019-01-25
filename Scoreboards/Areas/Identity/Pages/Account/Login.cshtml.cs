@@ -16,11 +16,16 @@ namespace Scoreboards.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -76,6 +81,9 @@ namespace Scoreboards.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
+            //Get user
+            var user = await _userManager.FindByNameAsync(Input.UserName);
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -86,6 +94,20 @@ namespace Scoreboards.Areas.Identity.Pages.Account
                                         Input.RememberMe,
                                         lockoutOnFailure: true
                                         );
+
+                // User with this UserName does not exist
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+                // If email is not confirmed
+                if ( !await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    ModelState.AddModelError(string.Empty, "Please confirm your email to log in.");
+                    return Page();
+                }
+                //
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Scoreboards.Services
 {
@@ -33,7 +32,7 @@ namespace Scoreboards.Services
             //endregion
 
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("donotreply@theinstilleryscoreboards.com");
+            msg.From = new MailAddress("no_reply@theinstilleryscoreboards.com");
             msg.To.Add(new MailAddress(email));
             msg.Subject = subject;
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
