@@ -47,6 +47,7 @@ namespace Scoreboards.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+            [RegularExpression(@"^[a-zA-Z0-9._%+-]+(@theinstillery\.com)$", ErrorMessage = "Registration limited to theinstillery.com domain.")]
             public string Email { get; set; }
 
             [Required]
