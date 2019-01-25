@@ -8,9 +8,13 @@
             return false;
 
          return true;
-      }
-
+    }
+    function disableSubmitBtn() {
+        document.getElementById("submitUserGameBtn").disabled = true;
+    }
+    window.onbeforeunload = disableSubmitBtn;
 </SCRIPT>
+
 <div class="page-content new-user-game">
     <div>
         <h1>Create New Game</h1>
