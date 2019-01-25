@@ -198,6 +198,7 @@ namespace Scoreboards.Controllers
 
             await _emailService.SendEmailAsync(user.Email, "Confirm your email at The Instillery Scoreboards",
                             $"Please confirm your account at The Instillery Scoreboards website by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            
             // Add message that confirmation email was sent to Email address
             return RedirectToAction("Admin", "Users");
         }
