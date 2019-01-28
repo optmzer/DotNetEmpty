@@ -14,7 +14,6 @@ namespace Scoreboards.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<UserGame> UserGames { get; set; }
-        //public DbSet<PostReply> PostReplies { get; set; }
-
+        public DbSet<MonthlyWinners> MonthlyWinners { get; set; }
     }
 }
