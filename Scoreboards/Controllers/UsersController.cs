@@ -83,16 +83,16 @@ namespace Scoreboards.Controllers
             });
 
             ApplicationUser user = _userService.GetById(userID);
-
+            IEnumerable<UserGame> userGameList = _userGameService.GetAll();
             Dictionary<string, LeaderboardUserModel> gameStats = _gameService.GetAll()
                 .Select(Game => new KeyValuePair<string, LeaderboardUserModel>(Game.GameName, new LeaderboardUserModel
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    Wins = _userGameService.getWinsByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
-                    Draws = _userGameService.getDrawsByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
-                    Loses = _userGameService.getLosesByIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
-                    Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, Game.Id.ToString()).ToString(),
+                    Wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
+                    Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
+                    Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
+                    Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
                     MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, Game.Id.ToString())
                 })).ToDictionary(x => x.Key, x => x.Value);
 
@@ -100,10 +100,10 @@ namespace Scoreboards.Controllers
             {
                 UserId = user.Id,
                 UserName = user.UserName,
-                Wins = _userGameService.getWinsByIdAndGameId(user.Id, "").ToString(),
-                Draws = _userGameService.getDrawsByIdAndGameId(user.Id, "").ToString(),
-                Loses = _userGameService.getLosesByIdAndGameId(user.Id, "").ToString(),
-                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, "").ToString(),
+                Wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, "").ToString(),
+                Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, "").ToString(),
+                Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, "").ToString(),
+                Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, "").ToString(),
                 MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, "Overall")
             });
 

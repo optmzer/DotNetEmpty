@@ -41,12 +41,12 @@ namespace Scoreboards.Controllers
         public IActionResult Index(string gameId)
         {
             List<SelectListItem> listItems = GetGameList(gameId);
-            IEnumerable<LeaderboardUserModel> leaderBoardData = GetLeaderboardData(gameId);
             IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
-            
+            IEnumerable<LeaderboardUserModel> leaderboardData = prepareLeaderBoard(gameId);
+
             var model = new HomeIndexModel
             {
-                UsersData = leaderBoardData.OrderByDescending(user => int.Parse(user.Points))
+                UsersData = leaderboardData.OrderByDescending(user => int.Parse(user.Points))
                                 .ThenByDescending(user => decimal.Parse(user.Ratio))
                                 .ThenBy(user=> user.UserName),
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
@@ -102,7 +102,34 @@ namespace Scoreboards.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        private IEnumerable<LeaderboardUserModel> prepareLeaderBoard(string gameId)
+        {
 
+            IEnumerable<UserGame> userGameList = _userGameService.GetAll();
+            IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
+            IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAll().Select(user => {
+                int wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, gameId);
+                int losses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, gameId);
+                int draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, gameId);
+                IEnumerable<UserGame> userSpecificUGList = userGameList.Where(userGame =>
+                    (userGame.User_01_Id.ToString() == user.Id)
+                    || userGame.User_02_Id.ToString() == user.Id);
+
+                return new LeaderboardUserModel
+                {
+                    UserId = user.Id,
+                    ProfileImageUrl = user.ProfileImageUrl,
+                    UserName = user.UserName,
+                    Wins = wins.ToString(),
+                    Draws = draws.ToString(),
+                    Loses = losses.ToString(),
+                    Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
+                    Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId)
+                };
+            });
+            return leaderboardData;
+        }
         private List<SelectListItem> GetGameList(string gameId)
         {
             // prepare games list that will be used for dropdown
@@ -126,31 +153,12 @@ namespace Scoreboards.Controllers
             }
             return listItems;
         }
-        private IEnumerable<LeaderboardUserModel> GetLeaderboardData(string gameId)
-        {
-            // prepare leaderboard
-            // if gameName is provided => game specific leaderboard
-            // else => overall leaderboard
-            IEnumerable<LeaderboardUserModel> leaderBoardData = _userService.GetAll().Select(user => new LeaderboardUserModel
-            {
-                UserId = user.Id,
-                ProfileImageUrl = user.ProfileImageUrl,
-                UserName = user.UserName,
-                Wins = _userGameService.getWinsByIdAndGameId(user.Id, gameId).ToString(),
-                Draws = _userGameService.getDrawsByIdAndGameId(user.Id, gameId).ToString(),
-                Loses = _userGameService.getLosesByIdAndGameId(user.Id, gameId).ToString(),
-                Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString(),
-                Points = _userGameService.getUserPoint(user.Id, gameId).ToString(),
-                MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, gameId)
-            });
-            return leaderBoardData.Where(option => option.Wins + option.Loses + option.Draws != "000").Select(user => user);
-        }
         private IEnumerable<UserGameListingModel> GetMatchHistory(string gameId)
         {
             // prepare match history for specific game or overall game
             IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
                 .getUserGamesByGameId(gameId)
-                .OrderByDescending((x) => x.Id)
+                .OrderByDescending((x) => x.GamePlayedOn)
                 .Take(5)
                 .Select((userGameItem) =>
                 {

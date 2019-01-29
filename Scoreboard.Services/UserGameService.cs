@@ -14,9 +14,13 @@ namespace Scoreboards.Services
     public class UserGameService : IUserGame
     {
         private readonly ApplicationDbContext _context;
-        public UserGameService(ApplicationDbContext context)
+        private readonly IApplicationUser _userService;
+        private readonly IMonthlyWinners _monthlyWinnersService;
+        public UserGameService(ApplicationDbContext context, IApplicationUser userService, IMonthlyWinners monthlyWinnersService)
         {
             _context = context;
+            _userService = userService;
+            _monthlyWinnersService = monthlyWinnersService;
         }
 
         public IEnumerable<UserGame> GetAll()
@@ -32,49 +36,125 @@ namespace Scoreboards.Services
         }
 
         // Lewis added
-        public int getWinsByIdAndGameId(string userId, string gameId)
+        
+        public int getWinsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId)
         {
-            // if gameName is null, provide overall
-            // else provide overall
-            if (gameId == null || gameId == "")
+            // if preparedData is provided, no need to GetAll
+            if (preparedData == null)
             {
-                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+                }
+                else
+                {
+                    return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
             } else
             {
-                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return preparedData.Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId).Count();
+                }
+                else
+                {
+                    return preparedData.Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner == userId) && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
             }
         }
-        public int getDrawsByIdAndGameId(string userId, string gameId)
+        public int getDrawsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId)
         {
-            // if gameName is null, provide overall
-            // else provide overall
-            if (gameId == null || gameId == "")
+            if (preparedData == null)
             {
-                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw").Count();
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw").Count();
+                }
+                else
+                {
+                    return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
+            } else
+            {
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return preparedData.Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw").Count();
+                }
+                else
+                {
+                    return preparedData.Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
+            }
+        }
+        public int getLosesByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId)
+        {
+            if (preparedData == null)
+            {
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
+                }
+                else
+                {
+                    return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
+            } else
+            {
+                // if gameName is null, provide overall
+                // else provide overall
+                if (gameId == null || gameId == "")
+                {
+                    return preparedData.Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
+                }
+                else
+                {
+                    return preparedData.Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                }
+            }
+        }
+        public decimal getRatioWithIdAndGameId(int wins, int losses)
+        {
+            int total = wins + losses;
+            if (total == 0)
+            {
+                return 0;
             }
             else
             {
-                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner.ToLower() == "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
-            }
-        }
-        public int getLosesByIdAndGameId(string userId, string gameId)
-        {
-            // if gameName is null, provide overall
-            // else provide overall
-            if (gameId == null || gameId == "")
-            {
-                return GetAll().Where(userGame => (userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw").Count();
-            }
-            else
-            {
-                return GetAll().Where(userGame => ((userGame.User_01_Id == userId || userGame.User_02_Id == userId) && userGame.Winner != userId && userGame.Winner.ToLower() != "draw") && gameId == userGame.GamePlayed.Id.ToString()).Count();
+                decimal ratio = (decimal)wins / (decimal)(total) * 100;
+                return Math.Round(ratio, 2);
             }
         }
         public decimal getRatioWithIdAndGameId(string userId, string gameId)
         {
-            int wins = getWinsByIdAndGameId(userId, gameId);
-            int loses = getLosesByIdAndGameId(userId, gameId);
-            int total = wins + loses;
+            int wins = getWinsByIdAndGameId(null, userId, gameId);
+            int losses = getLosesByIdAndGameId(null, userId, gameId);
+            int total = wins + losses;
+            if (total == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                decimal ratio = (decimal)wins / (decimal)(total) * 100;
+                return Math.Round(ratio, 2);
+            }
+        }
+        public decimal getRatioWithIdAndGameId(IEnumerable<UserGame> userGameList, string userId, string gameId)
+        {
+            int wins = getWinsByIdAndGameId(userGameList, userId, gameId);
+            int losses = getLosesByIdAndGameId(userGameList, userId, gameId);
+            int total = wins + losses;
             if (total == 0)
             {
                 return 0;
@@ -87,9 +167,9 @@ namespace Scoreboards.Services
         }
         public decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId)
         {
-            int wins = getWinsByIdAndGameId(userId, gameId);
-            int draws = getDrawsByIdAndGameId(userId, gameId);
-            int loses = getLosesByIdAndGameId(userId, gameId);
+            int wins = getWinsByIdAndGameId(null, userId, gameId);
+            int draws = getDrawsByIdAndGameId(null, userId, gameId);
+            int loses = getLosesByIdAndGameId(null, userId, gameId);
             int total = wins + draws + loses;
             if (total == 0)
             {
@@ -275,7 +355,21 @@ namespace Scoreboards.Services
             }
             return points;
         }
-
+        public int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId)
+        {
+            if (gameId == null || gameId == "")
+            {
+                var point1 = userSpecificUGList.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
+                var point2 = userSpecificUGList.Where(game => game.User_02_Id == userId).Sum(game => game.User_02_Awarder_Points);
+                return point1 + point2;
+            }
+            else
+            {
+                var point1 = userSpecificUGList.Where(game => game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_01_Awarder_Points);
+                var point2 = userSpecificUGList.Where(game => game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_02_Awarder_Points);
+                return point1 + point2;
+            }
+        }
         public int getUserPoint(string userId, string gameId)
         {
             if (gameId == null || gameId == "")

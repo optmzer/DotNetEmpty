@@ -18,6 +18,11 @@ namespace Scoreboards.Services
         {
             _context = context;
         }
+        public IEnumerable<MonthlyWinners> GetAll()
+        {
+            return _context.MonthlyWinners
+                    .OrderBy(award => award.RecordedDate);
+        }
         public IEnumerable<MonthlyWinners> GetAllAwardsByUserId(string userId)
         {
             return _context.MonthlyWinners
@@ -39,6 +44,19 @@ namespace Scoreboards.Services
             } else
             {
                 return _context.MonthlyWinners
+                    .Where(award => award.WinnerId == userId && award.GamePlayedId.ToLower() == gameId.ToLower() && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month);
+            }
+        }
+        public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId)
+        {
+            if (gameId == "" || gameId == null || gameId.ToLower() == "overall")
+            {
+                return monthlyWinners
+                    .Where(award => award.WinnerId == userId && award.GamePlayedId.ToLower() == "overall" && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month);
+            }
+            else
+            {
+                return monthlyWinners
                     .Where(award => award.WinnerId == userId && award.GamePlayedId.ToLower() == gameId.ToLower() && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month);
             }
         }
