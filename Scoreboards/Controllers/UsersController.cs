@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -159,29 +161,36 @@ namespace Scoreboards.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteUser(string userId)
+        public IActionResult AdminActions(string userId)
         {
+            var user = _userService.GetById(userId);
+            var IsEmailConfirmed = _userManager.IsEmailConfirmedAsync(user).Result;
 
             var model = new UserProfileModel
             {
-                User = _userService.GetById(userId),
+                User = user,
+                IsEmailConfirmed = IsEmailConfirmed
             };
 
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletUserProfile(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            //await _userManager.RemoveFromRoleAsync(user, "Admin");
+
             await _userManager.DeleteAsync(user);
 
             return RedirectToAction("Admin", "Users");
         }
 
-        public async Task<IActionResult> ResendEmailConfirmation(string userId)
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> ResendEmailConfirmation(UserProfileModel model)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var userId = model.User.Id;
+            var user = _userService.GetById(userId);
 
             if(user == null)
             {
@@ -189,12 +198,22 @@ namespace Scoreboards.Controllers
                 return RedirectToAction("Admin", "Users");
             }
 
+            if(user.Email != model.User.Email)
+            {
+                await _userManager.SetEmailAsync(user, model.User.Email);
+            }
+
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = user.Id, code = code },
-                protocol: Request.Scheme);
+            //var callbackUrl = Url.Page(
+            //    pageName: "/Identity/Account/ConfirmEmail",
+            //    pageHandler: null,
+            //    values: new { userId = user.Id, code = code },
+            //    protocol: Request.Scheme);
+
+            var protocol = HttpContext.Request.Scheme;
+            var host = HttpContext.Request.Host;
+            var queryString = "?userId=" + HttpUtility.UrlEncode(user.Id) + "&code=" + HttpUtility.UrlEncode(code);
+            var callbackUrl = protocol + "://" + host + "/Identity/Account/ConfirmEmail" + queryString;
 
             await _emailService.SendEmailAsync(user.Email, "Confirm your email at The Instillery Scoreboards",
                             $"Please confirm your account at The Instillery Scoreboards website by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -202,5 +221,15 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Admin", "Users");
         }
 
+
+        //private string BuildQueryString(string path, object values, string protocol)
+        //{
+            
+        //    UriBuilder myUri = new UriBuilder(
+        //        )
+
+
+        //    return url;
+        //}
     }
 }
