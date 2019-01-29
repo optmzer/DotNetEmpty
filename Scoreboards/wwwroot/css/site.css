@@ -454,11 +454,6 @@ legend.user-game-legend {
     float: right;
     overflow: auto;
 }
-.game-detail-thead {
-    position: fixed;
-    left: 0;
-    overflow: visible;
-}
 
 .row .display-next-to-each-other {
     margin-top: 5px;
