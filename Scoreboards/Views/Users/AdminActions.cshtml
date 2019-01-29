@@ -1,0 +1,72 @@
+﻿@model Scoreboards.Models.Users.UserProfileModel
+
+<div class="row page-content user-page row-margin-override">
+    <div>
+        <h1>Admin Actions</h1>
+        
+    </div>
+    <div class="profile-margin">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <div>
+                <picture class="profile-picture">
+                    <img src="@Model.User.ProfileImageUrl" />
+                </picture>
+            </div>
+            <div class="profile-info">
+                <label>@Model.User.UserName</label><br />
+                <label>@Model.User.Email</label><br />
+                <label>@Model.User.Motto</label><br />
+                <label>@Model.User.MemberSince</label><br />
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 admin-confirmation-email-section">
+            <fieldset>
+                <legend>RESEND CONFIRMATION EMAIL</legend>
+                <form asp-action="ResendEmailConfirmation" method="post" id="ResendEmailConfirmation">
+                    <div class="form-group">
+                        <label asp-for="@Model.User.Email"></label>
+                        @if (Model.IsEmailConfirmed)
+                        {
+                            <div class="input-group">
+                                <input asp-for="@Model.User.Email" class="form-control" />
+                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.User.Email" class="form-control" />
+                        }
+                        <button id="email-verification"
+                                class="btn btn-link"
+                                type="submit">
+                            Send verification email
+                        </button>
+                        <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
+                    </div>
+                    <input asp-for="User.Email" type="hidden" />
+                    <input asp-for="User.Id" type="hidden" />
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <fieldset class="user-game-fieldset">
+                <legend class="user-game-legend">DELETE PROFILE</legend>
+                <p class="text-danger">!!!WARNING!!!</p>
+                <p class="text-danger">This action will <b>permanently</b> delete user's profile from the database. The user's profile cannot be restored.</p>
+                <div class="row button-inline-group">
+                    <div>
+                        <a asp-controller="Users"
+                           asp-action="DeletUserProfile"
+                           asp-route-userId="@Model.User.Id"
+                           role="button"
+                           class="btn btn-danger button-inline-group-button">DELETE</a>
+                    </div>
+                    <div>
+                        <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

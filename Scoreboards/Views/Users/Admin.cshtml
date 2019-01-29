@@ -53,11 +53,9 @@
         </ul>
     </div>
     <div class="row">
-        <p>add to admin list, remove from admins, lockout user, remove lock from user, delete profile, </p>
-
         <ul class="list-group">
             <li class="list-group-item disabled">
-                List of Users
+                List of Users and Admin actions
             </li>
             @foreach (var user in Model.AppUsers)
             {
@@ -97,20 +95,22 @@
                             @if (await _userManager.IsEmailConfirmedAsync(user))
                             {
                                 <div class="admin-page-actions-item admin-email-confirmed" title="Email Confirmed">
-                                    <i class="fa fa-envelope-o"></i>
+                                    <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </a>
                                 </div>
                             }
                             else
                             {
                                 <div class="admin-page-actions-item" title="Resend Account Confirmation Email">
-                                    <a asp-controller="Users" asp-action="ResendEmailConfirmation" asp-route-userId="@user.Id">
+                                    <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
                                         <i class="fa fa-send-o"></i>
                                     </a>
                                 </div>
                             }
 
-                            <div  class="admin-page-actions-item admin-delete-account">
-                                <a asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@user.Id" title="Delete Forever User Profile">
+                            <div class="admin-page-actions-item admin-delete-account">
+                                <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id" title="Delete Forever User Profile">
                                     <i class="fa fa-remove"></i>
                                 </a>
                             </div>
