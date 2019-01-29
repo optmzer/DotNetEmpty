@@ -146,7 +146,7 @@ namespace Scoreboards.Controllers
             // prepare match history for specific game or overall game
             IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
                 .getUserGamesByGameId(gameId)
-                .OrderByDescending((x) => x.GamePlayedOn)
+                .OrderByDescending((x) => x.Id)
                 .Take(5)
                 .Select((userGameItem) =>
                 {
