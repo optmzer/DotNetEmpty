@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scoreboards.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,5 +16,6 @@ namespace Scoreboards.Models.Home
         public string Loses { get; set; }
         public string Ratio { get; set; }
         public string Points { get; set; }
+        public IEnumerable<MonthlyWinners> MonthlyWins { get; set; }
     }
 }

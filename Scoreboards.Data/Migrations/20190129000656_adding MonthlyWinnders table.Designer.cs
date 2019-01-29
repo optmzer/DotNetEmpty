@@ -10,8 +10,8 @@ using Scoreboards.Data;
 namespace Scoreboards.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190128214305_adding monthly trophies table")]
-    partial class addingmonthlytrophiestable
+    [Migration("20190129000656_adding MonthlyWinnders table")]
+    partial class addingMonthlyWinnderstable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,28 @@ namespace Scoreboards.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("Scoreboards.Data.Models.MonthlyWinners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GamePlayedId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("RecordedDate");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<string>("WinnerId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MonthlyWinners");
                 });
 
             modelBuilder.Entity("Scoreboards.Data.Models.Office", b =>

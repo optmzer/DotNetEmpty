@@ -21,17 +21,20 @@ namespace Scoreboards.Controllers
         private readonly IGame _gameService;
         private readonly IApplicationUser _userService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMonthlyWinners _monthlyWinnersService;
 
         public HomeController(
               IUserGame userGameService
             , IGame gameService
             , IApplicationUser userService
-            , UserManager<ApplicationUser> userManager)
+            , UserManager<ApplicationUser> userManager
+            , IMonthlyWinners monthlyWinnersService)
         {
             _gameService = gameService;
             _userGameService = userGameService;
             _userManager = userManager;
             _userService = userService;
+            _monthlyWinnersService = monthlyWinnersService;
         }
 
         [AllowAnonymous]
@@ -137,7 +140,8 @@ namespace Scoreboards.Controllers
                 Draws = _userGameService.getDrawsByIdAndGameId(user.Id, gameId).ToString(),
                 Loses = _userGameService.getLosesByIdAndGameId(user.Id, gameId).ToString(),
                 Ratio = _userGameService.getRatioWithIdAndGameId(user.Id, gameId).ToString(),
-                Points = _userGameService.getUserPoint(user.Id, gameId).ToString()
+                Points = _userGameService.getUserPoint(user.Id, gameId).ToString(),
+                MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, gameId)
             });
             return leaderBoardData.Where(option => option.Wins + option.Loses + option.Draws != "000").Select(user => user);
         }

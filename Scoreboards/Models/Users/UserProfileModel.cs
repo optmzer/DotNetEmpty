@@ -14,6 +14,5 @@ namespace Scoreboards.Models.Users
         public IEnumerable<UserGameListingModel> UsersGames { get; set; }
         public Dictionary<string, LeaderboardUserModel> GameStatistcs { get; set; }
         public ApplicationUser User { get; set; }
-
     }
 }

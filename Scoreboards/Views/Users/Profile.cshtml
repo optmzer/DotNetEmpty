@@ -68,6 +68,14 @@
                 <p>Draws: @Model.GameStatistcs["Overall"].Draws</p>
                 <p>Losses: @Model.GameStatistcs["Overall"].Loses</p>
                 <p>Win Ratio: @Model.GameStatistcs["Overall"].Ratio %</p>
+                @if (Model.GameStatistcs["Overall"].MonthlyWins.Count() != 0)
+                {
+                    <label class="label-area">Past Awards</label><br />
+                    @foreach (var award in Model.GameStatistcs["Overall"].MonthlyWins)
+                    {
+                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                    }
+                }
             </div>
 
             <!-- Tab content -->
@@ -75,13 +83,21 @@
             {
                 if (gameName != "Overall")
                 {
-                    <div id="@gameName" class="tabcontent text-truncate">
-                        <h3>@gameName</h3>
-                        <p>Wins: @Model.GameStatistcs[gameName].Wins</p>
-                        <p>Draws: @Model.GameStatistcs[gameName].Draws</p>
-                        <p>Losses: @Model.GameStatistcs[gameName].Loses</p>
-                        <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
-                    </div>
+            <div id="@gameName" class="tabcontent text-truncate">
+                <h3>@gameName</h3>
+                <p>Wins: @Model.GameStatistcs[gameName].Wins</p>
+                <p>Draws: @Model.GameStatistcs[gameName].Draws</p>
+                <p>Losses: @Model.GameStatistcs[gameName].Loses</p>
+                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                @if (Model.GameStatistcs[gameName].MonthlyWins.Count() != 0)
+                {
+                    <label class="label-area">Past Awards</label><br />
+                    @foreach (var award in Model.GameStatistcs[gameName].MonthlyWins)
+                    {
+                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                    }
+                }
+            </div>
                 }
             }
         </div>

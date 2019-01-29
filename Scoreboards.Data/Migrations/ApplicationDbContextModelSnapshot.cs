@@ -222,6 +222,28 @@ namespace Scoreboards.Data.Migrations
                     b.ToTable("Games");
                 });
 
+            modelBuilder.Entity("Scoreboards.Data.Models.MonthlyWinners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GamePlayedId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("RecordedDate");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<string>("WinnerId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MonthlyWinners");
+                });
+
             modelBuilder.Entity("Scoreboards.Data.Models.Office", b =>
                 {
                     b.Property<int>("Id")

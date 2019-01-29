@@ -19,7 +19,7 @@
                             Model.itemSelected == "0" 
                             ? Model.DropDownData[0].Selected 
                             : Model.DropDownData[ Model.DropDownData.FindIndex(item => item.Value == Model.itemSelected)].Selected),
-                            "-- Select Game --",
+                            "Overall",
                             new
                             {
                                 @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value ;"
@@ -47,7 +47,11 @@
                     <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
                         <td>
                             <div style="height:40px; text-align:center; display:table-cell; vertical-align:middle;">
-                                @i
+                                <label>@i  </label>
+                                @if (user.MonthlyWins.Count() != 0)
+                                {
+                                    <img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" />
+                                }
                             </div>
                         </td>
                         <td class="toggle-table-column">

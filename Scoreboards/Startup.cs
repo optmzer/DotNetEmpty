@@ -59,6 +59,9 @@ namespace Scoreboards
             // Injects IGame interface into Scoreboards.
             services.AddScoped<IGame, GameService>();
 
+            // Injects IMonthlyWinners interface into Scoreboards.
+            services.AddScoped<IMonthlyWinners, MonthlyWinnersService>();
+
             // Injects IUpload interface to upload UserProfile pictures
             services.AddScoped<IUpload, UploadService>();
 
