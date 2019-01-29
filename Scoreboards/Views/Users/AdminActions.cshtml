@@ -21,8 +21,8 @@
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 admin-confirmation-email-section">
-            <fieldset>
-                <legend>RESEND CONFIRMATION EMAIL</legend>
+            <fieldset class="user-game-fieldset">
+                <legend class="user-game-legend">RESEND CONFIRMATION EMAIL</legend>
                 <form asp-action="ResendEmailConfirmation" method="post" id="ResendEmailConfirmation">
                     <div class="form-group">
                         <label asp-for="@Model.User.Email"></label>
@@ -50,8 +50,8 @@
             </fieldset>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <fieldset class="user-game-fieldset">
-                <legend class="user-game-legend">DELETE PROFILE</legend>
+            <fieldset class="admin-delete-fieldset">
+                <legend class="admin-delete-user-legend">DELETE PROFILE</legend>
                 <p class="text-danger">!!!WARNING!!!</p>
                 <p class="text-danger">This action will <b>permanently</b> delete user's profile from the database. The user's profile cannot be restored.</p>
                 <div class="row button-inline-group">
