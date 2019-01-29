@@ -64,6 +64,10 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
             //[Phone]
             //[Display(Name = "Phone number")]
             //public string PhoneNumber { get; set; }
+            [StringLength(1000, ErrorMessage = "The {0} must be {1} max characters long.")]
+            [DataType(DataType.Text)]
+            [Display(Name = "Motto")]
+            public string Motto { get; set; }
 
             [Display(Name = "Upload User Profile Image")]
             public IFormFile ImageUpload { get; set; }
@@ -77,8 +81,9 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userName = await _userManager.GetUserNameAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
+            var userName = user.UserName;
+            var email = user.Email;
+            var motto = user.Motto;
             //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
@@ -88,7 +93,7 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = email,
-                //PhoneNumber = phoneNumber
+                Motto = motto
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -121,16 +126,11 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            //if (Input.PhoneNumber != phoneNumber)
-            //{
-            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            //    if (!setPhoneResult.Succeeded)
-            //    {
-            //        var userId = await _userManager.GetUserIdAsync(user);
-            //        throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
-            //    }
-            //}
+            var motto = user.Motto;
+            if(Input.Motto != motto)
+            {
+                await _applicationUserService.SetMottoAsync(user.Id, Input.Motto);
+            }
 
             if(ImageUpload != null)
             {
@@ -139,6 +139,7 @@ namespace Scoreboards.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
+
             return RedirectToPage();
         }
 
