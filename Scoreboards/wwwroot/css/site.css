@@ -96,6 +96,20 @@ tbody > tr:hover {
     color: red !important;
 }
 
+fieldset.admin-delete-fieldset {
+    border: solid 1px red !important;
+    padding: 0 10px 10px 10px;
+    border-bottom: none;
+}
+
+legend.admin-delete-user-legend {
+    width: auto !important;
+    border: none;
+    font-size: 1em;
+    color: red;
+}
+
+
 /* USER PROFILE PAGE*/
 .profile-picture img {
     max-height: 300px;
