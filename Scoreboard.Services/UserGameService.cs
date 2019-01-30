@@ -14,9 +14,18 @@ namespace Scoreboards.Services
     public class UserGameService : IUserGame
     {
         private readonly ApplicationDbContext _context;
+<<<<<<< Updated upstream
         private readonly IApplicationUser _userService;
         private readonly IMonthlyWinners _monthlyWinnersService;
         public UserGameService(ApplicationDbContext context, IApplicationUser userService, IMonthlyWinners monthlyWinnersService)
+=======
+        private readonly int _flatPointsGain = 15;
+        private readonly int _gainMultiplier = 10;
+        private readonly int _flatPointsLoss = 7;
+        private readonly int _lossMultiplier = 7;
+
+        public UserGameService(ApplicationDbContext context)
+>>>>>>> Stashed changes
         {
             _context = context;
             _userService = userService;
@@ -340,7 +349,7 @@ namespace Scoreboards.Services
         }
 
         /**
-         * Checks the users have both played more than 5 gameand if they haven't returns updated points change
+         * Checks the users have both played more than 5 game and if they haven't returns updated points change
          * which contains no points loss.
         */
         public int[] CheckForGamesPlayed(int[] points, int gamesPlayed1, int gamesPlayed2)
@@ -406,7 +415,7 @@ namespace Scoreboards.Services
         public async Task DeleteUserGame(int userGameId)
         {
             var userGame = GetById(userGameId);
-
+            await UpdateSubsequentGames(userGame, "Delete");
             _context.Remove(userGame);
             await _context.SaveChangesAsync(); // commits changes to DB.
         }
@@ -424,8 +433,117 @@ namespace Scoreboards.Services
             game.User_02_Team = newUserGameContent.User_02_Team;
 
             game.Winner = newUserGameContent.Winner;
-
             await _context.SaveChangesAsync();
+            await UpdateSubsequentGames(game, "Edit");
+        }
+
+        public async Task UpdateSubsequentGames(UserGame baseGame, string identifier)
+        {
+            Dictionary<string, int> usersPoints = new Dictionary<string, int>();
+            // Check if the game is edited or deleted
+            // If edited find the score for the players up to and including that game
+            // If deleted find the score for the players up to and excluding the game
+            if (identifier == "Delete")
+            {
+                // Get user ones points up to and excluding the deleted game
+                usersPoints.Add(baseGame.User_01_Id, GetUserPointsUpToGame(baseGame, baseGame.User_01_Id));
+
+                // Get user twos points up to and excluding the deleted game
+                usersPoints.Add(baseGame.User_02_Id, GetUserPointsUpToGame(baseGame, baseGame.User_02_Id));
+            }
+            else if (identifier == "Edit")
+            {
+                // Get user ones points up to and including the edited game
+                usersPoints.Add(baseGame.User_01_Id, GetUserPointsUpToGame(baseGame, baseGame.User_01_Id) + baseGame.User_01_Awarder_Points);
+
+                // Get user twos points up to and including the edited game
+                usersPoints.Add(baseGame.User_02_Id, GetUserPointsUpToGame(baseGame, baseGame.User_02_Id) + baseGame.User_02_Awarder_Points);
+
+            }
+            // Create a list of all games either user is a part of (sorted by Id)
+            SortedList<int, UserGame> userGames = new SortedList<int, UserGame>();
+
+            // Get a list of all user ones games and add it to the list
+            IEnumerable<UserGame> userOneGames = getUserGamesByUserId(baseGame.User_01_Id).Where(game => 
+                game.GamePlayed == baseGame.GamePlayed && game.Id > baseGame.Id);
+            foreach (UserGame game in userOneGames)
+            {
+                userGames.Add(game.Id, game);
+            }
+
+            // Get a list of all user twos games and add it too the list (avoiding duplicates)
+            IEnumerable<UserGame> userTwoGames = getUserGamesByUserId(baseGame.User_02_Id).Where(game =>
+                game.GamePlayed == baseGame.GamePlayed && game.Id > baseGame.Id);
+            foreach (UserGame game in userTwoGames)
+            {
+                if (!userGames.Keys.Contains(game.Id))
+                {
+                    userGames.Add(game.Id, game);
+                }
+            }
+       
+            // Take the first (oldest) game in the queue, Check if a new player is involved
+            // Loop through the games using while !queue.isEmpty() and remove each game when you're
+            // done with it.
+            while (!userGames.Any())
+            {
+                UserGame currentUserGame = userGames.First().Value;
+                // If a new user is involved add their games to the priority queue
+                if (!usersPoints.Keys.Contains(currentUserGame.User_01_Id))
+                {
+                    usersPoints.Add(currentUserGame.User_01_Id, GetUserPointsUpToGame(currentUserGame, currentUserGame.User_01_Id);
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_01_Id).Where(game =>
+                        game.GamePlayed == baseGame.GamePlayed && game.Id > currentUserGame.Id);
+                    foreach (UserGame game in addedUsersGames)
+                    {
+                        if (!userGames.Keys.Contains(game.Id))
+                        {
+                            userGames.Add(game.Id, game);
+                        }
+                    }
+                }
+                else if (!usersPoints.Keys.Contains(currentUserGame.User_02_Id))
+                {
+                    usersPoints.Add(currentUserGame.User_02_Id, GetUserPointsUpToGame(currentUserGame, currentUserGame.User_02_Id);
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_02_Id).Where(game =>
+                        game.GamePlayed == baseGame.GamePlayed && game.Id > currentUserGame.Id);
+                    foreach (UserGame game in addedUsersGames)
+                    {
+                        if (!userGames.Keys.Contains(game.Id))
+                        {
+                            userGames.Add(game.Id, game);
+                        }
+                    }
+                }
+                CalculatePoints(flatGain, gainMultiplier, flatLoss, lossMultiplier, );
+            }
+
+            // Update the game and the local score of the two players
+
+            // Repeat for the next game in the priority queue till it's empty
+
+            // Save the changes (and check if any new games have been submitted based on Id)
+
+            // If a new game has been submitted update that.
+
+            // Repeat checking until no new game added.
+        }
+
+        /**
+         * This method is used to help recalculate the points distribution after a game is edited or deleted.
+         * It is used when a user is first included in the process and calculates their total points up to the 
+         * selected game
+        */
+        public int GetUserPointsUpToGame(UserGame userGame, string userId )
+        {
+            var userPointsOne = _context.UserGames.Where(game => game.User_01_Id == userId
+                    && game.GamePlayed.Id == userGame.GamePlayed.Id &&
+                    game.Id < userGame.Id).Sum(game => game.User_01_Awarder_Points);
+            var userPointsTwo = _context.UserGames.Where(game => game.User_02_Id == userId
+                && game.GamePlayed.Id == userGame.GamePlayed.Id &&
+                game.Id < userGame.Id).Sum(game => game.User_02_Awarder_Points);
+
+            return userPointsOne + userPointsTwo
         }
 
         public Task SetGameImageAsync(int userGameId, Uri uri)
@@ -437,6 +555,5 @@ namespace Scoreboards.Services
         {
             return GetAll().Where(uGame => uGame.Winner == userId).Count();
         }
-
     }
 }
