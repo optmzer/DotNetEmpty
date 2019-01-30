@@ -460,16 +460,18 @@ namespace Scoreboards.Services
             SortedList<int, UserGame> userGames = new SortedList<int, UserGame>();
 
             // Get a list of all user ones games and add it to the list
-            IEnumerable<UserGame> userOneGames = getUserGamesByUserId(baseGame.User_01_Id).Where(game => 
-                game.GamePlayed == baseGame.GamePlayed && game.Id > baseGame.Id);
+            IEnumerable<UserGame> userOneGames = getUserGamesByUserId(baseGame.User_01_Id)
+                                                 .Where(game => game.GamePlayed == baseGame.GamePlayed 
+                                                 && game.Id > baseGame.Id);
             foreach (UserGame game in userOneGames)
             {
                 userGames.Add(game.Id, game);
             }
 
             // Get a list of all user twos games and add it too the list (avoiding duplicates)
-            IEnumerable<UserGame> userTwoGames = getUserGamesByUserId(baseGame.User_02_Id).Where(game =>
-                game.GamePlayed == baseGame.GamePlayed && game.Id > baseGame.Id);
+            IEnumerable<UserGame> userTwoGames = getUserGamesByUserId(baseGame.User_02_Id)
+                                                 .Where(game => game.GamePlayed == baseGame.GamePlayed 
+                                                 && game.Id > baseGame.Id);
             foreach (UserGame game in userTwoGames)
             {
                 if (!userGames.Keys.Contains(game.Id))
@@ -487,9 +489,11 @@ namespace Scoreboards.Services
                 // If a new user is involved add their games to the priority queue
                 if (!usersPoints.Keys.Contains(currentUserGame.User_01_Id))
                 {
-                    usersPoints.Add(currentUserGame.User_01_Id, GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_01_Id));
-                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_01_Id).Where(game =>
-                        game.GamePlayed == baseGame.GamePlayed && game.Id > currentUserGame.Id);
+                    usersPoints.Add(currentUserGame.User_01_Id, 
+                                    GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_01_Id));
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_01_Id)
+                                                            .Where(game => game.GamePlayed == baseGame.GamePlayed 
+                                                            && game.Id > currentUserGame.Id);
                     foreach (UserGame game in addedUsersGames)
                     {
                         if (!userGames.Keys.Contains(game.Id))
@@ -500,9 +504,11 @@ namespace Scoreboards.Services
                 }
                 else if (!usersPoints.Keys.Contains(currentUserGame.User_02_Id))
                 {
-                    usersPoints.Add(currentUserGame.User_02_Id, GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_02_Id));
-                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_02_Id).Where(game =>
-                        game.GamePlayed == baseGame.GamePlayed && game.Id > currentUserGame.Id);
+                    usersPoints.Add(currentUserGame.User_02_Id, 
+                                    GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_02_Id));
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_02_Id)
+                                                            .Where(game => game.GamePlayed == baseGame.GamePlayed 
+                                                            && game.Id > currentUserGame.Id);
                     foreach (UserGame game in addedUsersGames)
                     {
                         if (!userGames.Keys.Contains(game.Id))
@@ -520,13 +526,14 @@ namespace Scoreboards.Services
                 {
                     winner = "user2";
                 }
-
-                CalculatePoints(usersPoints[currentUserGame.User_01_Id][1], 
+                int[] newPoints;
+                newPoints = CalculatePoints(usersPoints[currentUserGame.User_01_Id][1], 
                                 usersPoints[currentUserGame.User_02_Id][1],
                                 winner, 
                                 currentUserGame.GamePlayed.Id.ToString(),
                                 usersPoints[currentUserGame.User_01_Id][0],
                                 usersPoints[currentUserGame.User_02_Id][0]);
+                
             }
 
             // Update the game and the local score of the two players
