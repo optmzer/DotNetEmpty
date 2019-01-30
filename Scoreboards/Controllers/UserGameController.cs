@@ -216,14 +216,8 @@ namespace Scoreboards.Controllers
             if (player1Score < player2Score)
             {// user2 won
                 winnerId = user2.Id;
-                winner = "user1";
+                winner = "user2";
             }
-
-            // set flat points & multiplier that will be used to calculate the point that each user will get
-            var flatPoints = 15;
-            var multiplier = (decimal)10.0;
-            var flatLoss = 7;
-            var lossMultiplier = (decimal)7.0;
 
             // CalculatePoints method passes 5 parameters
             // 1. User Ones Points before calculation
@@ -253,8 +247,8 @@ namespace Scoreboards.Controllers
                 GameScoreUser01 = player1Score,
                 GameScoreUser02 = player2Score,
 
-                //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                Winner = winner,
+                //Winner, “user1”, “user2”, “DRAW”
+                Winner = winnerId,
 
                 //Referee details. Only keep their User.Id
                 RefereeUserId = model.RefereeUserId,

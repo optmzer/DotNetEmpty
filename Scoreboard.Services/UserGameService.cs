@@ -430,8 +430,16 @@ namespace Scoreboards.Services
             await UpdateSubsequentGames(game, "Edit");
         }
 
+        /**
+         * This method is used to repair the database when a game is deleted or edited
+         * It works by finding the users points up to the edited/deleted game then
+         * manually recalculating all the point changes.
+         */
         public async Task UpdateSubsequentGames(UserGame baseGame, string identifier)
         {
+            // In the dictionary the key is the users Id, the first value in the int array
+            // is the games played the second is the users points calculated to the
+            // current game
             Dictionary<string, int[]> usersPoints = new Dictionary<string, int[]>();
             // Check if the game is edited or deleted
             // If edited find the score for the players up to and including that game
@@ -474,24 +482,48 @@ namespace Scoreboards.Services
                                                  && game.Id > baseGame.Id);
             foreach (UserGame game in userTwoGames)
             {
+                // Checks the game isn't already in the list before adding it. (Checks for other games
+                // where the two users have played together).
                 if (!userGames.Keys.Contains(game.Id))
                 {
                     userGames.Add(game.Id, game);
                 }
             }
        
-            // Take the first (oldest) game in the queue, Check if a new player is involved
-            // Loop through the games using while !queue.isEmpty() and remove each game when you're
-            // done with it.
+            // Loop through the games starting with the oldest game in the queue
+            // If a new player is involved, calculate his points and games played then add his
+            // games to the queue.
+            // Calculate the change in points for both players then update their local values.
+            // Remove the game from the queue and loop to the next value.
             while (!userGames.Any())
             {
+                // Get the next value in the queue
                 UserGame currentUserGame = userGames.First().Value;
+                string userOneId = currentUserGame.User_01_Id;
+                string userTwoId = currentUserGame.User_02_Id;
                 // If a new user is involved add their games to the priority queue
-                if (!usersPoints.Keys.Contains(currentUserGame.User_01_Id))
+                if (!usersPoints.Keys.Contains(userOneId))
                 {
-                    usersPoints.Add(currentUserGame.User_01_Id, 
-                                    GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_01_Id));
-                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_01_Id)
+                    usersPoints.Add(userOneId, 
+                                    GetUserGamesAndPointsUpToGame(currentUserGame, userOneId));
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(userOneId)
+                                                            .Where(game => game.GamePlayed == baseGame.GamePlayed 
+                                                            && game.Id > currentUserGame.Id);
+                    foreach (UserGame game in addedUsersGames)
+                    {
+                        // Checks the game isn't already part of the queue
+                        if (!userGames.Keys.Contains(game.Id))
+                        {
+                            userGames.Add(game.Id, game);
+                        }
+                    }
+                }
+                // Repeating previous statement with user 2.
+                else if (!usersPoints.Keys.Contains(userTwoId))
+                {
+                    usersPoints.Add(userTwoId, 
+                                    GetUserGamesAndPointsUpToGame(currentUserGame, userTwoId));
+                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(userTwoId)
                                                             .Where(game => game.GamePlayed == baseGame.GamePlayed 
                                                             && game.Id > currentUserGame.Id);
                     foreach (UserGame game in addedUsersGames)
@@ -502,23 +534,10 @@ namespace Scoreboards.Services
                         }
                     }
                 }
-                else if (!usersPoints.Keys.Contains(currentUserGame.User_02_Id))
-                {
-                    usersPoints.Add(currentUserGame.User_02_Id, 
-                                    GetUserGamesAndPointsUpToGame(currentUserGame, currentUserGame.User_02_Id));
-                    IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(currentUserGame.User_02_Id)
-                                                            .Where(game => game.GamePlayed == baseGame.GamePlayed 
-                                                            && game.Id > currentUserGame.Id);
-                    foreach (UserGame game in addedUsersGames)
-                    {
-                        if (!userGames.Keys.Contains(game.Id))
-                        {
-                            userGames.Add(game.Id, game);
-                        }
-                    }
-                }
+
+                // Calculates the winner and sets the strings to their appropriate values.
                 string winner;
-                if (currentUserGame.Winner == currentUserGame.User_01_Id)
+                if (currentUserGame.Winner == userOneId)
                 {
                     winner = "user1";
                 }
@@ -526,14 +545,26 @@ namespace Scoreboards.Services
                 {
                     winner = "user2";
                 }
+
+                // Calculates the change in points for the users based on edited/deleted game
+                // changes
                 int[] newPoints;
-                newPoints = CalculatePoints(usersPoints[currentUserGame.User_01_Id][1], 
-                                usersPoints[currentUserGame.User_02_Id][1],
+                newPoints = CalculatePoints(usersPoints[userOneId][1], 
+                                usersPoints[userTwoId][1],
                                 winner, 
                                 currentUserGame.GamePlayed.Id.ToString(),
-                                usersPoints[currentUserGame.User_01_Id][0],
-                                usersPoints[currentUserGame.User_02_Id][0]);
-                
+                                usersPoints[userOneId][0],
+                                usersPoints[userTwoId][0]);
+
+                usersPoints[userOneId][1] += newPoints[0];
+                usersPoints[userOneId][0] += 1;
+                usersPoints[userTwoId][1] += newPoints[1];
+                usersPoints[userTwoId][0] += 1;
+
+                _context.Entry(currentUserGame).State = EntityState.Modified;
+
+
+
             }
 
             // Update the game and the local score of the two players
@@ -555,14 +586,16 @@ namespace Scoreboards.Services
         public int[] GetUserGamesAndPointsUpToGame(UserGame userGame, string userId )
         {
             var userOneGames = _context.UserGames.Where(game => game.User_01_Id == userId
-                    && game.GamePlayed.Id == userGame.GamePlayed.Id &&
-                    game.Id < userGame.Id);
+                               && game.GamePlayed.Id == userGame.GamePlayed.Id &&
+                               game.Id < userGame.Id);
             var userTwoGames = _context.UserGames.Where(game => game.User_02_Id == userId
-                && game.GamePlayed.Id == userGame.GamePlayed.Id &&
-                game.Id < userGame.Id);
+                               && game.GamePlayed.Id == userGame.GamePlayed.Id &&
+                               game.Id < userGame.Id);
 
             return new int[2]{userOneGames.Count() + userTwoGames.Count(),
-                userOneGames.Sum(game => game.User_01_Awarder_Points) + userTwoGames.Sum(game => game.User_02_Awarder_Points) };
+                              userOneGames.Sum(game => game.User_01_Awarder_Points) + 
+                              userTwoGames.Sum(game => game.User_02_Awarder_Points)
+                             };
         }
 
         public Task SetGameImageAsync(int userGameId, Uri uri)
