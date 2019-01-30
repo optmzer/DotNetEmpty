@@ -361,14 +361,22 @@ namespace Scoreboards.Services
         {
             if (gameId == null || gameId == "")
             {
-                var point1 = userSpecificUGList.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
-                var point2 = userSpecificUGList.Where(game => game.User_02_Id == userId).Sum(game => game.User_02_Awarder_Points);
+                var point1 = userSpecificUGList.Where(game => 
+                                                      game.User_01_Id == userId)
+                                                      .Sum(game => game.User_01_Awarder_Points);
+                var point2 = userSpecificUGList.Where(game => 
+                                                      game.User_02_Id == userId)
+                                                      .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
             else
             {
-                var point1 = userSpecificUGList.Where(game => game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_01_Awarder_Points);
-                var point2 = userSpecificUGList.Where(game => game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_02_Awarder_Points);
+                var point1 = userSpecificUGList.Where(game => 
+                                                      game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId)
+                                                      .Sum(game => game.User_01_Awarder_Points);
+                var point2 = userSpecificUGList.Where(game => 
+                                                      game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId)
+                                                      .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
         }
@@ -377,15 +385,23 @@ namespace Scoreboards.Services
             if (gameId == null || gameId == "")
             {
                 var listOfUserGames = getUserGamesByUserId(userId);
-                var point1 = listOfUserGames.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
-                var point2 = listOfUserGames.Where(game => game.User_02_Id == userId).Sum(game => game.User_02_Awarder_Points);
+                var point1 = listOfUserGames.Where(game => 
+                                                   game.User_01_Id == userId)
+                                                   .Sum(game => game.User_01_Awarder_Points);
+                var point2 = listOfUserGames.Where(game => 
+                                                   game.User_02_Id == userId)
+                                                   .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
             else
             {
                 var listOfUserGames = getUserGamesByUserId(userId);
-                var point1 = listOfUserGames.Where(game => game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_01_Awarder_Points);
-                var point2 = listOfUserGames.Where(game => game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId).Sum(game => game.User_02_Awarder_Points);
+                var point1 = listOfUserGames.Where(game => 
+                                                   game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId)
+                                                   .Sum(game => game.User_01_Awarder_Points);
+                var point2 = listOfUserGames.Where(game => 
+                                                   game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId)
+                                                   .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
         }
