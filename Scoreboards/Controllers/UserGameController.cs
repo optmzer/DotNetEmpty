@@ -195,7 +195,7 @@ namespace Scoreboards.Controllers
 
             // Check the winner
             var winner = "DRAW";
-
+            var winnerId = "DRAW";
             //var scores = model.GameScore.Split(":");
             var player1Score = Convert.ToInt32(model.GameScoreUser01);
             var player2Score = Convert.ToInt32(model.GameScoreUser02);
@@ -209,12 +209,14 @@ namespace Scoreboards.Controllers
 
             if (player1Score > player2Score)
             {// user1 won
-                winner = user1.Id;
+                winnerId = user1.Id;
+                winner = "user1";
             }
 
             if (player1Score < player2Score)
             {// user2 won
-                winner = user2.Id;
+                winnerId = user2.Id;
+                winner = "user1";
             }
 
             // set flat points & multiplier that will be used to calculate the point that each user will get
@@ -224,12 +226,22 @@ namespace Scoreboards.Controllers
             var lossMultiplier = (decimal)7.0;
 
             // CalculatePoints method passes 5 parameters
-            // 1. flat points
-            // 2. multiplier
-            // 3. user 1 id
-            // 4. user 2 id
-            // 5. winner id of current game
-            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, flatLoss, lossMultiplier, user1.Id, user2.Id, winner, gamePlayed.Id.ToString());
+            // 1. User Ones Points before calculation
+            // 2. User Twos Points before calculation
+            // 3. The winner in form "user1" or "user2"
+            // 4. The Id of the game played
+            // 5. The number of games user 1 has played
+            // 6. The number of games user 2 has played
+            // -----------------------------------------
+            // The method returns an integer array with the change in points for both users
+            // user 1: index 0
+            // user 2: index 1
+            int[] pointsCalculated = _userGameService.CalculatePoints(_userGameService.getUserPoint(user1.Id, gamePlayed.Id.ToString()),
+                                                                      _userGameService.getUserPoint(user2.Id, gamePlayed.Id.ToString()),
+                                                                      winner, 
+                                                                      gamePlayed.Id.ToString(),
+                                                                      _userGameService.getTotalGamePlayedByUserId(user1.Id),
+                                                                      _userGameService.getTotalGamePlayedByUserId(user2.Id));
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,
