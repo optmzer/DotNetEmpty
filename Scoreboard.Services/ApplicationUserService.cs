@@ -23,26 +23,39 @@ namespace Scoreboards.Services
             _userManager = userManager;
         }
 
+        /**
+         * Returns all users in the database
+         */
         public IEnumerable<ApplicationUser> GetAll()
         {
             return _context.ApplicationUsers;
         }
 
+        /**
+         * Returns all users in the database which haven't been deleted, i.e. are active
+         */
         public IEnumerable<ApplicationUser> GetAllActive()
         {
             return GetAll().Where(user => user.IsProfileDeleted == false);
         }
 
+        /**
+         * Returns the user specified by the input Id
+         */
         public ApplicationUser GetById(string userId)
         {
             return GetAll().FirstOrDefault(user => user.Id == userId);
         }
 
+        // TODO
         public Task SetRating(string userId, Type type)
         {
             throw new NotImplementedException();
         }
 
+        /**
+         * Updates a selected users motto
+         */
         public async Task SetMottoAsync(string userId, string motto)
         {
             var user = GetById(userId);
@@ -52,6 +65,9 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync();
         }
 
+        /**
+         * Sets a users profile picture
+         */
         public async Task SetProfileImageAsync(string userId, Uri uri)
         {
             var user = GetById(userId);
@@ -61,6 +77,9 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync();
         }
 
+        /**
+         * Returns a list of users which have the input role
+         */
         public IEnumerable<ApplicationUser> GetByRole(string userRole)
         {
             return
@@ -82,7 +101,6 @@ namespace Scoreboards.Services
          * ProfileImageUrl = /images/default-profile-image.png
          * Motto
          */
-
         public async Task DeleteUserProfileAsync(ApplicationUser user)
         {
             string delProfile = "Profile Deleted";
