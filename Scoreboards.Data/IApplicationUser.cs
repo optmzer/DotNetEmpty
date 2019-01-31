@@ -10,9 +10,11 @@ namespace Scoreboards.Data
     {
         ApplicationUser GetById(string userId);
         IEnumerable<ApplicationUser> GetAll();
+        IEnumerable<ApplicationUser> GetAllActive();
         Task SetProfileImageAsync(string userId, Uri uri);
         Task SetMottoAsync(string userId, string motto);
         Task SetRating(string userId, Type type);
         IEnumerable<ApplicationUser> GetByRole(string userRole);
+        Task DeleteUserProfileAsync(ApplicationUser user);
     }
 }

@@ -10,8 +10,8 @@ using Scoreboards.Data;
 namespace Scoreboards.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190119023849_Added separate score columns")]
-    partial class Addedseparatescorecolumns
+    [Migration("20190130234911_Added IsProfileDeleted column")]
+    partial class AddedIsProfileDeletedcolumn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,8 @@ namespace Scoreboards.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool>("IsProfileDeleted");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -224,6 +226,28 @@ namespace Scoreboards.Data.Migrations
                     b.ToTable("Games");
                 });
 
+            modelBuilder.Entity("Scoreboards.Data.Models.MonthlyWinners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GamePlayedId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("RecordedDate");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<string>("WinnerId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MonthlyWinners");
+                });
+
             modelBuilder.Entity("Scoreboards.Data.Models.Office", b =>
                 {
                     b.Property<int>("Id")
@@ -262,11 +286,9 @@ namespace Scoreboards.Data.Migrations
 
                     b.Property<string>("GameScore");
 
-                    b.Property<int>("GameScoreUser01")
-                        .IsRequired();
+                    b.Property<int>("GameScoreUser01");
 
-                    b.Property<int>("GameScoreUser02")
-                        .IsRequired();
+                    b.Property<int>("GameScoreUser02");
 
                     b.Property<string>("RefereeUserId");
 

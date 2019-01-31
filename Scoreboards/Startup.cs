@@ -36,7 +36,7 @@ namespace Scoreboards
             // Adding DB Context
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("SQL_DB_CONNECTION")
+                    Configuration.GetConnectionString("SQL_DB_CONNECTION_DEV")
                     ));
             // Adding user Identities.
             services.AddIdentity<ApplicationUser, ApplicationRole>(

@@ -187,7 +187,7 @@ namespace Scoreboards.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            await _userManager.DeleteAsync(user);
+            await _userService.DeleteUserProfileAsync(user);
 
             return RedirectToAction("Admin", "Users");
         }
