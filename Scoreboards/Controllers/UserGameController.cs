@@ -7,6 +7,7 @@ using Scoreboards.Data.Models;
 using Scoreboards.Hubs;
 using Scoreboards.Models.UserGames;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Scoreboards.Controllers
@@ -115,7 +116,7 @@ namespace Scoreboards.Controllers
         {
             var games = _gameService.GetAll();
 
-            var users = _userService.GetAll();
+            var users = _userService.GetAllActive().OrderBy(user => user.UserName);
 
             var model = new NewUserGameModel
             {
