@@ -33,7 +33,7 @@ tbody > tr:hover {
 }
 
 .navbar-nav {
-    padding-top: .65em;
+    padding-top: .5em;
 }
 
 .navbar-inverse, .navbar-nav > li > a, button {
@@ -43,6 +43,11 @@ tbody > tr:hover {
     line-height: 1;
     text-transform: uppercase;
     color: hsl(0,0%,100%);
+}
+
+.navbar-custom > li {
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
 }
 
 .navbar-nav > li:hover, .navbar-nav > li:focus {
