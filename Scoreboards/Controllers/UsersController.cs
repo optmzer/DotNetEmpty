@@ -47,7 +47,7 @@ namespace Scoreboards.Controllers
         {
             var model = new UsersModel
             {
-                AppUsers = _userService.GetAll()
+                AppUsers = _userService.GetAllActive()
             };
             // Display to the page
             return View(model);

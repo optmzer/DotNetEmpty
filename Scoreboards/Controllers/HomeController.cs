@@ -46,7 +46,8 @@ namespace Scoreboards.Controllers
 
             var model = new HomeIndexModel
             {
-                UsersData = leaderboardData.OrderByDescending(user => int.Parse(user.Points))
+                UsersData = leaderboardData
+                                .OrderByDescending(user => int.Parse(user.Points))
                                 .ThenByDescending(user => decimal.Parse(user.Ratio))
                                 .ThenBy(user=> user.UserName),
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
@@ -107,7 +108,8 @@ namespace Scoreboards.Controllers
 
             IEnumerable<UserGame> userGameList = _userGameService.GetAll();
             IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
-            IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAll().Select(user => {
+            IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAllActive()
+                .Select(user => {
                 int wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, gameId);
                 int losses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, gameId);
                 int draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, gameId);
@@ -128,6 +130,7 @@ namespace Scoreboards.Controllers
                     MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId)
                 };
             });
+
             return leaderboardData;
         }
         private List<SelectListItem> GetGameList(string gameId)
