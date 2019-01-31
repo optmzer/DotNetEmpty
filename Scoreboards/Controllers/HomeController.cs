@@ -195,9 +195,9 @@ namespace Scoreboards.Controllers
         }
         private List<SelectListItem> GetMonthList(string month)
         {
-            // prepare games list that will be used for dropdown
-            // if gameName is provided => set that game to be 'Selected'
-            // else => no 'Selected' game
+            // prepare months list that will be used for dropdown
+            // if month name is provided in the url query => set that month to be 'Selected'
+            // else => no 'Selected' month
             List<SelectListItem> listItems = new List<SelectListItem>();
             var monthList = _monthlyWinnersService.GetAllMonths();
             foreach (var selectedMonth in monthList)
