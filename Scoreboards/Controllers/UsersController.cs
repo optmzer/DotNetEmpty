@@ -56,6 +56,7 @@ namespace Scoreboards.Controllers
         public IActionResult Profile(string userID)
         {
             var MatchHistoryData = _userGameService.getUserGamesByUserId(userID);
+
             IEnumerable<UserGameListingModel> MatchHistory = MatchHistoryData.Select(userGame =>
             {
                 UserGameListingModel ugameModel = new UserGameListingModel
@@ -73,14 +74,14 @@ namespace Scoreboards.Controllers
                     // Game Name
                     GameName = userGame.GamePlayed.GameName,
 
-                    //Score 
+                    // Score 
                     GameScore = userGame.GameScoreUser01 + " : " + userGame.GameScoreUser02,
 
-                    //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                    // Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
                     Winner = userGame.Winner,
                 };
                 return ugameModel;
-            });
+            }).OrderByDescending(game => game.Id);
 
             ApplicationUser user = _userService.GetById(userID);
             IEnumerable<UserGame> userGameList = _userGameService.GetAll();
@@ -129,8 +130,8 @@ namespace Scoreboards.Controllers
 
             var model = new UsersModel
             {
-                AppUsers = _userService.GetAll(),
-                ListOfAdmins = _userService.GetByRole("Admin")
+                AppUsers = _userService.GetAll().OrderBy(user => user.UserName),
+                ListOfAdmins = _userService.GetByRole("Admin").OrderBy(user => user.UserName)
             };
 
             return View(model);
