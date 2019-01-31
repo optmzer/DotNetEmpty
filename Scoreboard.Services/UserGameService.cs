@@ -713,7 +713,7 @@ namespace Scoreboards.Services
                 {
                     winner = "user1";
                 }
-                else
+                else if (currentUserGame.Winner == userTwoId)
                 {
                     winner = "user2";
                 }
