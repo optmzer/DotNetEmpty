@@ -6,13 +6,13 @@ namespace Scoreboards.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<int>(
                 name: "GameScoreUser01",
                 table: "UserGames",
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<int>(
                 name: "GameScoreUser02",
                 table: "UserGames",
                 nullable: false,

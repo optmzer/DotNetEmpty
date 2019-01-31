@@ -14,12 +14,10 @@ namespace Scoreboards.Services
     public class UserGameService : IUserGame
     {
         private readonly ApplicationDbContext _context;
-        private readonly IApplicationUser _userService;
         private readonly IMonthlyWinners _monthlyWinnersService;
         public UserGameService(ApplicationDbContext context, IApplicationUser userService, IMonthlyWinners monthlyWinnersService)
         {
             _context = context;
-            _userService = userService;
             _monthlyWinnersService = monthlyWinnersService;
         }
 

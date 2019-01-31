@@ -47,7 +47,7 @@ namespace Scoreboards.Controllers
         {
             var model = new UsersModel
             {
-                AppUsers = _userService.GetAll()
+                AppUsers = _userService.GetAllActive()
             };
             // Display to the page
             return View(model);
@@ -187,7 +187,7 @@ namespace Scoreboards.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            await _userManager.DeleteAsync(user);
+            await _userService.DeleteUserProfileAsync(user);
 
             return RedirectToAction("Admin", "Users");
         }

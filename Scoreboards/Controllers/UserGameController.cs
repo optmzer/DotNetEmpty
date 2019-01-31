@@ -200,13 +200,6 @@ namespace Scoreboards.Controllers
             var player1Score = Convert.ToInt32(model.GameScoreUser01);
             var player2Score = Convert.ToInt32(model.GameScoreUser02);
 
-            //if (scores.Length != 0)
-            //{
-            //    player1Score = Convert.ToInt32(scores.GetValue(0));
-            //    player2Score = Convert.ToInt32(scores.GetValue(1));
-            //}
-
-
             if (player1Score > player2Score)
             {// user1 won
                 winner = user1.Id;
