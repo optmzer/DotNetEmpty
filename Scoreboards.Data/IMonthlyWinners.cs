@@ -12,5 +12,6 @@ namespace Scoreboards.Data
         IEnumerable<MonthlyWinners> GetAllAwardsByUserIdAndGameId(string userId, string gameId);
         IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(string userId, string gameId);
         IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId);
+        List<string> GetAllMonths();
     }
 }

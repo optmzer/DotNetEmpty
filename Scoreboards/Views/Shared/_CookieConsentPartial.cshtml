@@ -19,12 +19,13 @@
                 </button>
                 <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
             </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
-                </p>
+            <div class="collapse navbar-collapse" style="text-align:center;">
+                    <p class="navbar-text">
+                        We use cookies to enhance your experience. By continuing to visit The Instillery Scoreboards you agree to our use of cookies.
+                    </p>
                 <div class="navbar-right">
-                    <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
+                    @*<a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>*@
+                    <a class="btn btn-info navbar-btn" href="https://theinstillery.com/terms-conditions/">Learn More</a>
                     <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
                 </div>
             </div>

@@ -23,21 +23,39 @@ namespace Scoreboards.Services
             _userManager = userManager;
         }
 
+        /**
+         * Returns all users in the database
+         */
         public IEnumerable<ApplicationUser> GetAll()
         {
             return _context.ApplicationUsers;
         }
 
+        /**
+         * Returns all users in the database which haven't been deleted, i.e. are active
+         */
+        public IEnumerable<ApplicationUser> GetAllActive()
+        {
+            return GetAll().Where(user => user.IsProfileDeleted == false);
+        }
+
+        /**
+         * Returns the user specified by the input Id
+         */
         public ApplicationUser GetById(string userId)
         {
             return GetAll().FirstOrDefault(user => user.Id == userId);
         }
 
+        // TODO
         public Task SetRating(string userId, Type type)
         {
             throw new NotImplementedException();
         }
 
+        /**
+         * Updates a selected users motto
+         */
         public async Task SetMottoAsync(string userId, string motto)
         {
             var user = GetById(userId);
@@ -47,6 +65,9 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync();
         }
 
+        /**
+         * Sets a users profile picture
+         */
         public async Task SetProfileImageAsync(string userId, Uri uri)
         {
             var user = GetById(userId);
@@ -56,6 +77,9 @@ namespace Scoreboards.Services
             await _context.SaveChangesAsync();
         }
 
+        /**
+         * Returns a list of users which have the input role
+         */
         public IEnumerable<ApplicationUser> GetByRole(string userRole)
         {
             return
@@ -65,5 +89,42 @@ namespace Scoreboards.Services
                 where roles.Name == userRole
                 select user;
         }
+
+        /**
+         * This does not delete profile but replaces user data with
+         * "Deleted user instead of the name"
+         * UserName
+         * NormalizedUserName
+         * Email
+         * NormalizedEmail
+         * EmailConfirmed
+         * ProfileImageUrl = /images/default-profile-image.png
+         * Motto
+         */
+        public async Task DeleteUserProfileAsync(ApplicationUser user)
+        {
+            string delProfile = "Profile Deleted";
+            string defaultProfileImageUrl = "/images/default-profile-image.png";
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in userRoles)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+            }
+
+            user.UserName = delProfile;
+            user.NormalizedUserName = delProfile.Normalize();
+            user.Email = delProfile;
+            user.NormalizedEmail = delProfile.Normalize();
+            user.EmailConfirmed = false;
+            user.ProfileImageUrl = defaultProfileImageUrl;
+            user.Motto = delProfile;
+            user.IsProfileDeleted = true;
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

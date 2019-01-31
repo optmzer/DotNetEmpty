@@ -7,6 +7,7 @@ using Scoreboards.Data.Models;
 using Scoreboards.Hubs;
 using Scoreboards.Models.UserGames;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Scoreboards.Controllers
@@ -115,7 +116,7 @@ namespace Scoreboards.Controllers
         {
             var games = _gameService.GetAll();
 
-            var users = _userService.GetAll();
+            var users = _userService.GetAllActive().OrderBy(user => user.UserName);
 
             var model = new NewUserGameModel
             {
@@ -199,13 +200,6 @@ namespace Scoreboards.Controllers
             //var scores = model.GameScore.Split(":");
             var player1Score = Convert.ToInt32(model.GameScoreUser01);
             var player2Score = Convert.ToInt32(model.GameScoreUser02);
-
-            //if (scores.Length != 0)
-            //{
-            //    player1Score = Convert.ToInt32(scores.GetValue(0));
-            //    player2Score = Convert.ToInt32(scores.GetValue(1));
-            //}
-
 
             if (player1Score > player2Score)
             {// user1 won
