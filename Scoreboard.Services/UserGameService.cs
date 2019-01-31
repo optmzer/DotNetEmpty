@@ -708,7 +708,7 @@ namespace Scoreboards.Services
                 }
 
                 // Calculates the winner and sets the strings to their appropriate values.
-                string winner;
+                string winner = "DRAW";
                 if (currentUserGame.Winner == userOneId)
                 {
                     winner = "user1";

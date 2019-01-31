@@ -198,14 +198,20 @@ namespace Scoreboards.Controllers
             // prepare months list that will be used for dropdown
             // if month name is provided in the url query => set that month to be 'Selected'
             // else => no 'Selected' month
+            List<string> monthList = new List<string>();
+            for (int i = -1; i > -13; i--)
+            {
+                var time = DateTime.Now.AddMonths(i);
+                string item = time.ToString("MMMM") + ' ' + time.Year;
+                monthList.Add(item);
+            }
             List<SelectListItem> listItems = new List<SelectListItem>();
-            var monthList = _monthlyWinnersService.GetAllMonths();
             foreach (var selectedMonth in monthList)
             {
                 var listItem = new SelectListItem
                 {
-                    Text = selectedMonth.Replace(" Champion", ""),
-                    Value = selectedMonth.Replace(" Champion", ""),
+                    Text = selectedMonth,
+                    Value = selectedMonth,
                     Selected = false
                 };
                 if (month == listItem.Value)
