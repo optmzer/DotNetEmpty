@@ -31,7 +31,22 @@
                                 <tr>
                                     <td class="match-history-table-td">
                                         <div class="match-history-table-outer-div">
-                                            @match.GameName
+                                            <div>
+                                                <span class="match-history-game-name">
+                                                    @match.GameName
+                                                </span>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <span class="edit-delete-game">
+                                                        <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a asp-controller="UserGame" asp-action="DeleteUserGame" asp-route-userGameId="@match.Id">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    </span>
+                                                }
+                                            </div>
                                             <div class="match-history-table-middle-div">
                                                 <div class="match-history-table-inner-edge-div">
                                                     @match.User_01.UserName<br />

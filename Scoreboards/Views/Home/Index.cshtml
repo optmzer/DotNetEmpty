@@ -7,32 +7,17 @@
 
 <div class="page-content home-page">
     <div class="row display-next-to-each-other">
-        <div class="float-left1 col-xs-12 col-sm-8 col-md-8 col-lg-8">
+        <div class="float-left1 col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h3>Scoreboards</h3>
         </div>
-        <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
-            @Html.DropDownListFor(listItem => listItem.monthSelected,
-                            new SelectList(
-                                Model.DropDownSeasons,
-                            "Value",
-                            "Text",
-                            Model.monthSelected == "0"
-                            ? Model.DropDownSeasons[0].Selected
-                            : Model.DropDownSeasons[ Model.DropDownSeasons.FindIndex(item => item.Value == Model.monthSelected)].Selected),
-                            "Overall",
-                            new
-                            {
-                                @onchange = "document.location.href = '/Home/Index?month=' + this.options[this.selectedIndex].value ;"
-                            })
-        </div>
-        <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
+        <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-3 col-md-3 col-lg-3">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
                             new SelectList(
-                                Model.DropDownData,
-                            "Value",
-                            "Text",
-                            Model.itemSelected == "0"
-                            ? Model.DropDownData[0].Selected
+                                Model.DropDownData, 
+                            "Value", 
+                            "Text", 
+                            Model.itemSelected == "0" 
+                            ? Model.DropDownData[0].Selected 
                             : Model.DropDownData[ Model.DropDownData.FindIndex(item => item.Value == Model.itemSelected)].Selected),
                             "Overall",
                             new
