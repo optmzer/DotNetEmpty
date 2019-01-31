@@ -10,7 +10,7 @@ body {
     line-height: 1.7;
     font-size: 16px;
 }
-home-page, user-page, game-page > h3, label {
+.home-page, .user-page, .game-page > h3, label {
     color: #fff;
 }
 .body-content {
@@ -26,15 +26,13 @@ tbody > tr:hover {
 /* NAVBAR CUSTOM COLORING */
 .navbar {
     background-color: #000 !important;
+    border: none !important;
 }
 
-.navbar-header {
+.navbar-header-custom {
     padding: 7px 0;
 }
 
-.navbar-nav {
-    padding-top: .5em;
-}
 
 .navbar-inverse, .navbar-nav > li > a, button {
     font-family: inherit;
@@ -45,12 +43,17 @@ tbody > tr:hover {
     color: hsl(0,0%,100%);
 }
 
-.navbar-custom > li {
+.navbar-nav-custom > li {
     border-top: 3px solid #000;
     border-bottom: 3px solid #000;
 }
 
-.navbar-nav > li:hover, .navbar-nav > li:focus {
+.navbar-nav-custom > li > a {
+    padding-top: 21px;
+    padding-bottom: 22px;
+}
+
+.navbar-nav-custom > li:hover, navbar-nav-custom > li:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
@@ -60,9 +63,29 @@ tbody > tr:hover {
     padding-bottom: 0;
 }
 
+.login-partial-user-avatar > img {
+    width: 1.2em;
+    height: 1.2em;
+    object-fit: cover;
+    margin-bottom: -5px;
+    margin-top: -8px;
+}
+
+.navbar-link-custom {
+    text-decoration: none !important;
+    padding-top: 9px;
+    padding-bottom: 10px;
+    font-size: 1em;
+}
+
 /* LOGO */
 .instillery-logo-navbar {
     width: 7em;
+    background-image: url("/images/The-Instillery-Logo-LoRes.png");
+    height: 2.89em;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: -1px;
 }
 
 /* ADMIN PAGE */

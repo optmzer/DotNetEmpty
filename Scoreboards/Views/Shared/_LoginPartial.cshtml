@@ -11,12 +11,12 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right navbar-custom">
+        <ul class="nav navbar-nav navbar-right navbar-nav-custom">
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                    <div>
-                        <span>
-                            <img src="@user.ProfileImageUrl" style="width: 1.2em; height: 1.2em; object-fit: cover;" />
+                    <div >
+                        <span class="login-partial-user-avatar">
+                            <img src="@user.ProfileImageUrl" />
                         </span>
                         <span>
                             @UserManager.GetUserName(User)!
@@ -26,8 +26,7 @@
             </li>
             <li>
                 <button type="submit" 
-                        class="btn btn-link navbar-btn navbar-link"
-                        style="text-decoration: none; margin: .45em .2em 0 0;"
+                        class="btn btn-link navbar-btn navbar-link navbar-link-custom"
                 >Logout</button>
             </li>
         </ul>
@@ -35,7 +34,7 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right navbar-custom">
+    <ul class="nav navbar-nav navbar-right navbar-nav-custom">
         <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
         <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
     </ul>
