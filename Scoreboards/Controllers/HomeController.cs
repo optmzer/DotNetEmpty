@@ -38,11 +38,12 @@ namespace Scoreboards.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index(string gameId)
+        public IActionResult Index(string gameId, string month)
         {
             List<SelectListItem> listItems = GetGameList(gameId);
             IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
             IEnumerable<LeaderboardUserModel> leaderboardData = prepareLeaderBoard(gameId);
+            List<SelectListItem> months = GetMonthList(month);
 
             var model = new HomeIndexModel
             {
@@ -52,7 +53,9 @@ namespace Scoreboards.Controllers
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
                 LatestGames = MatchHistoryList,
                 DropDownData = listItems,
-                itemSelected = gameId == null ? "0" : gameId
+                itemSelected = gameId == null ? "0" : gameId,
+                DropDownSeasons = months,
+                monthSelected = month == null ? "0" : month
             };
             // Display to the page
             return View(model);
@@ -186,6 +189,29 @@ namespace Scoreboards.Controllers
                     return model1;
                 });
             return MatchHistoryList;
+        }
+        private List<SelectListItem> GetMonthList(string month)
+        {
+            // prepare games list that will be used for dropdown
+            // if gameName is provided => set that game to be 'Selected'
+            // else => no 'Selected' game
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            var monthList = _monthlyWinnersService.GetAllMonths();
+            foreach (var selectedMonth in monthList)
+            {
+                var listItem = new SelectListItem
+                {
+                    Text = selectedMonth.Replace(" Champion", ""),
+                    Value = selectedMonth.Replace(" Champion", ""),
+                    Selected = false
+                };
+                if (month == listItem.Value)
+                {
+                    listItem.Selected = true;
+                }
+                listItems.Add(listItem);
+            }
+            return listItems;
         }
     }
 }

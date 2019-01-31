@@ -60,5 +60,14 @@ namespace Scoreboards.Services
                     .Where(award => award.WinnerId == userId && award.GamePlayedId.ToLower() == gameId.ToLower() && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month);
             }
         }
+        public List<string> GetAllMonths()
+        {
+            var awardsList = _context.MonthlyWinners.Select(award => 
+                                                            award.Title);
+            // This line isn't working the change was instead made in the home controller
+            //awardsList.ToList().ForEach(title => 
+            //                            title = title.Replace(" Champion", ""));
+            return awardsList.ToList();
+        }
     }
 }
