@@ -12,5 +12,6 @@ namespace Scoreboards.Models.GamePage
     {
         public Game GameDetail { get; set; }
         public IEnumerable<UserGameListingModel> GameSpecificMatchHistory { get; set; }
+        public string ReigningChampion { get; set; }
     }
 }

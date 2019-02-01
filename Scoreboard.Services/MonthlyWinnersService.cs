@@ -103,6 +103,26 @@ namespace Scoreboards.Services
             }
         }
 
+        public string GetPastMonthWinnerWithGameId(string gameId)
+        {
+            if (gameId == "" || gameId == null || gameId.ToLower() == "overall")
+            {
+                return _context.MonthlyWinners
+                           .Where(award =>
+                           award.GamePlayedId.ToLower() == "overall"
+                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           .Select(award => award.WinnerId).FirstOrDefault();
+            }
+            else
+            {
+                return _context.MonthlyWinners
+                           .Where(award =>
+                           award.GamePlayedId.ToLower() == gameId.ToLower()
+                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           .Select(award => award.WinnerId).FirstOrDefault();
+            }
+        }
+
         /**
          * Returns all the months which awards have been given out for. Used to display in the dropdown menu
          * and for filtering the home page scoreboard.
