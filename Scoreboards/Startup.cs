@@ -49,7 +49,7 @@ namespace Scoreboards
                     options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
+                .AddDefaultUI() // Uses default Account/Manage/_Layout.cshtml
                 .AddDefaultTokenProviders();
 
             // Injects IUserGame interface into Scoreboards.

@@ -295,7 +295,7 @@ legend.admin-delete-user-legend {
 }
 
 /*HOME PAGE*/
-.home-page, .game-page, .user-page {
+.home-page, .game-page, .user-page, .company-info {
     color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
@@ -424,6 +424,13 @@ legend.user-game-legend {
     background-color: #f0f0f0;
     text-transform: capitalize;
 }
+
+/* ABOUT PAGE */
+.company-info {
+    background-image: url(/images/shutterstock_217325476.jpg);
+    padding: 15px 30px;
+}
+
 
 /* FOOTER */
 .footer-partial {
