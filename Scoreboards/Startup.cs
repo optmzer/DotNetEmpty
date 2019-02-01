@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Scoreboards.Data.Models;
 using Scoreboards.Hubs;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Scoreboards
 {
@@ -99,7 +101,8 @@ namespace Scoreboards
             //dataSeed.Initiate().Wait();
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(); // for wwwroot in main project
+
             app.UseCookiePolicy();
 
             app.UseAuthentication();
