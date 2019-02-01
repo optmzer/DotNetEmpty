@@ -184,7 +184,7 @@ namespace Scoreboards.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeletUserProfile(string userId)
+        public async Task<IActionResult> DeleteUserProfile(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
