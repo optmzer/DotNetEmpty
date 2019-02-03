@@ -22,8 +22,9 @@
                             "Overall",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?month=' + this.options[this.selectedIndex].value ;"
-                            })
+                                @id = "gameDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=" + Model.itemSelected.ToString() + "&month=' + this.options[this.selectedIndex].value ;"
+            })
         </div>
         <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
@@ -37,7 +38,8 @@
                             "Overall",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value ;"
+                                @id = "monthDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value " + " + '&month=" + Model.monthSelected + "' ;"
                             })
         </div>
     </div>

@@ -28,7 +28,10 @@ namespace Scoreboards.Services
         {
             return _context.UserGames.Include(game => game.GamePlayed);
         }
-
+        public IEnumerable<UserGame> GetAll(DateTime monthFetched)
+        {
+            return _context.UserGames.Include(game => game.GamePlayed).Where(game=> game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+        }
         /**
          * Gets the latest games, the number returned is specified in the input
          */
@@ -50,7 +53,7 @@ namespace Scoreboards.Services
             {
                 // if game Id is null, provide overall
                 // else provide specified game wins
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -68,7 +71,7 @@ namespace Scoreboards.Services
             {
                 // if game Id is null, provide overall
                 // else provide specified game wins
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId== "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -94,7 +97,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of draws for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -112,7 +115,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of draws for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -138,7 +141,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of losses for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -158,7 +161,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of losses for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -269,7 +272,7 @@ namespace Scoreboards.Services
         public IEnumerable<UserGame> getUserGamesByGameId(string gameId)
         {
             // If input Id is null or empty all games are returned
-            if (gameId==null||gameId=="")
+            if (gameId==null||gameId== "" || gameId == "0")
             {
                 return GetAll();
             }
@@ -278,6 +281,26 @@ namespace Scoreboards.Services
                 return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameId));
             }
             
+        }
+        public IEnumerable<UserGame> getUserGamesByGameIdAndMonth(string gameId, DateTime monthFetched)
+        {
+            
+            // If input Id is null or empty all games are returned
+            if (gameId == null || gameId == "" || gameId == "0")
+            {
+                return _context.UserGames.Include(game => game.GamePlayed).Where(game => game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+            }
+            else
+            {
+                IEnumerable<UserGame> x = _context.UserGames.Include(game => game.GamePlayed);
+                x = x.Where(game => (game.GamePlayed.Id.ToString() == gameId));
+                x = x.Where(game => (game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year));
+                return x;
+                // below return statement is exactly same as above but it throws error: Method System.String ToString() declared on type System.Int32 cannot be called with instance of type System.Nullable1[System.Int32] string
+                //return _context.UserGames.Include(game => game.GamePlayed)
+                //    .Where(game => (game.GamePlayed.Id.ToString() == gameId) && game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+            }
+
         }
 
         /**
@@ -478,7 +501,7 @@ namespace Scoreboards.Services
         public int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId)
         {
             // If the gameId is null or empty, provides a users overall points.
-            if (gameId == null || gameId == "")
+            if (gameId == null || gameId == "" || gameId == "0")
             {
                 var point1 = userSpecificUGList.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
                 var point2 = userSpecificUGList.Where(game => game.User_02_Id == userId).Sum(game => game.User_02_Awarder_Points);
@@ -499,7 +522,7 @@ namespace Scoreboards.Services
         public int getUserPoint(string userId, string gameId)
         {
             // If the gameId is null or empty, provides a users overall points.
-            if (gameId == null || gameId == "")
+            if (gameId == null || gameId == "" || gameId == "0")
             {
                 var listOfUserGames = getUserGamesByUserId(userId);
                 var point1 = listOfUserGames.Where(game => game.User_01_Id == userId).Sum(game => game.User_01_Awarder_Points);
