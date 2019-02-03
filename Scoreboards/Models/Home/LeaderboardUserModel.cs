@@ -16,6 +16,7 @@ namespace Scoreboards.Models.Home
         public string Loses { get; set; }
         public string Ratio { get; set; }
         public string Points { get; set; }
+        public bool IsProfileDeleted { get; set; }
         public IEnumerable<MonthlyWinners> MonthlyWins { get; set; }
     }
 }

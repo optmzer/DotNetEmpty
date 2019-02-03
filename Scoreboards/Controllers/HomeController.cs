@@ -130,7 +130,8 @@ namespace Scoreboards.Controllers
                     Loses = losses.ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
                     Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
-                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId)
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId),
+                    IsProfileDeleted = user.IsProfileDeleted
                 };
             });
 
