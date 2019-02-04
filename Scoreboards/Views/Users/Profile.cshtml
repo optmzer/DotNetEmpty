@@ -35,23 +35,34 @@
 <div class="row page-content user-page row-margin-override">
     <div class="profile-margin">
         <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-            <div>
-                <picture class="profile-picture">
-                    <img src="@Model.User.ProfileImageUrl" />
-                </picture>
+            <div class="profile-picture-border">
+                <div class="profile-picture">
+                    <img class="profile-image" src="@Model.User.ProfileImageUrl" />
+                </div>
             </div>
             <div class="profile-info text-truncate">
                 <label>
+                    <span class="profile-icon-container"><i class="fa fa-user profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.UserName
                     @if (await _userManager.IsInRoleAsync(Model.User, "Admin"))
                     {
-                        <span>
-                            <i class="fa fa-key admin-key"></i>
-                        </span>
+                    <span>
+                        &nbsp;
+                        <i class="fa fa-key admin-key"></i>
+                    </span>
                     }
-                    @Model.User.UserName
                 </label><br />
-                <label>@Model.User.Email</label><br />
-                <label class="label-area">@Model.User.Motto</label><br />
+                <label>
+                    <span class="profile-icon-container"><i class="fa fa-envelope profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.Email
+                </label><br />
+                <label class="label-area">
+                    <span class="profile-icon-container"><i class="fa fa-comment profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.Motto
+                </label><br />
             </div>
         </div>
         <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
@@ -93,6 +104,10 @@
                 <p>Draws: @Model.GameStatistcs[gameName].Draws</p>
                 <p>Losses: @Model.GameStatistcs[gameName].Loses</p>
                 <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
                 @if (Model.GameStatistcs[gameName].MonthlyWins.Count() != 0)
                 {
                     <label class="label-area">Past Awards</label><br />
@@ -105,7 +120,7 @@
                 }
             }
         </div>
-        <div class="game-detail-table-div col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="float-right1 game-detail-table-div col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <table class="table">
                 <thead class="game-detail-thead">
                     <tr>
