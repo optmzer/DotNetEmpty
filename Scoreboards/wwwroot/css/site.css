@@ -143,7 +143,29 @@ legend.admin-delete-user-legend {
     max-width: 300px;
     height: 100%;
     width: 100%;
+    border: 5px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
 }
+
+.profile-picture-border  {
+    max-height:305px;
+    max-width:305px;
+    border:5px solid white;
+    border-radius: 5px;
+}
+
+.img {
+    border-radius: 5px;
+}
+
+/*.profile-picture:after {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: white;
+}*/
 
 .row-margin-override {
     margin-left: 0px;
@@ -168,6 +190,14 @@ legend.admin-delete-user-legend {
 .label-area {
     width: 100%;
     white-space:initial;
+}
+
+.profile-information-icons {
+        width: 15px;;
+}
+
+.profile-icon-container {
+    text-align:center;
 }
 
 /* Style the tab */
@@ -212,6 +242,9 @@ legend.admin-delete-user-legend {
     display: none;
     padding: 6px 12px;
     border-top: none;
+    height: 342px;
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 /* STYLE FOR THE CARD FORMAT ON USER AND GAME SEARCH*/
@@ -509,10 +542,9 @@ legend.user-game-legend {
 
 /* GAME DETAIL PAGE*/
 .game-detail-table-div {
-    padding-top: 0;
-    padding-bottom: 0;
     height: 400px;
     overflow-y: auto;
+    padding-left: 15px;
 }
 .game-profile-table-div {
     padding-top: 0;
