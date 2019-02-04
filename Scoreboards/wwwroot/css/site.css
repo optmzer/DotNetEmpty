@@ -386,6 +386,33 @@ legend.admin-delete-user-legend {
     align-content:stretch;
     align-self:stretch;
 }
+
+.home-page {
+    padding: 10px !important;
+}
+
+.user-trophy {
+    margin-left: -1px;
+    color: gold;
+    background-color: inherit;
+    font-size: 1em;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.leader-table-rank-number {
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+.home-leader-table-cell {
+    white-space: nowrap;
+    height: 40px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
 @media only screen and (max-width: 920px) {
     .toggle-table-column {
         display: none;
@@ -570,27 +597,4 @@ legend.user-game-legend {
 
 .button-inline-group-button {
     margin: 15px;
-}
-.home-page {
-    padding: 10px !important;
-}
-.user-trophy {
-    margin-left: -1px;
-    color: gold;
-    background-color: inherit;
-    font-size: 1em;
-    margin-bottom: 5px;
-}
-
-.leader-table-rank-number {
-    text-align: center;
-    margin-bottom: 0 !important;
-}
-
-.home-leader-table-cell {
-    white-space: nowrap;
-    height: 40px;
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
 }
