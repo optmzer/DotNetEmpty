@@ -576,5 +576,6 @@ legend.user-game-legend {
 }
 .user-trophy {
     margin-left: -1px;
-    color:gold;
+    color: gold;
+    background-color: inherit;
 }
