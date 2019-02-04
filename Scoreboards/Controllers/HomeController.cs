@@ -41,8 +41,20 @@ namespace Scoreboards.Controllers
         public IActionResult Index(string gameId, string month)
         {
             List<SelectListItem> listItems = GetGameList(gameId);
-            IEnumerable<UserGameListingModel> MatchHistoryList = GetMatchHistory(gameId);
-            IEnumerable<LeaderboardUserModel> leaderboardData = prepareLeaderBoard(gameId);
+            IEnumerable<UserGameListingModel> MatchHistoryList;
+            IEnumerable<LeaderboardUserModel> leaderboardData;
+            DateTime monthFetched;
+            if (month != null && month != "0")
+            {
+                int substract = -1 * Int32.Parse(month) + 1;
+                monthFetched = DateTime.Now.AddMonths(substract);
+                MatchHistoryList = GetMatchHistory(gameId, monthFetched);
+                leaderboardData = prepareLeaderBoard(gameId, monthFetched);
+            } else
+            {
+                MatchHistoryList = GetMatchHistory(gameId);
+                leaderboardData = prepareLeaderBoard(gameId);
+            }
             List<SelectListItem> months = GetMonthList(month);
 
             var model = new HomeIndexModel
@@ -54,9 +66,9 @@ namespace Scoreboards.Controllers
                 // @lewis: LatestGames was MatchHistoryData from lewis's code
                 LatestGames = MatchHistoryList,
                 DropDownData = listItems,
-                itemSelected = gameId == null ? "0" : gameId,
+                itemSelected = gameId == null || gameId == "0" ? "0" : gameId,
                 DropDownSeasons = months,
-                monthSelected = month == null ? "0" : month
+                monthSelected = month == null || month == "0" ? "0" : month
             };
             // Display to the page
             return View(model);
@@ -113,6 +125,36 @@ namespace Scoreboards.Controllers
             IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
             IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAllActive()
                 .Select(user => {
+                    int wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, gameId);
+                    int losses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, gameId);
+                    int draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, gameId);
+                    IEnumerable<UserGame> userSpecificUGList = userGameList.Where(userGame =>
+                        (userGame.User_01_Id.ToString() == user.Id)
+                        || userGame.User_02_Id.ToString() == user.Id);
+
+                    return new LeaderboardUserModel
+                    {
+                        UserId = user.Id,
+                        ProfileImageUrl = user.ProfileImageUrl,
+                        UserName = user.UserName,
+                        Wins = wins.ToString(),
+                        Draws = draws.ToString(),
+                        Loses = losses.ToString(),
+                        Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
+                        Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
+                        MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId)
+                    };
+                });
+
+            return leaderboardData;
+        }
+        private IEnumerable<LeaderboardUserModel> prepareLeaderBoard(string gameId, DateTime monthFetched)
+        {
+
+            IEnumerable<UserGame> userGameList = _userGameService.GetAll(monthFetched);
+            IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
+            IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAllActive()
+                .Select(user => {
                 int wins = _userGameService.getWinsByIdAndGameId(userGameList, user.Id, gameId);
                 int losses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, gameId);
                 int draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, gameId);
@@ -130,7 +172,8 @@ namespace Scoreboards.Controllers
                     Loses = losses.ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
                     Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
-                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId)
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId),
+                    IsProfileDeleted = user.IsProfileDeleted
                 };
             });
 
@@ -143,12 +186,13 @@ namespace Scoreboards.Controllers
             // else => no 'Selected' game
             List<SelectListItem> listItems = new List<SelectListItem>();
             var gameList = _gameService.GetAll();
+            var index = 1;
             foreach (var game in gameList)
             {
                 var listItem = new SelectListItem
                 {
                     Text = game.GameName,
-                    Value = game.Id.ToString(),
+                    Value = index.ToString(),
                     Selected = false
                 };
                 if (gameId == listItem.Value)
@@ -156,6 +200,7 @@ namespace Scoreboards.Controllers
                     listItem.Selected = true;
                 }
                 listItems.Add(listItem);
+                index++;
             }
             return listItems;
         }
@@ -193,19 +238,60 @@ namespace Scoreboards.Controllers
                 });
             return MatchHistoryList;
         }
+        private IEnumerable<UserGameListingModel> GetMatchHistory(string gameId, DateTime monthFetched)
+        {
+            // prepare match history for specific game or overall game
+            IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
+                .getUserGamesByGameIdAndMonth(gameId, monthFetched)
+                .OrderByDescending((x) => x.GamePlayedOn)
+                .Take(5)
+                .Select((userGameItem) =>
+                {
+                    UserGameListingModel model1 = new UserGameListingModel
+                    {
+                        Id = userGameItem.Id,
+                        //Game played Date
+                        GamePlayedOn = userGameItem.GamePlayedOn,
+
+                        //Players detail
+                        User_01 = _userService.GetById(userGameItem.User_01_Id),
+                        User_01_Team = userGameItem.User_01_Team,
+                        User_02 = _userService.GetById(userGameItem.User_02_Id),
+                        User_02_Team = userGameItem.User_02_Team,
+
+                        // Game Name
+                        GameName = userGameItem.GamePlayed.GameName,
+
+                        //Score 
+                        GameScore = userGameItem.GameScoreUser01 + " : " + userGameItem.GameScoreUser02,
+
+                        //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
+                        Winner = userGameItem.Winner,
+                    };
+                    return model1;
+                });
+            return MatchHistoryList;
+        }
         private List<SelectListItem> GetMonthList(string month)
         {
             // prepare months list that will be used for dropdown
             // if month name is provided in the url query => set that month to be 'Selected'
             // else => no 'Selected' month
+            List<string> monthList = new List<string>();
+            for (int i = 0; i > -12; i--)
+            {
+                var time = DateTime.Now.AddMonths(i);
+                string item = time.ToString("MMMM") + ' ' + time.Year;
+                monthList.Add(item);
+            }
             List<SelectListItem> listItems = new List<SelectListItem>();
-            var monthList = _monthlyWinnersService.GetAllMonths();
+            var index = 1;
             foreach (var selectedMonth in monthList)
             {
                 var listItem = new SelectListItem
                 {
-                    Text = selectedMonth.Replace(" Champion", ""),
-                    Value = selectedMonth.Replace(" Champion", ""),
+                    Text = selectedMonth,
+                    Value = index.ToString(),
                     Selected = false
                 };
                 if (month == listItem.Value)
@@ -213,6 +299,7 @@ namespace Scoreboards.Controllers
                     listItem.Selected = true;
                 }
                 listItems.Add(listItem);
+                index++;
             }
             return listItems;
         }

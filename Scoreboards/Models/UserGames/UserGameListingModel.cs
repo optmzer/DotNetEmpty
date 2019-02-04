@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Scoreboards.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scoreboards.Models.UserGames
 {
@@ -13,11 +11,11 @@ namespace Scoreboards.Models.UserGames
         public DateTime GamePlayedOn { get; set; }
 
         //Players detail
-        public IdentityUser User_01 { get; set; }
+        public ApplicationUser User_01 { get; set; }
         public string User_01_Id { get; set; }
         public string User_01_Name { get; set; }
         public string User_01_Team { get; set; }
-        public IdentityUser User_02 { get; set; }
+        public ApplicationUser User_02 { get; set; }
         public string User_02_Id { get; set; }
         public string User_02_Name { get; set; }
         public string User_02_Team { get; set; }

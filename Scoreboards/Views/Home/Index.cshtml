@@ -1,6 +1,7 @@
 ﻿@model Scoreboards.Models.Home.HomeIndexModel
 
 @{
+    string profileDeleted = "Profile Deleted";
     ViewData["Title"] = "The Instillery Scoreboards";
     int i = 1;
 }
@@ -22,8 +23,9 @@
                             "Overall",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?month=' + this.options[this.selectedIndex].value ;"
-                            })
+                                @id = "gameDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=" + Model.itemSelected.ToString() + "&month=' + this.options[this.selectedIndex].value ;"
+            })
         </div>
         <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
@@ -37,7 +39,8 @@
                             "Overall",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value ;"
+                                @id = "monthDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value " + " + '&month=" + Model.monthSelected + "' ;"
                             })
         </div>
     </div>
@@ -147,15 +150,31 @@
                                         </div>
                                         <div class="match-history-table-middle-div">
                                             <div class="match-history-table-inner-edge-div">
-                                                @match.User_01.UserName<br />
-                                                @match.User_01_Team
+                                                @if (match.User_01.IsProfileDeleted)
+                                                {
+                                                    @profileDeleted<br />
+                                                    @match.User_01_Team
+                                                }
+                                                else
+                                                {
+                                                    @match.User_01.UserName<br />
+                                                    @match.User_01_Team
+                                                }
                                             </div>
                                             <div class="match-history-table-inner-center-div">
                                                 vs
                                             </div>
                                             <div class="match-history-table-inner-edge-div">
-                                                @match.User_02.UserName<br />
-                                                @match.User_02_Team
+                                                @if (match.User_02.IsProfileDeleted)
+                                                {
+                                                    @profileDeleted<br />
+                                                    @match.User_02_Team
+                                                }
+                                                else
+                                                {
+                                                    @match.User_02.UserName<br />
+                                                    @match.User_02_Team
+                                                }
                                             </div>
                                         </div>
                                         <div style="flex-direction:row;">
