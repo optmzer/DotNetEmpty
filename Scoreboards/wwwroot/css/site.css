@@ -92,6 +92,7 @@ tbody > tr:hover {
     height: 2em;
     width: 2em;
     object-fit: cover;
+    border-radius: 2px;
 }
 
 .admin-key {
