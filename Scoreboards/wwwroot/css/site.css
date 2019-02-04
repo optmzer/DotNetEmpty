@@ -393,11 +393,26 @@ legend.admin-delete-user-legend {
 
 .user-trophy {
     margin-left: -1px;
-    color: gold;
     background-color: inherit;
     font-size: 1em;
-    margin-bottom: 5px;
     padding: 0;
+}
+
+.gold{
+    color: gold;
+}
+
+.silver {
+    color: silver;
+}
+
+.bronz {
+    color: #cd7f32;
+}
+
+.user-trophy > i {
+    margin-bottom: 5px;
+
 }
 
 .leader-table-rank-number {

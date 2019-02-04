@@ -68,9 +68,32 @@
                         <td>
                             <div class="home-leader-table-cell">
                                 <label class="leader-table-rank-number">@i</label>
+                                @switch (i)
+                                {
+                                    case 1:
+                                        <span class="badge user-trophy gold" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
+                                        break;
+                                    case 2:
+                                        <span class="badge user-trophy silver" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
+                                        break;
+                                    case 3:
+                                    <span class="badge user-trophy bronz" title="Current All Time Winner">
+                                        <i class="fa fa-trophy"></i>
+                                    </span>
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                
                                 @if (user.MonthlyWins.Count() != 0)
                                 {
-                                    <span class="badge user-trophy"><i class="fa fa-trophy" ></i></span>
+                                    <span class="badge user-trophy" title="Monthly Winner">
+                                        <i class="fa fa-trophy"></i>
+                                    </span>
                                 }
                             </div>
                         </td>
