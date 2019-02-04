@@ -17,5 +17,6 @@ namespace Scoreboards.Data.Models
         // Base point for every loss in this game
         [Required]
         public int LossPoints { get; set; }
+        public string GameDescription { get; set; } = "Please add game description";
     }
 }
