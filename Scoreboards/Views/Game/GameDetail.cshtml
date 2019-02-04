@@ -15,7 +15,11 @@
             <br />
             <br />
             <label>Reigning Champion</label>
-            <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @Model.ReigningChampion</label><br />
+            <label class="label-area">
+                <span class="badge user-trophy gold" title="Reigning Champion">
+                    <i class="fa fa-trophy"></i>
+                </span> @Model.ReigningChampion
+            </label><br />
         </div>
         <div class="float-right1 game-detail-table-div col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <table class="table float-mid1">

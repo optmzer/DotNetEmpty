@@ -81,19 +81,38 @@
                                         </span>
                                         break;
                                     case 3:
-                                    <span class="badge user-trophy bronz" title="Current All Time Winner">
-                                        <i class="fa fa-trophy"></i>
-                                    </span>
+                                        <span class="badge user-trophy bronz" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
                                         break;
                                     default:
                                         break;
                                 }
-                                
+
                                 @if (user.MonthlyWins.Count() != 0)
                                 {
-                                    <span class="badge user-trophy" title="Monthly Winner">
-                                        <i class="fa fa-trophy"></i>
-                                    </span>
+                                    
+                                    @switch (user.GameId)
+                                    {
+                                        case 1:
+                                            <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
+                                                <i class="fa fa-soccer-ball-o"></i>
+                                            </span>
+                                            break;
+                                        case 2:
+                                            <span class="badge user-trophy gold" title="NBA2K17 Monthly Winner">
+                                                <i class="fa fa-dribbble"></i>
+                                            </span>
+                                            break;
+                                        case 3:
+                                            <span class="badge user-trophy gold" title="POOL Monthly Winner">
+                                                <i class="fa fa-bullseye"></i>
+                                            </span>
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
                                 }
                             </div>
                         </td>

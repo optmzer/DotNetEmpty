@@ -1,8 +1,5 @@
 ﻿using Scoreboards.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scoreboards.Models.Home
 {
@@ -17,6 +14,7 @@ namespace Scoreboards.Models.Home
         public string Ratio { get; set; }
         public string Points { get; set; }
         public bool IsProfileDeleted { get; set; }
+        public int GameId { get; set; }
         public IEnumerable<MonthlyWinners> MonthlyWins { get; set; }
     }
 }

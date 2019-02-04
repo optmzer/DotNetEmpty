@@ -47,7 +47,7 @@
                     @Model.User.UserName
                     @if (await _userManager.IsInRoleAsync(Model.User, "Admin"))
                     {
-                    <span>
+                    <span title="Admin">
                         &nbsp;
                         <i class="fa fa-key admin-key"></i>
                     </span>
@@ -106,7 +106,8 @@
                     <label class="label-area">Past Awards</label><br />
                     @foreach (var award in Model.GameStatistcs["Overall"].MonthlyWins)
                     {
-                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                        <label class="label-area">
+                            <i class="fa fa-trophy gold"></i> @award.Title</label><br />
                     }
                 }
             </div>
@@ -145,7 +146,9 @@
                     <label class="label-area">Past Awards</label><br />
                     @foreach (var award in Model.GameStatistcs[gameName].MonthlyWins)
                     {
-                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                        <label class="label-area">
+                            <i class="fa fa-trophy gold" style="font-size: 1.5em;"></i> @award.Title
+                        </label><br />
                     }
                 }
             </div>
