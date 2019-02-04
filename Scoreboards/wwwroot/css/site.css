@@ -578,4 +578,19 @@ legend.user-game-legend {
     margin-left: -1px;
     color: gold;
     background-color: inherit;
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.leader-table-rank-number {
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+.home-leader-table-cell {
+    white-space: nowrap;
+    height: 40px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }

@@ -66,8 +66,8 @@
                         {
                     <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
                         <td>
-                            <div style="height:40px; text-align:center; display:table-cell; vertical-align:middle;">
-                                <label style="text-align:center; ">@i</label>
+                            <div class="home-leader-table-cell">
+                                <label class="leader-table-rank-number">@i</label>
                                 @if (user.MonthlyWins.Count() != 0)
                                 {
                                     <span class="badge user-trophy"><i class="fa fa-trophy" ></i></span>
@@ -80,22 +80,22 @@
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.UserName
                             </div>
                         </td>
                         <td class="toggle-table-column2">
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Wins W - @user.Draws D -  @user.Loses L 
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Ratio %
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Points
                             </div>
                         </td>
