@@ -570,3 +570,10 @@ legend.user-game-legend {
 .button-inline-group-button {
     margin: 15px;
 }
+.home-page {
+    padding: 10px !important;
+}
+.user-trophy {
+    margin-left: -1px;
+    color:gold;
+}
