@@ -201,6 +201,11 @@ legend.admin-delete-user-legend {
     text-align:center;
 }
 
+.profile-statistics-text {
+    display:inline-block;
+    width: 100px;
+}   
+
 /* Style the tab */
 .tab {
     overflow: hidden;

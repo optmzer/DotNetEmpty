@@ -83,22 +83,22 @@
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
                     &nbsp;
-                    Wins: @Model.GameStatistcs["Overall"].Wins
+                    <span class="profile-statistics-text">Wins</span><span>| @Model.GameStatistcs["Overall"].Wins</span>
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
                     &nbsp;
-                    Draws: @Model.GameStatistcs["Overall"].Draws
+                    <span class="profile-statistics-text">Draws</span>| @Model.GameStatistcs["Overall"].Draws
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
                     &nbsp;
-                    Losses: @Model.GameStatistcs["Overall"].Loses
+                    <span class="profile-statistics-text">Losses</span>| @Model.GameStatistcs["Overall"].Loses
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
                     &nbsp;
-                    Win Ratio: @Model.GameStatistcs["Overall"].Ratio %
+                    <span class="profile-statistics-text">Win Ratio</span>| @Model.GameStatistcs["Overall"].Ratio %
                 </p>
                 @if (Model.GameStatistcs["Overall"].MonthlyWins.Count() != 0)
                 {
@@ -123,22 +123,22 @@
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
                     &nbsp;
-                    Wins: @Model.GameStatistcs[gameName].Wins
+                    <span class="profile-statistics-text">Wins:</span>@Model.GameStatistcs[gameName].Wins
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
                     &nbsp;
-                    Draws: @Model.GameStatistcs[gameName].Draws
+                    <span class="profile-statistics-text">Draws:</span>@Model.GameStatistcs[gameName].Draws
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
                     &nbsp;
-                    Losses: @Model.GameStatistcs[gameName].Loses
+                    <span class="profile-statistics-text">Losses:</span>@Model.GameStatistcs[gameName].Loses
                 </p>
                 <p>
                     <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
                     &nbsp;
-                    Win Ratio: @Model.GameStatistcs[gameName].Ratio %
+                    <span class="profile-statistics-text">Win Ratio:</span>@Model.GameStatistcs[gameName].Ratio %
                 </p>
                 @if (Model.GameStatistcs[gameName].MonthlyWins.Count() != 0)
                 {
