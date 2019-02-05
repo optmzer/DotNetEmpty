@@ -25,8 +25,9 @@ namespace Scoreboards.Data
         decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId);
         int getUserPoint(string userId, string gameId);
         int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId);
+        int getUserPointsByMonth(string userId, string gameId);
         int getTotalGamePlayedByUserId(string userId);
-        int[] CalculatePoints(int user_01_Points, int user_02_Points, string winner, string gameId, int user1GamesPlayed, int user2GamesPlayed);
+        int[] CalculatePoints(int user_01_Points, int user_02_Points, string winner, string gameId);
         ///////////////////////////////////////
 
         // CRUD Operations

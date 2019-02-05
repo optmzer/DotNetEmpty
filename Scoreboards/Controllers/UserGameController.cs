@@ -224,12 +224,10 @@ namespace Scoreboards.Controllers
             // The method returns an integer array with the change in points for both users
             // user 1: index 0
             // user 2: index 1
-            int[] pointsCalculated = _userGameService.CalculatePoints(_userGameService.getUserPoint(user1.Id, gamePlayed.Id.ToString()),
-                                                                      _userGameService.getUserPoint(user2.Id, gamePlayed.Id.ToString()),
+            int[] pointsCalculated = _userGameService.CalculatePoints(_userGameService.getUserPointsByMonth(user1.Id, gamePlayed.Id.ToString()),
+                                                                      _userGameService.getUserPointsByMonth(user2.Id, gamePlayed.Id.ToString()),
                                                                       winner, 
-                                                                      gamePlayed.Id.ToString(),
-                                                                      _userGameService.getTotalGamePlayedByUserId(user1.Id),
-                                                                      _userGameService.getTotalGamePlayedByUserId(user2.Id));
+                                                                      gamePlayed.Id.ToString());
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,

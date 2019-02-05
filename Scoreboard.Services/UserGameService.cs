@@ -307,7 +307,7 @@ namespace Scoreboards.Services
         }
 
 
-        public int[] CalculatePoints(int user_01_Points, int user_02_Points, string winner, string gameId, int user1GamesPlayed, int user2GamesPlayed)
+        public int[] CalculatePoints(int user_01_Points, int user_02_Points, string winner, string gameId)
         {
             // Initialises the modifier part of the algorithm (the potential difference in point gain based on the
             // difference in points between the two users.
@@ -383,7 +383,7 @@ namespace Scoreboards.Services
                 }
             }
 
-            return CheckForInvalidReduction(CheckForGamesPlayed(calculatedPointsChange, user1GamesPlayed, user2GamesPlayed), user_01_Points, user_02_Points);
+            return CheckForInvalidReduction(calculatedPointsChange, user_01_Points, user_02_Points);
         }
         /**
          * This method checks that the point changes provided will not reduce either players points below 15 and updates
@@ -435,25 +435,6 @@ namespace Scoreboards.Services
                 }
             }
             return updatedPointsChange;
-        }
-
-        /**
-         * Checks the users have both played more than 5 game and if they haven't returns updated points change
-         * which contains no points loss.
-         * games are considered for overall not just the individual game the user is playing.
-        */
-        public int[] CheckForGamesPlayed(int[] points, int gamesPlayed1, int gamesPlayed2)
-        {
-            // If they are losing points and haven't yet played 5 games
-            if (points[0] < 0 && gamesPlayed1 < 5)
-            {
-                points[0] = 0;
-            }
-            else if (points[1] < 0 && gamesPlayed2 < 5)
-            {
-                points[1] = 0;
-            }
-            return points;
         }
 
         /**
@@ -512,6 +493,39 @@ namespace Scoreboards.Services
                                                    .Sum(game => game.User_01_Awarder_Points);
                 var point2 = listOfUserGames.Where(game => 
                                                    game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId)
+                                                   .Sum(game => game.User_02_Awarder_Points);
+                return point1 + point2;
+            }
+        }
+
+        public int getUserPointsByMonth(string userId, string gameId)
+        {
+            // If the gameId is null or empty, provides a users overall points.
+            if (gameId == null || gameId == "")
+            {
+                var listOfUserGames = getUserGamesByUserId(userId);
+                var point1 = listOfUserGames.Where(game =>
+                                                   game.User_01_Id == userId 
+                                                   && game.GamePlayedOn.Month == DateTime.Now.Month)
+                                                   .Sum(game => game.User_01_Awarder_Points);
+                var point2 = listOfUserGames.Where(game =>
+                                                   game.User_02_Id == userId
+                                                   && game.GamePlayedOn.Month == DateTime.Now.Month)
+                                                   .Sum(game => game.User_02_Awarder_Points);
+                return point1 + point2;
+            }
+            else
+            {
+                var listOfUserGames = getUserGamesByUserId(userId);
+                var point1 = listOfUserGames.Where(game =>
+                                                   game.User_01_Id == userId 
+                                                   && game.GamePlayed.Id.ToString() == gameId
+                                                   && game.GamePlayedOn.Month == DateTime.Now.Month)
+                                                   .Sum(game => game.User_01_Awarder_Points);
+                var point2 = listOfUserGames.Where(game =>
+                                                   game.User_02_Id == userId 
+                                                   && game.GamePlayed.Id.ToString() == gameId
+                                                   && game.GamePlayedOn.Month == DateTime.Now.Month)
                                                    .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
@@ -582,25 +596,25 @@ namespace Scoreboards.Services
             // In the dictionary the key is the users Id, the first value in the int array
             // is the games played the second is the users points calculated to the
             // current game
-            Dictionary<string, int[]> usersPoints = new Dictionary<string, int[]>();
+            Dictionary<string, int> usersPoints = new Dictionary<string, int>();
             // Check if the game is edited or deleted
             // If edited find the score for the players up to and including that game
             // If deleted find the score for the players up to and excluding the game
             if (identifier == "Delete")
             {
                 // Get user ones points up to and excluding the deleted game
-                usersPoints.Add(baseGame.User_01_Id, GetUserGamesAndPointsUpToGame(baseGame, baseGame.User_01_Id));
+                usersPoints.Add(baseGame.User_01_Id, GetUserPointsUpToGame(baseGame, baseGame.User_01_Id));
 
                 // Get user twos points up to and excluding the deleted game
-                usersPoints.Add(baseGame.User_02_Id, GetUserGamesAndPointsUpToGame(baseGame, baseGame.User_02_Id));
+                usersPoints.Add(baseGame.User_02_Id, GetUserPointsUpToGame(baseGame, baseGame.User_02_Id));
             }
             else if (identifier == "Edit")
             {
                 // Get user ones points up to and including the edited game
-                int[] UserOneGamesAndPoints = GetUserGamesAndPointsUpToGame(baseGame, baseGame.User_01_Id);
+                int UserOnePoints = GetUserPointsUpToGame(baseGame, baseGame.User_01_Id);
 
                 // Get user twos points up to and including the edited game
-                int[] UserTwoGamesAndPoints = GetUserGamesAndPointsUpToGame(baseGame, baseGame.User_02_Id);
+                int UserTwoPoints = GetUserPointsUpToGame(baseGame, baseGame.User_02_Id);
 
                 string winner = "DRAW";
 
@@ -614,25 +628,21 @@ namespace Scoreboards.Services
                 }
 
                 int[] newPoints;
-                newPoints = CalculatePoints(UserOneGamesAndPoints[1],
-                                UserTwoGamesAndPoints[1],
+                newPoints = CalculatePoints(UserOnePoints,
+                                UserTwoPoints,
                                 winner,
-                                baseGame.GamePlayed.Id.ToString(),
-                                UserOneGamesAndPoints[0],
-                                UserTwoGamesAndPoints[0]);
+                                baseGame.GamePlayed.Id.ToString());
 
                 _context.Entry(baseGame).State = EntityState.Modified;
                 baseGame.User_01_Awarder_Points = newPoints[0];
                 baseGame.User_02_Awarder_Points = newPoints[1];
                 await _context.SaveChangesAsync();
 
-                UserOneGamesAndPoints[1] += baseGame.User_01_Awarder_Points;
-                UserOneGamesAndPoints[0] += 1;
-                usersPoints.Add(baseGame.User_01_Id, UserOneGamesAndPoints);
+                UserOnePoints += baseGame.User_01_Awarder_Points;
+                usersPoints.Add(baseGame.User_01_Id, UserOnePoints);
 
-                UserTwoGamesAndPoints[1] += baseGame.User_02_Awarder_Points;
-                UserTwoGamesAndPoints[0] += 1;
-                usersPoints.Add(baseGame.User_02_Id, UserTwoGamesAndPoints);
+                UserTwoPoints += baseGame.User_02_Awarder_Points;
+                usersPoints.Add(baseGame.User_02_Id, UserTwoPoints);
             }
             // Create a list of all games either user is a part of (sorted by Id)
             SortedList<int, UserGame> userGames = new SortedList<int, UserGame>();
@@ -677,7 +687,7 @@ namespace Scoreboards.Services
                 if (!usersPoints.Keys.Contains(userOneId))
                 {
                     usersPoints.Add(userOneId,
-                                    GetUserGamesAndPointsUpToGame(currentUserGame, userOneId));
+                                    GetUserPointsUpToGame(currentUserGame, userOneId));
                     IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(userOneId)
                                                             .Where(game => game.GamePlayed == baseGame.GamePlayed
                                                             && game.Id > currentUserGame.Id);
@@ -694,7 +704,7 @@ namespace Scoreboards.Services
                 else if (!usersPoints.Keys.Contains(userTwoId))
                 {
                     usersPoints.Add(userTwoId,
-                                    GetUserGamesAndPointsUpToGame(currentUserGame, userTwoId));
+                                    GetUserPointsUpToGame(currentUserGame, userTwoId));
                     IEnumerable<UserGame> addedUsersGames = getUserGamesByUserId(userTwoId)
                                                             .Where(game => game.GamePlayed == baseGame.GamePlayed
                                                             && game.Id > currentUserGame.Id);
@@ -721,21 +731,15 @@ namespace Scoreboards.Services
                 // Calculates the change in points for the users based on edited/deleted game
                 // changes
                 int[] newPoints;
-                newPoints = CalculatePoints(usersPoints[userOneId][1],
-                                usersPoints[userTwoId][1],
+                newPoints = CalculatePoints(usersPoints[userOneId],
+                                usersPoints[userTwoId],
                                 winner,
-                                currentUserGame.GamePlayed.Id.ToString(),
-                                usersPoints[userOneId][0],
-                                usersPoints[userTwoId][0]);
+                                currentUserGame.GamePlayed.Id.ToString());
 
                 // Adds the change to user ones local total points
-                usersPoints[userOneId][1] += newPoints[0];
-                // increments the user ones games played
-                usersPoints[userOneId][0] += 1;
+                usersPoints[userOneId] += newPoints[0];
                 // Adds the change to user twos local total points
-                usersPoints[userTwoId][1] += newPoints[1];
-                // increments the user twos games played
-                usersPoints[userTwoId][0] += 1;
+                usersPoints[userTwoId] += newPoints[1];
 
                 // Update and save the new points changes to the game.
                 _context.Entry(currentUserGame).State = EntityState.Modified;
@@ -773,7 +777,7 @@ namespace Scoreboards.Services
          * It is used when a user is first included in the process and calculates their total points up to the 
          * selected game. It also returns the number of games a user has played
         */
-        public int[] GetUserGamesAndPointsUpToGame(UserGame userGame, string userId )
+        public int GetUserPointsUpToGame(UserGame userGame, string userId )
         {
             var userPointsOne = _context.UserGames.Where(game => game.User_01_Id == userId
                                && game.GamePlayed.Id == userGame.GamePlayed.Id &&
@@ -784,10 +788,7 @@ namespace Scoreboards.Services
                                game.Id < userGame.Id)
                                .Sum(game => game.User_02_Awarder_Points);
 
-            return new int[2]{getTotalGamePlayedByUserId(userId),
-                              userPointsOne + 
-                              userPointsTwo
-                             };
+            return userPointsOne + userPointsTwo;
         }
 
         /**
