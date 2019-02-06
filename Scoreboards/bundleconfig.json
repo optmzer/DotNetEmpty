@@ -15,6 +15,16 @@
       "renameLocals": true
     },
     "sourceMap": false
+  },{
+    "outputFileName": "wwwroot/js/custom-validator.min.js",
+    "inputFiles": [
+      "wwwroot/js/custom-validator.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
   }
 ]
 
