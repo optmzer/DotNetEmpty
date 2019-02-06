@@ -81,6 +81,12 @@ namespace Scoreboards.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUserGame(UserGameListingModel model)
         {
+            // Added model validation
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("EditUserGame", "UserGame");
+            }
+
             var newUserGameContent = new NewUserGameModel
             {
                 GamePlayedName = model.GameName,
@@ -130,17 +136,17 @@ namespace Scoreboards.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserGame(NewUserGameModel model)
         {
-            var userId = _userManager.GetUserId(User);
-            //_userManager is a built in service. From
-            // Microsoft.AspNetCore.Identity; - Provides API to interact with Users in
-            // Data store.
-            //User is a built in Object that contains Current User info.
-            // We may Use current user later as a refery
-            var user = await _userManager.FindByIdAsync(userId);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("CreateNewUserGame", "UserGame");
+            }
 
+            var userId = _userManager.GetUserId(User);
+            // Record user who submitted the form as a refery. Just for the record
+
+            model.RefereeUserId = userId;
 
             var userGame = BuildUserGame(model);
-            //TODO: User management rating.
 
             await _userGameService.AddUserGameAsync(userGame);
 
