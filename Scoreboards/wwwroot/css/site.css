@@ -194,11 +194,25 @@ legend.admin-delete-user-legend {
 }
 
 .profile-information-icons {
-        width: 15px;;
+    width: 25px;
 }
 
 .profile-icon-container {
     text-align:center;
+}
+
+.profile-statistics-text {
+    display:inline-block;
+    width: 100px;
+}   
+
+.profile-stats-container {
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.profile-stats-name {
+    border-right: 1px solid white;
 }
 
 /* Style the tab */

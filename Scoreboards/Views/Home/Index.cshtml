@@ -180,7 +180,7 @@
                                             <span class="match-history-game-name">
                                                 @match.GameName
                                             </span>
-                                            @if (User.IsInRole("Admin"))
+                                            @if (User.IsInRole("Admin") && (match.GamePlayedOn.Month == DateTime.Now.Month))
                                             {
                                                 <span class="edit-delete-game">
                                                     <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
