@@ -80,26 +80,46 @@
             <div id="Overall" class="tabcontent text-truncate" style="display:block">
                 <h3>Overall</h3>
                 <hr />
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Wins</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Wins</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Draws</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Draws</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Losses</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Loses</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name" style="padding-bottom: 0px !important;">
+                        <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
                     &nbsp;
-                    <span class="profile-statistics-text">Wins</span><span>| @Model.GameStatistcs["Overall"].Wins</span>
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Draws</span>| @Model.GameStatistcs["Overall"].Draws
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Losses</span>| @Model.GameStatistcs["Overall"].Loses
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Win Ratio</span>| @Model.GameStatistcs["Overall"].Ratio %
-                </p>
+                    <span class="profile-statistics-text">Win Ratio</span>
+                    </div>
+                    <div class="profile-stats-container style="padding-bottom: 0px !important;"">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Ratio %</span>
+                    </div>
+                </div>
                 @if (Model.GameStatistcs["Overall"].MonthlyWins.Count() != 0)
                 {
                     <hr />
@@ -120,26 +140,46 @@
             <div id="@gameName" class="tabcontent text-truncate">
                 <h3>@gameName</h3>
                 <hr />
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Wins:</span>@Model.GameStatistcs[gameName].Wins
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Draws:</span>@Model.GameStatistcs[gameName].Draws
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Losses:</span>@Model.GameStatistcs[gameName].Loses
-                </p>
-                <p>
-                    <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
-                    &nbsp;
-                    <span class="profile-statistics-text">Win Ratio:</span>@Model.GameStatistcs[gameName].Ratio %
-                </p>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Wins</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Wins</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Draws</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Draws</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Losses</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Loses</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name" style="padding-bottom: 0px !important;">
+                        <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Win Ratio</span>
+                    </div>
+                    <div class="profile-stats-container" style="padding-bottom: 0px !important;">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Ratio %</span>
+                    </div>
+                </div>
                 @if (Model.GameStatistcs[gameName].MonthlyWins.Count() != 0)
                 {
                     <hr />

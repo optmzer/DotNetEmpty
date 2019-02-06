@@ -206,6 +206,15 @@ legend.admin-delete-user-legend {
     width: 100px;
 }   
 
+.profile-stats-container {
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.profile-stats-name {
+    border-right: 1px solid white;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
