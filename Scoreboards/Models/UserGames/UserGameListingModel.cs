@@ -25,6 +25,7 @@ namespace Scoreboards.Models.UserGames
         public ApplicationUser User_02 { get; set; }
 
         [Required]
+        [NotEqual("User_01_Id", ErrorMessage = "Player 1 and 2 should be different")]
         public string User_02_Id { get; set; }
         public string User_02_Name { get; set; }
 
