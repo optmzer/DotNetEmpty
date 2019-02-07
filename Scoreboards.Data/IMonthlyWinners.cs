@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Scoreboards.Data
 {
@@ -14,6 +15,6 @@ namespace Scoreboards.Data
         IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId);
         List<string> GetAllMonths();
         string GetPastMonthWinnerWithGameId(string gameId);
-
+        Task AddNewWinnerAsync(string gameId, string userId);
     }
 }

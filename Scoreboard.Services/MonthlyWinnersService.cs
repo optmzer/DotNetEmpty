@@ -136,5 +136,27 @@ namespace Scoreboards.Services
             //                            title = title.Replace(" Champion", ""));
             return awardsList.ToList();
         }
+
+        public async Task AddNewWinnerAsync(string gameId, string userId)
+        {
+            /**
+            * Entity framwork handls all logic for us
+            * all we need to do is to call _context.Add() method
+            * and EntityFramwork will figure out where to stick it.
+            */
+            var time = DateTime.Now;
+
+            MonthlyWinners newWinner = new MonthlyWinners()
+            {
+                Title = time.Month.ToString("MMMM") + " " + time.Year,
+                GamePlayedId = gameId,
+                WinnerId = userId,
+                RecordedDate = time
+            };
+            
+
+            _context.Add(newWinner);
+            await _context.SaveChangesAsync(); // commits changes to DB.
+        }
     }
 }
