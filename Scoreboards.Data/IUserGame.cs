@@ -29,6 +29,7 @@ namespace Scoreboards.Data
         int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId);
         int getTotalGamePlayedByUserId(string userId);
         int[] CalculatePoints(int flatPoints, decimal multiplier, int flatLoss, decimal lossMultiplier, string user1Id, string user2Id, string winner, string gameId);
+        string GetLastMonthWinner(string gameId);
         ///////////////////////////////////////
 
         // CRUD Operations

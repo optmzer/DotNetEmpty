@@ -610,6 +610,41 @@ namespace Scoreboards.Services
         {
             return GetAll().Where(uGame => uGame.Winner == userId).Count();
         }
+        public string GetLastMonthWinner(string gameId)
+        {
+            var time = DateTime.Now.AddMonths(-1);
+            if (gameId == "" || gameId.ToLower() == "overall")
+            {
+                gameId = "";
+            }
+            IEnumerable<UserGame> listOfGames = getUserGamesByGameIdAndMonth(gameId, time);
+            // userIdList contains userId as key and point gained as value
+            Dictionary<string, int> userIdDictionary = new Dictionary<string, int>();
+            // prepare userIdDictionary that played game last month (if game id is specified only those who played that game last month)
+            foreach (UserGame ug in listOfGames)
+            {
+                string user1_Id = ug.User_01_Id;
+                string user2_Id = ug.User_02_Id;
+                if (!userIdDictionary.Keys.Any(user1_Id.Contains))
+                {
+                    userIdDictionary.Add(user1_Id, ug.User_01_Awarder_Points);
+                }
+                else
+                {
+                    userIdDictionary[user1_Id] += ug.User_01_Awarder_Points;
+                }
+                if (!userIdDictionary.Keys.Any(user2_Id.Contains))
+                {
+                    userIdDictionary.Add(user2_Id, ug.User_02_Awarder_Points);
+                }
+                else
+                {
+                    userIdDictionary[user2_Id] += ug.User_02_Awarder_Points;
+                }
+            }
+           return userIdDictionary.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+
+        }
 
     }
 }

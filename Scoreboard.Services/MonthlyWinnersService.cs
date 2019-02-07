@@ -14,9 +14,11 @@ namespace Scoreboards.Services
     public class MonthlyWinnersService : IMonthlyWinners
     {
         private readonly ApplicationDbContext _context;
-        public MonthlyWinnersService(ApplicationDbContext context)
+        private readonly UserGameService _userGameContext;
+        public MonthlyWinnersService(ApplicationDbContext context, UserGameService userGameContext)
         {
             _context = context;
+            _userGameContext = userGameContext;
         }
 
         /**
@@ -137,7 +139,7 @@ namespace Scoreboards.Services
             return awardsList.ToList();
         }
 
-        public async Task AddNewWinnerAsync(string gameId, string userId)
+        public async Task AddNewWinnerAsync(string gameId)
         {
             /**
             * Entity framwork handls all logic for us
@@ -145,12 +147,12 @@ namespace Scoreboards.Services
             * and EntityFramwork will figure out where to stick it.
             */
             var time = DateTime.Now;
-
+            var WinnerId = _userGameContext.GetLastMonthWinner(gameId);
             MonthlyWinners newWinner = new MonthlyWinners()
             {
                 Title = time.Month.ToString("MMMM") + " " + time.Year,
                 GamePlayedId = gameId,
-                WinnerId = userId,
+                WinnerId = WinnerId,
                 RecordedDate = time
             };
             
