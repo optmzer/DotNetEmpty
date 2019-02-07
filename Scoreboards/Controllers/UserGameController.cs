@@ -18,6 +18,7 @@ namespace Scoreboards.Controllers
         private readonly IUserGame _userGameService;
         private readonly IApplicationUser _userService;
         private readonly IGame _gameService;
+        private readonly IMonthlyWinners _monthlyWinnersService;
         private readonly UserManager<ApplicationUser> _userManager;
         // SignalR
         private readonly IHubContext<ScoreboardsHub> _hubContext;
@@ -27,13 +28,15 @@ namespace Scoreboards.Controllers
             , IGame gameService
             , IApplicationUser userService
             , UserManager<ApplicationUser> userManager
-            , IHubContext<ScoreboardsHub> hubContext)
+            , IHubContext<ScoreboardsHub> hubContext
+            , IMonthlyWinners monthlyWinnersService)
         {
             _gameService = gameService;
             _userGameService = userGameService;
             _userManager = userManager;
             _userService = userService;
             _hubContext = hubContext;
+            _monthlyWinnersService = monthlyWinnersService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -149,6 +152,7 @@ namespace Scoreboards.Controllers
             var userGame = BuildUserGame(model);
 
             await _userGameService.AddUserGameAsync(userGame);
+            //await _monthlyWinnersService.AddNewWinnerAsync(null);
 
             // SignalR send message to All that DB was updated
             await _hubContext.Clients.All.SendAsync("Notify", $"Created new UserGame at : {DateTime.Now}");

@@ -89,11 +89,18 @@
                                         break;
                                 }
 
-                                @if (user.MonthlyWins.Count() != 0)
+                                @*@if (user.MonthlyWins.Count() != 0)
                                 {
-                                    
+
                                     @switch (user.GameId)
                                     {
+                                        case 0:
+                                            {
+                                                <span class="badge user-trophy gold" title="Current All Time Winner">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                break;
+                                            }
                                         case 1:
                                             <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
                                                 <i class="fa fa-soccer-ball-o"></i>
@@ -113,7 +120,7 @@
                                             break;
                                     }
 
-                                }
+                                }*@
                             </div>
                         </td>
                         <td class="toggle-table-column">

@@ -14,11 +14,9 @@ namespace Scoreboards.Services
     public class UserGameService : IUserGame
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMonthlyWinners _monthlyWinnersService;
-        public UserGameService(ApplicationDbContext context, IApplicationUser userService, IMonthlyWinners monthlyWinnersService)
+        public UserGameService(ApplicationDbContext context, IApplicationUser userService)
         {
             _context = context;
-            _monthlyWinnersService = monthlyWinnersService;
         }
 
         /**
@@ -613,7 +611,7 @@ namespace Scoreboards.Services
         public string GetLastMonthWinner(string gameId)
         {
             var time = DateTime.Now.AddMonths(-1);
-            if (gameId == "" || gameId.ToLower() == "overall")
+            if (gameId == null || gameId == "" || gameId.ToLower() == "overall")
             {
                 gameId = "";
             }

@@ -14,11 +14,11 @@ namespace Scoreboards.Services
     public class MonthlyWinnersService : IMonthlyWinners
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserGameService _userGameContext;
-        public MonthlyWinnersService(ApplicationDbContext context, UserGameService userGameContext)
+        private readonly IUserGame _userGameServices;
+        public MonthlyWinnersService(ApplicationDbContext context, IUserGame userGameServices)
         {
             _context = context;
-            _userGameContext = userGameContext;
+            _userGameServices = userGameServices;
         }
 
         /**
@@ -147,13 +147,17 @@ namespace Scoreboards.Services
             * and EntityFramwork will figure out where to stick it.
             */
             var time = DateTime.Now;
-            var WinnerId = _userGameContext.GetLastMonthWinner(gameId);
+            if (gameId == null || gameId == "" || gameId.ToLower() == "overall")
+            {
+                gameId = "overall";
+            }
+            var WinnerId = _userGameServices.GetLastMonthWinner(gameId);
             MonthlyWinners newWinner = new MonthlyWinners()
             {
-                Title = time.Month.ToString("MMMM") + " " + time.Year,
+                Title = time.AddMonths(-1).ToString("MMMM") + " " + time.AddMonths(-1).Year + " Champion",
                 GamePlayedId = gameId,
                 WinnerId = WinnerId,
-                RecordedDate = time
+                RecordedDate = time.AddMonths(-1)
             };
             
 
