@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scoreboards.UnitTests", "Sc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scoreboards.FunctionalTests", "Scoreboards.FunctionalTests\Scoreboards.FunctionalTests.csproj", "{834B821C-6A0B-4137-90FF-527801F7C3B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scoreboards.Functions", "Scoreboards.Functions\Scoreboards.Functions.csproj", "{B3BB3EE6-DDF5-42C7-B9A1-D6A8B7A89029}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{834B821C-6A0B-4137-90FF-527801F7C3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{834B821C-6A0B-4137-90FF-527801F7C3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{834B821C-6A0B-4137-90FF-527801F7C3B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3BB3EE6-DDF5-42C7-B9A1-D6A8B7A89029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3BB3EE6-DDF5-42C7-B9A1-D6A8B7A89029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3BB3EE6-DDF5-42C7-B9A1-D6A8B7A89029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3BB3EE6-DDF5-42C7-B9A1-D6A8B7A89029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
