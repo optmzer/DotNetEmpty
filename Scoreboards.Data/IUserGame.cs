@@ -9,6 +9,7 @@ namespace Scoreboards.Data
     public interface IUserGame
     {
         IEnumerable<UserGame> GetAll();
+        IEnumerable<UserGame> GetAll(DateTime monthFetched);
         IEnumerable<UserGame> GetLatest(int howMany);
         UserGame GetById(int userGameId);
         Task SetGameImageAsync(int userGameId, Uri uri);
@@ -16,6 +17,7 @@ namespace Scoreboards.Data
         // Lewis added
         IEnumerable<UserGame> getUserGamesByGameId(string gameId);
         IEnumerable<UserGame> getUserGamesByUserId(string userId);
+        IEnumerable<UserGame> getUserGamesByGameIdAndMonth(string gameId, DateTime monthFetched);
         int getWinsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
         int getDrawsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
         int getLosesByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
@@ -28,7 +30,8 @@ namespace Scoreboards.Data
         int getUserPointsByMonth(string userId, string gameId);
         int getTotalGamePlayedByUserId(string userId);
         int[] CalculatePoints(int user_01_Points, int user_02_Points, string winner, string gameId);
-        ///////////////////////////////////////
+        string GetLastMonthWinner(string gameId);
+
 
         // CRUD Operations
         Task AddUserGameAsync(UserGame userGame);

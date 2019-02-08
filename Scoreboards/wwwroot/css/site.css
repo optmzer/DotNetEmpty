@@ -10,7 +10,7 @@ body {
     line-height: 1.7;
     font-size: 16px;
 }
-home-page, user-page, game-page > h3, label {
+.home-page, .user-page, .game-page > h3, label {
     color: #fff;
 }
 .body-content {
@@ -26,14 +26,11 @@ tbody > tr:hover {
 /* NAVBAR CUSTOM COLORING */
 .navbar {
     background-color: #000 !important;
+    border: none !important;
 }
 
-.navbar-header {
+.navbar-header-custom {
     padding: 7px 0;
-}
-
-.navbar-nav {
-    padding-top: .65em;
 }
 
 .navbar-inverse, .navbar-nav > li > a, button {
@@ -45,7 +42,17 @@ tbody > tr:hover {
     color: hsl(0,0%,100%);
 }
 
-.navbar-nav > li:hover, .navbar-nav > li:focus {
+.navbar-nav-custom > li {
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
+}
+
+.navbar-nav-custom > li > a {
+    padding-top: 22px;
+    padding-bottom: 22px;
+}
+
+.navbar-nav-custom > li:hover, navbar-nav-custom > li:focus {
     color: #e4ac25;
     border-bottom: 3px solid #e4ac25;
 }
@@ -55,9 +62,29 @@ tbody > tr:hover {
     padding-bottom: 0;
 }
 
+.login-partial-user-avatar > img {
+    width: 1.2em;
+    height: 1.2em;
+    object-fit: cover;
+    margin-bottom: -5px;
+    margin-top: -8px;
+}
+
+.navbar-link-custom {
+    text-decoration: none !important;
+    padding-top: 9px;
+    padding-bottom: 10px;
+    font-size: 1em;
+}
+
 /* LOGO */
 .instillery-logo-navbar {
     width: 7em;
+    background-image: url("/images/The-Instillery-Logo-LoRes.png");
+    height: 2.89em;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: -1px;
 }
 
 /* ADMIN PAGE */
@@ -65,6 +92,7 @@ tbody > tr:hover {
     height: 2em;
     width: 2em;
     object-fit: cover;
+    border-radius: 2px;
 }
 
 .admin-key {
@@ -116,7 +144,29 @@ legend.admin-delete-user-legend {
     max-width: 300px;
     height: 100%;
     width: 100%;
+    border: 5px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
 }
+
+.profile-picture-border  {
+    max-height:305px;
+    max-width:305px;
+    border:5px solid white;
+    border-radius: 5px;
+}
+
+.img {
+    border-radius: 5px;
+}
+
+/*.profile-picture:after {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: white;
+}*/
 
 .row-margin-override {
     margin-left: 0px;
@@ -141,6 +191,28 @@ legend.admin-delete-user-legend {
 .label-area {
     width: 100%;
     white-space:initial;
+}
+
+.profile-information-icons {
+    width: 25px;
+}
+
+.profile-icon-container {
+    text-align:center;
+}
+
+.profile-statistics-text {
+    display:inline-block;
+    width: 100px;
+}   
+
+.profile-stats-container {
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.profile-stats-name {
+    border-right: 1px solid white;
 }
 
 /* Style the tab */
@@ -185,6 +257,9 @@ legend.admin-delete-user-legend {
     display: none;
     padding: 6px 12px;
     border-top: none;
+    height: 342px;
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 /* STYLE FOR THE CARD FORMAT ON USER AND GAME SEARCH*/
@@ -268,7 +343,7 @@ legend.admin-delete-user-legend {
 }
 
 /*HOME PAGE*/
-.home-page, .game-page, .user-page {
+.home-page, .game-page, .user-page, .company-info {
     color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
@@ -325,6 +400,44 @@ legend.admin-delete-user-legend {
     align-content:stretch;
     align-self:stretch;
 }
+
+.user-trophy {
+    margin-left: -1px;
+    background-color: inherit;
+    font-size: 1em;
+    padding: 0;
+}
+
+.gold{
+    color: gold;
+}
+
+.silver {
+    color: silver;
+}
+
+.bronz {
+    color: #cd7f32;
+}
+
+.user-trophy > i {
+    margin-bottom: 5px;
+
+}
+
+.leader-table-rank-number {
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+.home-leader-table-cell {
+    white-space: nowrap;
+    height: 40px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
 @media only screen and (max-width: 920px) {
     .toggle-table-column {
         display: none;
@@ -397,6 +510,13 @@ legend.user-game-legend {
     background-color: #f0f0f0;
     text-transform: capitalize;
 }
+
+/* ABOUT PAGE */
+.company-info {
+    background-image: url(/images/shutterstock_217325476.jpg);
+    padding: 15px 30px;
+}
+
 
 /* FOOTER */
 .footer-partial {
@@ -475,10 +595,9 @@ legend.user-game-legend {
 
 /* GAME DETAIL PAGE*/
 .game-detail-table-div {
-    padding-top: 0;
-    padding-bottom: 0;
     height: 400px;
     overflow-y: auto;
+    padding-left: 15px;
 }
 .game-profile-table-div {
     padding-top: 0;

@@ -14,15 +14,14 @@ namespace Scoreboards.Services
     public class UserGameService : IUserGame
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMonthlyWinners _monthlyWinnersService;
         private readonly int _flatPointsGain = 15;
         private readonly decimal _gainMultiplier = 10;
         private readonly int _flatPointsLoss = 7;
         private readonly decimal _lossMultiplier = 7;
-        public UserGameService(ApplicationDbContext context, IApplicationUser userService, IMonthlyWinners monthlyWinnersService)
+
+        public UserGameService(ApplicationDbContext context, IApplicationUser userService)
         {
             _context = context;
-            _monthlyWinnersService = monthlyWinnersService;
         }
 
         /**
@@ -32,7 +31,10 @@ namespace Scoreboards.Services
         {
             return _context.UserGames.Include(game => game.GamePlayed);
         }
-
+        public IEnumerable<UserGame> GetAll(DateTime monthFetched)
+        {
+            return _context.UserGames.Include(game => game.GamePlayed).Where(game=> game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+        }
         /**
          * Gets the latest games, the number returned is specified in the input
          */
@@ -54,7 +56,7 @@ namespace Scoreboards.Services
             {
                 // if game Id is null, provide overall
                 // else provide specified game wins
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -72,7 +74,7 @@ namespace Scoreboards.Services
             {
                 // if game Id is null, provide overall
                 // else provide specified game wins
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId== "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -98,7 +100,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of draws for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -116,7 +118,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of draws for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -142,7 +144,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of losses for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return GetAll().Where(userGame => 
                                           (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -162,7 +164,7 @@ namespace Scoreboards.Services
             {
                 // if gameId is null, provide overall
                 // else provide the number of losses for the specified game
-                if (gameId == null || gameId == "")
+                if (gameId == null || gameId == "" || gameId == "0")
                 {
                     return preparedData.Where(userGame => 
                                               (userGame.User_01_Id == userId || userGame.User_02_Id == userId) 
@@ -273,7 +275,7 @@ namespace Scoreboards.Services
         public IEnumerable<UserGame> getUserGamesByGameId(string gameId)
         {
             // If input Id is null or empty all games are returned
-            if (gameId==null||gameId=="")
+            if (gameId==null||gameId== "" || gameId == "0")
             {
                 return GetAll();
             }
@@ -282,6 +284,26 @@ namespace Scoreboards.Services
                 return GetAll().Where(userGame => (userGame.GamePlayed.Id.ToString() == gameId));
             }
             
+        }
+        public IEnumerable<UserGame> getUserGamesByGameIdAndMonth(string gameId, DateTime monthFetched)
+        {
+            
+            // If input Id is null or empty all games are returned
+            if (gameId == null || gameId == "" || gameId == "0")
+            {
+                return _context.UserGames.Include(game => game.GamePlayed).Where(game => game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+            }
+            else
+            {
+                IEnumerable<UserGame> x = _context.UserGames.Include(game => game.GamePlayed);
+                x = x.Where(game => (game.GamePlayed.Id.ToString() == gameId));
+                x = x.Where(game => (game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year));
+                return x;
+                // below return statement is exactly same as above but it throws error: Method System.String ToString() declared on type System.Int32 cannot be called with instance of type System.Nullable1[System.Int32] string
+                //return _context.UserGames.Include(game => game.GamePlayed)
+                //    .Where(game => (game.GamePlayed.Id.ToString() == gameId) && game.GamePlayedOn.Month == monthFetched.Month && game.GamePlayedOn.Year == monthFetched.Year);
+            }
+
         }
 
         /**
@@ -445,7 +467,7 @@ namespace Scoreboards.Services
         public int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId)
         {
             // If the gameId is null or empty, provides a users overall points.
-            if (gameId == null || gameId == "")
+            if (gameId == null || gameId == "" || gameId == "0")
             {
                 var point1 = userSpecificUGList.Where(game => 
                                                       game.User_01_Id == userId)
@@ -474,7 +496,7 @@ namespace Scoreboards.Services
         public int getUserPoint(string userId, string gameId)
         {
             // If the gameId is null or empty, provides a users overall points.
-            if (gameId == null || gameId == "")
+            if (gameId == null || gameId == "" || gameId == "0")
             {
                 var listOfUserGames = getUserGamesByUserId(userId);
                 var point1 = listOfUserGames.Where(game => 
@@ -752,40 +774,47 @@ namespace Scoreboards.Services
             }
 
             // Check if any new games have been added after the database is done.
-            Boolean hasNewGames = true;
-
-            while (hasNewGames)
-            {
-                var listOfUserGames = _context.UserGames.Where(game =>
-                                                               game.Id > latestId && (
-                                                               usersPoints.Keys.Contains(game.User_01_Id) ||
-                                                               usersPoints.Keys.Contains(game.User_02_Id)
-                                                               ));
-                if (!listOfUserGames.Any())
-                {
-                    hasNewGames = false;
-                }
-                else
-                {
-
-                }
-            }
+            //Boolean hasNewGames = true;
+            //
+            //while (hasNewGames)
+            //{
+            //    var listOfUserGames = _context.UserGames.Where(game =>
+            //                                                   game.Id > latestId && (
+            //                                                   usersPoints.Keys.Contains(game.User_01_Id) ||
+            //                                                   usersPoints.Keys.Contains(game.User_02_Id) ||
+            //                                                   game.GamePlayed == baseGame.GamePlayed
+            //                                                   ));
+            //    if (!listOfUserGames.Any())
+            //    {
+            //        hasNewGames = false;
+            //    }
+            //    else
+            //    {
+            //        // TODO sort out any games added to the database while the database is updated after editing/deleting
+            //        // Placeholder
+            //        hasNewGames = false;
+            //    }
+            //}
         }
 
         /**
          * This method is used to help recalculate the points distribution after a game is edited or deleted.
          * It is used when a user is first included in the process and calculates their total points up to the 
          * selected game. It also returns the number of games a user has played
+         * 
+         * It only factors in games for the current Month.
         */
         public int GetUserPointsUpToGame(UserGame userGame, string userId )
         {
             var userPointsOne = _context.UserGames.Where(game => game.User_01_Id == userId
-                               && game.GamePlayed.Id == userGame.GamePlayed.Id &&
-                               game.Id < userGame.Id)
+                               && game.GamePlayed.Id == userGame.GamePlayed.Id 
+                               && game.Id < userGame.Id
+                               && game.GamePlayedOn.Month == DateTime.Now.Month)
                                .Sum(game => game.User_01_Awarder_Points);
             var userPointsTwo = _context.UserGames.Where(game => game.User_02_Id == userId
-                               && game.GamePlayed.Id == userGame.GamePlayed.Id &&
-                               game.Id < userGame.Id)
+                               && game.GamePlayed.Id == userGame.GamePlayed.Id
+                               && game.Id < userGame.Id
+                               && game.GamePlayedOn.Month == DateTime.Now.Month)
                                .Sum(game => game.User_02_Awarder_Points);
 
             return userPointsOne + userPointsTwo;
@@ -807,6 +836,42 @@ namespace Scoreboards.Services
         public int CountWinsForUser(string userId)
         {
             return GetAll().Where(uGame => uGame.Winner == userId).Count();
+        }
+
+        public string GetLastMonthWinner(string gameId)
+        {
+            var time = DateTime.Now.AddMonths(-1);
+            if (gameId == null || gameId == "" || gameId.ToLower() == "overall")
+            {
+                gameId = "";
+            }
+            IEnumerable<UserGame> listOfGames = getUserGamesByGameIdAndMonth(gameId, time);
+            // userIdList contains userId as key and point gained as value
+            Dictionary<string, int> userIdDictionary = new Dictionary<string, int>();
+            // prepare userIdDictionary that played game last month (if game id is specified only those who played that game last month)
+            foreach (UserGame ug in listOfGames)
+            {
+                string user1_Id = ug.User_01_Id;
+                string user2_Id = ug.User_02_Id;
+                if (!userIdDictionary.Keys.Any(user1_Id.Contains))
+                {
+                    userIdDictionary.Add(user1_Id, ug.User_01_Awarder_Points);
+                }
+                else
+                {
+                    userIdDictionary[user1_Id] += ug.User_01_Awarder_Points;
+                }
+                if (!userIdDictionary.Keys.Any(user2_Id.Contains))
+                {
+                    userIdDictionary.Add(user2_Id, ug.User_02_Awarder_Points);
+                }
+                else
+                {
+                    userIdDictionary[user2_Id] += ug.User_02_Awarder_Points;
+                }
+            }
+           return userIdDictionary.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+
         }
     }
 }

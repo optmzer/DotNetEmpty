@@ -13,15 +13,18 @@ namespace Scoreboards.Controllers
         private readonly IGame _game;
         private readonly IUserGame _userGameService;
         private readonly IApplicationUser _userService;
+        private readonly IMonthlyWinners _monthlyWinnersService;
 
         public GameController(
               IGame game
             , IUserGame userGameService
-            , IApplicationUser userService)
+            , IApplicationUser userService
+            , IMonthlyWinners monthlyWinnersService)
         {
             _game = game;
             _userGameService = userGameService;
             _userService = userService;
+            _monthlyWinnersService = monthlyWinnersService;
         }
 
         public IActionResult Index()
@@ -38,6 +41,12 @@ namespace Scoreboards.Controllers
 
         public IActionResult GameDetail(string gameId)
         {
+            string currentChampion = _monthlyWinnersService.GetPastMonthWinnerWithGameId(gameId);
+            var currentChampionName = "No Winner Last Month";
+            if (currentChampion != null)
+            {
+                currentChampionName = _userService.GetById(currentChampion).UserName;
+            }
             var game = _game.GetById(Int32.Parse(gameId));
             var MatchHistoryData = _userGameService.getUserGamesByGameId(gameId);
             IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData.OrderByDescending((x)=> x.GamePlayedOn).Select((userGameItem) =>
@@ -69,7 +78,8 @@ namespace Scoreboards.Controllers
             var model = new GameDetailModel
             {
                 GameDetail = game,
-                GameSpecificMatchHistory = GameSpecificMatchHistory
+                GameSpecificMatchHistory = GameSpecificMatchHistory,
+                ReigningChampion = currentChampionName
             };
 
             return View(model);

@@ -26,21 +26,22 @@
 </head>
 <body>
     <div>
-        <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #000;">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-header navbar-header-custom">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="https://theinstillery.com/" target="_blank" class="navbar-brand" style="padding: 0;">
-                        <img class="instillery-logo-navbar" src="~/images/The-Instillery-Logo-LoRes.png" alt="The Instillery Logo" />
+                    <a href="https://theinstillery.com/" target="_blank" class="navbar-brand" >
+                        <div class="instillery-logo-navbar"></div>
+                        @*<img class="instillery-logo-navbar" src="~/images/The-Instillery-Logo-LoRes.png" alt="The Instillery Logo" />*@
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-nav-custom">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-area="" asp-controller="Game" asp-action="Index">Game</a></li>
                         <li><a asp-controller="Users" asp-action="Index">Users</a></li>

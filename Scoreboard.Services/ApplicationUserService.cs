@@ -103,7 +103,7 @@ namespace Scoreboards.Services
          */
         public async Task DeleteUserProfileAsync(ApplicationUser user)
         {
-            string delProfile = "Profile Deleted";
+            string delProfile = user.Id;
             string defaultProfileImageUrl = "/images/default-profile-image.png";
 
             var userRoles = await _userManager.GetRolesAsync(user);

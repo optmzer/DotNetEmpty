@@ -2,10 +2,21 @@
     <div>
         @{
             ViewData["Title"] = "About";
+            ViewData["Description"] = "Description";
+            ViewData["ScoringSystem"] = "Scoring system";
         }
         <h2>@ViewData["Title"]</h2>
-        <h3>@ViewData["Message"]</h3>
 
-        <p>Use this area to provide additional information.</p>
+        <div class="row about-section">
+            <h3>@ViewData["Description"]</h3>
+            <p>This is The Instillery internal use web app that keeps score and stats of your favourite games. FIFA17, NBA2K17 and POOL</p>
+            <p>To enter a game score hit the "plus" button in the navigation bar on top. Enter your name and other data and hit submit.</p>
+            <p>Home screen of the app updates automatically on every game submit, so refreshing the page is unnecessary.</p>
+        </div>
+        <div class="row">
+            <h3>@ViewData["ScoringSystem"]</h3>
+            <p>We took inspiration from NFL scoring system. The more you win the higher your score in the table.</p>
+            <p>At the same time the higher in the table they are the harder they fall</p>
+        </div>
     </div>
 </div>

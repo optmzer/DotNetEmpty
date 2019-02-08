@@ -1,16 +1,34 @@
 ﻿@model Scoreboards.Models.Home.HomeIndexModel
 
 @{
+    string profileDeleted = "Profile Deleted";
     ViewData["Title"] = "The Instillery Scoreboards";
     int i = 1;
 }
 
 <div class="page-content home-page">
     <div class="row display-next-to-each-other">
-        <div class="float-left1 col-xs-12 col-sm-9 col-md-9 col-lg-9">
-            <h3>Scoreboards</h3>
+        <div class="float-left1 col-xs-12 col-sm-8 col-md-8 col-lg-8">
+            <h3 style="padding-left:15px;">Scoreboards</h3>
         </div>
-        <div style="color:#000 !important;" class="float-right1 col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div style="color:#000 !important; padding-left:2.5% !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
+            @Html.DropDownListFor(listItem => listItem.monthSelected,
+                            new SelectList(
+                                Model.DropDownSeasons,
+                            "Value",
+                            "Text",
+                            Model.monthSelected == "0"
+                            ? Model.DropDownSeasons[0].Selected
+                            : Model.DropDownSeasons[ Model.DropDownSeasons.FindIndex(item => item.Value == Model.monthSelected)].Selected),
+                            "All Time",
+                            new
+                            {
+                                style = "width:95%; padding-left:2.5%; margin-top:5px; margin-bottom:5px;",
+                                @id = "gameDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=" + Model.itemSelected.ToString() + "&month=' + this.options[this.selectedIndex].value ;"
+            })
+        </div>
+        <div style="color:#000 !important; padding-left:2.5% !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
                             new SelectList(
                                 Model.DropDownData, 
@@ -19,10 +37,12 @@
                             Model.itemSelected == "0" 
                             ? Model.DropDownData[0].Selected 
                             : Model.DropDownData[ Model.DropDownData.FindIndex(item => item.Value == Model.itemSelected)].Selected),
-                            "Overall",
+                            "All games",
                             new
                             {
-                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value ;"
+                                style = "width:95%; padding-left:2.5%; margin-top:5px; margin-bottom:5px; ",
+                                @id = "monthDropBox",
+                                @onchange = "document.location.href = '/Home/Index?gameId=' + this.options[this.selectedIndex].value " + " + '&month=" + Model.monthSelected + "' ;"
                             })
         </div>
     </div>
@@ -46,36 +66,85 @@
                         {
                     <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
                         <td>
-                            <div style="height:40px; text-align:center; display:table-cell; vertical-align:middle;">
-                                <label>@i  </label>
-                                @if (user.MonthlyWins.Count() != 0)
+                            <div class="home-leader-table-cell">
+                                <label class="leader-table-rank-number">@i</label>
+                                @switch (i)
                                 {
-                                    <img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" />
+                                    case 1:
+                                        <span class="badge user-trophy gold" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
+                                        break;
+                                    case 2:
+                                        <span class="badge user-trophy silver" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
+                                        break;
+                                    case 3:
+                                        <span class="badge user-trophy bronz" title="Current All Time Winner">
+                                            <i class="fa fa-trophy"></i>
+                                        </span>
+                                        break;
+                                    default:
+                                        break;
                                 }
+
+                                @*@if (user.MonthlyWins.Count() != 0)
+                                {
+
+                                    @switch (user.GameId)
+                                    {
+                                        case 0:
+                                            {
+                                                <span class="badge user-trophy gold" title="Current All Time Winner">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                break;
+                                            }
+                                        case 1:
+                                            <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
+                                                <i class="fa fa-soccer-ball-o"></i>
+                                            </span>
+                                            break;
+                                        case 2:
+                                            <span class="badge user-trophy gold" title="NBA2K17 Monthly Winner">
+                                                <i class="fa fa-dribbble"></i>
+                                            </span>
+                                            break;
+                                        case 3:
+                                            <span class="badge user-trophy gold" title="POOL Monthly Winner">
+                                                <i class="fa fa-bullseye"></i>
+                                            </span>
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                }*@
                             </div>
                         </td>
                         <td class="toggle-table-column">
                             <div>
-                                <img style="width:40px; height:40px;" src="@user.ProfileImageUrl">
+                                <img class="user-list-avatar" src="@user.ProfileImageUrl">
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.UserName
                             </div>
                         </td>
                         <td class="toggle-table-column2">
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Wins W - @user.Draws D -  @user.Loses L 
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Ratio %
                             </div>
                         </td>
                         <td>
-                            <div style="white-space:nowrap; height:40px; text-align:center; display:table-cell; vertical-align:middle;">
+                            <div class="home-leader-table-cell">
                                 @user.Points
                             </div>
                         </td>
@@ -118,7 +187,7 @@
                                             <span class="match-history-game-name">
                                                 @match.GameName
                                             </span>
-                                            @if (User.IsInRole("Admin"))
+                                            @if (User.IsInRole("Admin") && (match.GamePlayedOn.Month == DateTime.Now.Month))
                                             {
                                                 <span class="edit-delete-game">
                                                     <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
@@ -132,15 +201,31 @@
                                         </div>
                                         <div class="match-history-table-middle-div">
                                             <div class="match-history-table-inner-edge-div">
-                                                @match.User_01.UserName<br />
-                                                @match.User_01_Team
+                                                @if (match.User_01.IsProfileDeleted)
+                                                {
+                                                    @profileDeleted<br />
+                                                    @match.User_01_Team
+                                                }
+                                                else
+                                                {
+                                                    @match.User_01.UserName<br />
+                                                    @match.User_01_Team
+                                                }
                                             </div>
                                             <div class="match-history-table-inner-center-div">
                                                 vs
                                             </div>
                                             <div class="match-history-table-inner-edge-div">
-                                                @match.User_02.UserName<br />
-                                                @match.User_02_Team
+                                                @if (match.User_02.IsProfileDeleted)
+                                                {
+                                                    @profileDeleted<br />
+                                                    @match.User_02_Team
+                                                }
+                                                else
+                                                {
+                                                    @match.User_02.UserName<br />
+                                                    @match.User_02_Team
+                                                }
                                             </div>
                                         </div>
                                         <div style="flex-direction:row;">

@@ -5,6 +5,7 @@
 @inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
 @{
+    string profileDeleted = "Profile Deleted";
     var adminTotal = @Model.ListOfAdmins.Count();
 }
 
@@ -67,12 +68,24 @@
                             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
                                 <img src="@user.ProfileImageUrl" alt="@user.UserName" class="user-list-avatar" />
                             </div>
-                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                @user.UserName
-                            </div>
-                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                @user.Email
-                            </div>
+                            @if (user.IsProfileDeleted)
+                            {
+                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                    @profileDeleted
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                    All Data Cleared
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                    @user.UserName
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                    @user.Email
+                                </div>
+                            }
                             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
                                 Since: @user.MemberSince.ToShortDateString()
                             </div>

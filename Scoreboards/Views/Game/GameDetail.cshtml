@@ -1,5 +1,6 @@
 ﻿@model Scoreboards.Models.GamePage.GameDetailModel
 @{
+    string profileDeleted = "Profile Deleted";
     ViewData["Title"] = "GameDetail";
 }
 
@@ -10,7 +11,15 @@
             @{string imgSourceString = string.Concat("~", Model.GameDetail.GameLogo);}
             <img class="card-picture" src="@Url.Content(imgSourceString)" alt="~/images/defaultImage.png" /><br /><br />
             <label>Description</label>
-            <label>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</label>
+            <label>@Model.GameDetail.GameDescription</label>
+            <br />
+            <br />
+            <label>Reigning Champion</label>
+            <label class="label-area">
+                <span class="badge user-trophy gold" title="Reigning Champion">
+                    <i class="fa fa-trophy"></i>
+                </span> @Model.ReigningChampion
+            </label><br />
         </div>
         <div class="float-right1 game-detail-table-div col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <table class="table float-mid1">
@@ -35,7 +44,7 @@
                                                 <span class="match-history-game-name">
                                                     @match.GameName
                                                 </span>
-                                                @if (User.IsInRole("Admin"))
+                                                @if (User.IsInRole("Admin") && match.GamePlayedOn.Month == DateTime.Now.Month)
                                                 {
                                                     <span class="edit-delete-game">
                                                         <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
@@ -49,15 +58,31 @@
                                             </div>
                                             <div class="match-history-table-middle-div">
                                                 <div class="match-history-table-inner-edge-div">
-                                                    @match.User_01.UserName<br />
-                                                    @match.User_01_Team
+                                                    @if (match.User_01.IsProfileDeleted)
+                                                    {
+                                                        @profileDeleted<br />
+                                                        @match.User_01_Team
+                                                    }
+                                                    else
+                                                    {
+                                                        @match.User_01.UserName<br />
+                                                        @match.User_01_Team
+                                                    }
                                                 </div>
                                                 <div class="match-history-table-inner-center-div">
                                                     vs
                                                 </div>
                                                 <div class="match-history-table-inner-edge-div">
-                                                    @match.User_02.UserName<br />
-                                                    @match.User_02_Team
+                                                    @if (match.User_02.IsProfileDeleted)
+                                                    {
+                                                        @profileDeleted<br />
+                                                        @match.User_02_Team
+                                                    }
+                                                    else
+                                                    {
+                                                        @match.User_02.UserName<br />
+                                                        @match.User_02_Team
+                                                    }
                                                 </div>
                                             </div>
                                             <div style="flex-direction:row;">

@@ -14,9 +14,11 @@ namespace Scoreboards.Services
     public class MonthlyWinnersService : IMonthlyWinners
     {
         private readonly ApplicationDbContext _context;
-        public MonthlyWinnersService(ApplicationDbContext context)
+        private readonly IUserGame _userGameServices;
+        public MonthlyWinnersService(ApplicationDbContext context, IUserGame userGameServices)
         {
             _context = context;
+            _userGameServices = userGameServices;
         }
 
         /**
@@ -103,6 +105,26 @@ namespace Scoreboards.Services
             }
         }
 
+        public string GetPastMonthWinnerWithGameId(string gameId)
+        {
+            if (gameId == "" || gameId == null || gameId.ToLower() == "overall")
+            {
+                return _context.MonthlyWinners
+                           .Where(award =>
+                           award.GamePlayedId.ToLower() == "overall"
+                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           .Select(award => award.WinnerId).FirstOrDefault();
+            }
+            else
+            {
+                return _context.MonthlyWinners
+                           .Where(award =>
+                           award.GamePlayedId.ToLower() == gameId.ToLower()
+                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           .Select(award => award.WinnerId).FirstOrDefault();
+            }
+        }
+
         /**
          * Returns all the months which awards have been given out for. Used to display in the dropdown menu
          * and for filtering the home page scoreboard.
@@ -115,6 +137,32 @@ namespace Scoreboards.Services
             //awardsList.ToList().ForEach(title => 
             //                            title = title.Replace(" Champion", ""));
             return awardsList.ToList();
+        }
+
+        public async Task AddNewWinnerAsync(string gameId)
+        {
+            /**
+            * Entity framwork handls all logic for us
+            * all we need to do is to call _context.Add() method
+            * and EntityFramwork will figure out where to stick it.
+            */
+            var time = DateTime.Now;
+            if (gameId == null || gameId == "" || gameId.ToLower() == "overall")
+            {
+                gameId = "overall";
+            }
+            var WinnerId = _userGameServices.GetLastMonthWinner(gameId);
+            MonthlyWinners newWinner = new MonthlyWinners()
+            {
+                Title = time.AddMonths(-1).ToString("MMMM") + " " + time.AddMonths(-1).Year + " Champion",
+                GamePlayedId = gameId,
+                WinnerId = WinnerId,
+                RecordedDate = time.AddMonths(-1)
+            };
+            
+
+            _context.Add(newWinner);
+            await _context.SaveChangesAsync(); // commits changes to DB.
         }
     }
 }

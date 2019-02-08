@@ -4,6 +4,10 @@
 
 @inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
+@{ 
+    string profileDeleted = "Profile Deleted";
+}
+
 <script type="text/javascript">
     function openTab(evt, gameName) {
         // Declare all variables
@@ -31,23 +35,34 @@
 <div class="row page-content user-page row-margin-override">
     <div class="profile-margin">
         <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-            <div>
-                <picture class="profile-picture">
-                    <img src="@Model.User.ProfileImageUrl" />
-                </picture>
+            <div class="profile-picture-border">
+                <div class="profile-picture">
+                    <img class="profile-image" src="@Model.User.ProfileImageUrl" />
+                </div>
             </div>
             <div class="profile-info text-truncate">
                 <label>
+                    <span class="profile-icon-container"><i class="fa fa-user profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.UserName
                     @if (await _userManager.IsInRoleAsync(Model.User, "Admin"))
                     {
-                        <span>
-                            <i class="fa fa-key admin-key"></i>
-                        </span>
+                    <span title="Admin">
+                        &nbsp;
+                        <i class="fa fa-key admin-key"></i>
+                    </span>
                     }
-                    @Model.User.UserName
                 </label><br />
-                <label>@Model.User.Email</label><br />
-                <label class="label-area">@Model.User.Motto</label><br />
+                <label>
+                    <span class="profile-icon-container"><i class="fa fa-envelope profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.Email
+                </label><br />
+                <label class="label-area">
+                    <span class="profile-icon-container"><i class="fa fa-comment profile-information-icons"></i></span>
+                    &nbsp;
+                    @Model.User.Motto
+                </label><br />
             </div>
         </div>
         <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
@@ -64,16 +79,55 @@
 
             <div id="Overall" class="tabcontent text-truncate" style="display:block">
                 <h3>Overall</h3>
-                <p>Wins: @Model.GameStatistcs["Overall"].Wins</p>
-                <p>Draws: @Model.GameStatistcs["Overall"].Draws</p>
-                <p>Losses: @Model.GameStatistcs["Overall"].Loses</p>
-                <p>Win Ratio: @Model.GameStatistcs["Overall"].Ratio %</p>
+                <hr />
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Wins</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Wins</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Draws</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Draws</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Losses</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Loses</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name" style="padding-bottom: 0px !important;">
+                        <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
+                    &nbsp;
+                    <span class="profile-statistics-text">Win Ratio</span>
+                    </div>
+                    <div class="profile-stats-container style="padding-bottom: 0px !important;"">
+                        <span> &nbsp; @Model.GameStatistcs["Overall"].Ratio %</span>
+                    </div>
+                </div>
                 @if (Model.GameStatistcs["Overall"].MonthlyWins.Count() != 0)
                 {
+                    <hr />
                     <label class="label-area">Past Awards</label><br />
                     @foreach (var award in Model.GameStatistcs["Overall"].MonthlyWins)
                     {
-                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                        <label class="label-area">
+                            <i class="fa fa-trophy gold"></i> @award.Title</label><br />
                     }
                 }
             </div>
@@ -85,23 +139,63 @@
                 {
             <div id="@gameName" class="tabcontent text-truncate">
                 <h3>@gameName</h3>
-                <p>Wins: @Model.GameStatistcs[gameName].Wins</p>
-                <p>Draws: @Model.GameStatistcs[gameName].Draws</p>
-                <p>Losses: @Model.GameStatistcs[gameName].Loses</p>
-                <p>Win Ratio: @Model.GameStatistcs[gameName].Ratio %</p>
+                <hr />
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-trophy profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Wins</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Wins</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-handshake-o profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Draws</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Draws</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name">
+                        <span class="profile-icon-container"><i class="fa fa-flag profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Losses</span>
+                    </div>
+                    <div class="profile-stats-container">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Loses</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-stats-container profile-stats-name" style="padding-bottom: 0px !important;">
+                        <span class="profile-icon-container"><i class="fa fa-percent profile-information-icons"></i></span>
+                        &nbsp;
+                        <span class="profile-statistics-text">Win Ratio</span>
+                    </div>
+                    <div class="profile-stats-container" style="padding-bottom: 0px !important;">
+                        <span> &nbsp; @Model.GameStatistcs[gameName].Ratio %</span>
+                    </div>
+                </div>
                 @if (Model.GameStatistcs[gameName].MonthlyWins.Count() != 0)
                 {
+                    <hr />
                     <label class="label-area">Past Awards</label><br />
                     @foreach (var award in Model.GameStatistcs[gameName].MonthlyWins)
                     {
-                        <label class="label-area"><img src="~/images/crownIcon.png" style="width:30px; height:30px; margin-bottom:7px;" /> @award.Title</label><br />
+                        <label class="label-area">
+                            <i class="fa fa-trophy gold" style="font-size: 1.5em;"></i> @award.Title
+                        </label><br />
                     }
                 }
             </div>
                 }
             }
         </div>
-        <div class="game-detail-table-div col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="float-right1 game-detail-table-div col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <table class="table">
                 <thead class="game-detail-thead">
                     <tr>
@@ -125,7 +219,7 @@
                                                     @match.GameName
                                                 </span>
                                                 @if (User.IsInRole("Admin") && (match.GamePlayedOn.Month == DateTime.Now.Month))
-                                                {
+                                                {   
                                                     <span class="edit-delete-game">
                                                         <a asp-controller="UserGame" asp-action="EditUserGame" asp-route-userGameId="@match.Id">
                                                             <i class="fa fa-edit"></i>
@@ -137,15 +231,31 @@
                                                 }
                                             </div>                                            <div class="match-history-table-middle-div">
                                                 <div class="match-history-table-inner-edge-div">
-                                                    @match.User_01.UserName<br />
-                                                    @match.User_01_Team
+                                                    @if (match.User_01.IsProfileDeleted)
+                                                    {
+                                                        @profileDeleted<br />
+                                                        @match.User_01_Team
+                                                    }
+                                                    else
+                                                    {
+                                                        @match.User_01.UserName<br />
+                                                        @match.User_01_Team
+                                                    }
                                                 </div>
                                                 <div class="match-history-table-inner-center-div">
                                                     vs
                                                 </div>
                                                 <div class="match-history-table-inner-edge-div">
-                                                    @match.User_02.UserName<br />
-                                                    @match.User_02_Team
+                                                    @if (match.User_02.IsProfileDeleted)
+                                                    {
+                                                        @profileDeleted<br />
+                                                        @match.User_02_Team
+                                                    }
+                                                    else
+                                                    {
+                                                        @match.User_02.UserName<br />
+                                                        @match.User_02_Team
+                                                    }
                                                 </div>
                                             </div>
                                             <div style="flex-direction:row;">

@@ -38,7 +38,7 @@
                         <img src="@user.ProfileImageUrl" />
                     </picture>
                     <div>
-                        <span>
+                        <span title="Admin">
                             @if (await _userManager.IsInRoleAsync(user, "Admin"))
                             {
                                 <i class="fa fa-key admin-key"></i>
@@ -58,7 +58,7 @@
                         <img src="@user.ProfileImageUrl" />
                     </picture>
                     <div>
-                        <span>
+                        <span title="Admin">
                         @if (await _userManager.IsInRoleAsync(user, "Admin"))
                         {
                             <i class="fa fa-key admin-key"></i>
