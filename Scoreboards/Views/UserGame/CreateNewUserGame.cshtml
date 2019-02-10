@@ -19,7 +19,7 @@
         <h1>Create New Game</h1>
     </div>
     <div class="row">
-        <form asp-action="AddUserGame" method="post" id="addUserGame">
+        <form asp-action="AddUserGame" method="post" id="addUserGame" onsubmit="document.getElementById('submitUserGameBtn').disabled">
             <div class="user-game-game-select row"
                  align="center">
                 <div class="form-group">

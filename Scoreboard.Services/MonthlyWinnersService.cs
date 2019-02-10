@@ -14,9 +14,11 @@ namespace Scoreboards.Services
     public class MonthlyWinnersService : IMonthlyWinners
     {
         private readonly ApplicationDbContext _context;
-        public MonthlyWinnersService(ApplicationDbContext context)
+        private readonly IUserGame _userGameServices;
+        public MonthlyWinnersService(ApplicationDbContext context, IUserGame userGameServices)
         {
             _context = context;
+            _userGameServices = userGameServices;
         }
 
         /**
@@ -137,6 +139,30 @@ namespace Scoreboards.Services
             return awardsList.ToList();
         }
 
+        public async Task AddNewWinnerAsync(string gameId)
+        {
+            /**
+            * Entity framwork handls all logic for us
+            * all we need to do is to call _context.Add() method
+            * and EntityFramwork will figure out where to stick it.
+            */
+            var time = DateTime.Now;
+            if (gameId == null || gameId == "" || gameId.ToLower() == "overall")
+            {
+                gameId = "overall";
+            }
+            var WinnerId = _userGameServices.GetLastMonthWinner(gameId);
+            MonthlyWinners newWinner = new MonthlyWinners()
+            {
+                Title = time.AddMonths(-1).ToString("MMMM") + " " + time.AddMonths(-1).Year + " Champion",
+                GamePlayedId = gameId,
+                WinnerId = WinnerId,
+                RecordedDate = time.AddMonths(-1)
+            };
+            
 
+            _context.Add(newWinner);
+            await _context.SaveChangesAsync(); // commits changes to DB.
+        }
     }
 }

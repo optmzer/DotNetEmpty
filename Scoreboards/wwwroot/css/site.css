@@ -286,6 +286,7 @@ legend.admin-delete-user-legend {
     font-weight: bold;
     background-color: rgba(16,9,1,0.5);
 }
+
 .game-cards-container {
     margin: 20px;
     display: grid;
@@ -343,7 +344,7 @@ legend.admin-delete-user-legend {
 }
 
 /*HOME PAGE*/
-.home-page, .game-page, .user-page, .company-info {
+.home-page, .game-page, .user-page, .company-info, .manage-account-page {
     color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
@@ -614,6 +615,34 @@ legend.user-game-legend {
 
 
 /* MANAGE USER ACCOUNT PAGE */
+.manage-account-body {
+    margin: 10px;
+}
+
+.nav-tab {
+    background-color: #000;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+    background-color: #ddd;
+}
+
+.nav-pills > li.active > a:hover {
+    background-color: #ddd;
+    color: #909090;
+}
+
+.nav-tab > a {
+    color: #909090;
+    transition: 0.3s;
+}
+
+.nav-tab > a:hover {
+    background-color: #ddd;
+    color: #909090;
+}
 
 /* DELETE USER PROFILE PAGE */
 .button-inline-group {

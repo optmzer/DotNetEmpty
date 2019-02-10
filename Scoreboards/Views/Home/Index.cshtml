@@ -31,11 +31,11 @@
         <div style="color:#000 !important; padding-left:2.5% !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
                             new SelectList(
-                                Model.DropDownData,
-                            "Value",
-                            "Text",
-                            Model.itemSelected == "0"
-                            ? Model.DropDownData[0].Selected
+                                Model.DropDownData, 
+                            "Value", 
+                            "Text", 
+                            Model.itemSelected == "0" 
+                            ? Model.DropDownData[0].Selected 
                             : Model.DropDownData[ Model.DropDownData.FindIndex(item => item.Value == Model.itemSelected)].Selected),
                             "All games",
                             new
@@ -89,11 +89,18 @@
                                         break;
                                 }
 
-                                @if (user.MonthlyWins.Count() != 0)
+                                @*@if (user.MonthlyWins.Count() != 0)
                                 {
-                                    
+
                                     @switch (user.GameId)
                                     {
+                                        case 0:
+                                            {
+                                                <span class="badge user-trophy gold" title="Current All Time Winner">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                break;
+                                            }
                                         case 1:
                                             <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
                                                 <i class="fa fa-soccer-ball-o"></i>
@@ -113,7 +120,7 @@
                                             break;
                                     }
 
-                                }
+                                }*@
                             </div>
                         </td>
                         <td class="toggle-table-column">

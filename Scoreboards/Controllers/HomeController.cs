@@ -211,7 +211,7 @@ namespace Scoreboards.Controllers
             // prepare match history for specific game or overall game
             IEnumerable<UserGameListingModel> MatchHistoryList = _userGameService
                 .getUserGamesByGameId(gameId)
-                .OrderByDescending((x) => x.GamePlayedOn)
+                .OrderByDescending((x) => x.Id)
                 .Take(5)
                 .Select((userGameItem) =>
                 {
@@ -287,6 +287,7 @@ namespace Scoreboards.Controllers
                 monthList.Add(item);
             }
             List<SelectListItem> listItems = new List<SelectListItem>();
+
             var index = 1;
             foreach (var selectedMonth in monthList)
             {

@@ -18,6 +18,7 @@ namespace Scoreboards.Controllers
         private readonly IUserGame _userGameService;
         private readonly IApplicationUser _userService;
         private readonly IGame _gameService;
+        private readonly IMonthlyWinners _monthlyWinnersService;
         private readonly UserManager<ApplicationUser> _userManager;
         // SignalR
         private readonly IHubContext<ScoreboardsHub> _hubContext;
@@ -27,13 +28,15 @@ namespace Scoreboards.Controllers
             , IGame gameService
             , IApplicationUser userService
             , UserManager<ApplicationUser> userManager
-            , IHubContext<ScoreboardsHub> hubContext)
+            , IHubContext<ScoreboardsHub> hubContext
+            , IMonthlyWinners monthlyWinnersService)
         {
             _gameService = gameService;
             _userGameService = userGameService;
             _userManager = userManager;
             _userService = userService;
             _hubContext = hubContext;
+            _monthlyWinnersService = monthlyWinnersService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -149,6 +152,7 @@ namespace Scoreboards.Controllers
             var userGame = BuildUserGame(model);
 
             await _userGameService.AddUserGameAsync(userGame);
+            //await _monthlyWinnersService.AddNewWinnerAsync(null);
 
             // SignalR send message to All that DB was updated
             await _hubContext.Clients.All.SendAsync("Notify", $"Created new UserGame at : {DateTime.Now}");
@@ -202,34 +206,38 @@ namespace Scoreboards.Controllers
 
             // Check the winner
             var winner = "DRAW";
-
+            var winnerId = "DRAW";
             //var scores = model.GameScore.Split(":");
             var player1Score = Convert.ToInt32(model.GameScoreUser01);
             var player2Score = Convert.ToInt32(model.GameScoreUser02);
 
             if (player1Score > player2Score)
             {// user1 won
-                winner = user1.Id;
+                winnerId = user1.Id;
+                winner = "user1";
             }
 
             if (player1Score < player2Score)
             {// user2 won
-                winner = user2.Id;
+                winnerId = user2.Id;
+                winner = "user2";
             }
 
-            // set flat points & multiplier that will be used to calculate the point that each user will get
-            var flatPoints = 15;
-            var multiplier = (decimal)10.0;
-            var flatLoss = 7;
-            var lossMultiplier = (decimal)7.0;
-
             // CalculatePoints method passes 5 parameters
-            // 1. flat points
-            // 2. multiplier
-            // 3. user 1 id
-            // 4. user 2 id
-            // 5. winner id of current game
-            int[] pointsCalculated = _userGameService.CalculatePoints(flatPoints, multiplier, flatLoss, lossMultiplier, user1.Id, user2.Id, winner, gamePlayed.Id.ToString());
+            // 1. User Ones Points before calculation
+            // 2. User Twos Points before calculation
+            // 3. The winner in form "user1" or "user2"
+            // 4. The Id of the game played
+            // 5. The number of games user 1 has played
+            // 6. The number of games user 2 has played
+            // -----------------------------------------
+            // The method returns an integer array with the change in points for both users
+            // user 1: index 0
+            // user 2: index 1
+            int[] pointsCalculated = _userGameService.CalculatePoints(_userGameService.getUserPointsByMonth(user1.Id, gamePlayed.Id.ToString()),
+                                                                      _userGameService.getUserPointsByMonth(user2.Id, gamePlayed.Id.ToString()),
+                                                                      winner, 
+                                                                      gamePlayed.Id.ToString());
             return new UserGame
             {
                 User_01_Id = model.User_01_Id,
@@ -241,8 +249,8 @@ namespace Scoreboards.Controllers
                 GameScoreUser01 = player1Score,
                 GameScoreUser02 = player2Score,
 
-                //Winner, “USER_01_Id”, “USER_02_Id”, “DRAW”
-                Winner = winner,
+                //Winner, “user1”, “user2”, “DRAW”
+                Winner = winnerId,
 
                 //Referee details. Only keep their User.Id
                 RefereeUserId = model.RefereeUserId,
