@@ -1,18 +1,31 @@
-﻿@{ 
-    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage your account</h2>
+<div class="manage-account-page">
+    <div class="manage-account-body">
+        <div class="col-xs-12 col-s-12 col-md-2 col-lg-2">
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
         </div>
-        <div class="col-md-9">
-            @RenderBody()
+        <h2>Manage your account</h2>
+        <div class="col-xs-12 col-s-12 col-md-2 col-lg-2">
+
+        </div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col-xs-12 col-s-12 col-md-2 col-lg-2">
+
+            </div>
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-5">
+                @RenderBody()
+            </div>
+            <div class="col-xs-12 col-s-12 col-md-2 col-lg-2">
+
+            </div>
         </div>
     </div>
 </div>
