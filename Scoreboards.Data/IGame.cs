@@ -12,5 +12,7 @@ namespace Scoreboards.Data
         Task SetGameNameAsync(string gameName);
         Task AddGame(Game game);
         IEnumerable<Game> GetAll();
+        Task EditGame(Game newGameContent);
+        Task DeleteGame(int gameId);
     }
 }

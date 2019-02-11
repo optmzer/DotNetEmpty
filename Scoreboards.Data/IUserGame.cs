@@ -12,7 +12,6 @@ namespace Scoreboards.Data
         IEnumerable<UserGame> GetAll(DateTime monthFetched);
         IEnumerable<UserGame> GetLatest(int howMany);
         UserGame GetById(int userGameId);
-        Task SetGameImageAsync(int userGameId, Uri uri);
 
         // Lewis added
         IEnumerable<UserGame> getUserGamesByGameId(string gameId);
@@ -37,5 +36,6 @@ namespace Scoreboards.Data
         Task AddUserGameAsync(UserGame userGame);
         Task DeleteUserGame(int userGameId);
         Task EditUserGame(UserGame newUserGameContent);
+        Task DeleteUserGamesForGame(Game game);
     }
 }

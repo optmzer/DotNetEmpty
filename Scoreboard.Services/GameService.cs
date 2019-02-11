@@ -1,4 +1,5 @@
-﻿using Scoreboards.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Scoreboards.Data;
 using Scoreboards.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace Scoreboards.Services
     public class GameService : IGame
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUserGame _userGameServices;
 
-        public GameService(ApplicationDbContext context)
+        public GameService(ApplicationDbContext context, IUserGame userGameServices)
         {
             _context = context;
+            _userGameServices = userGameServices;
         }
 
         /**
@@ -22,7 +25,43 @@ namespace Scoreboards.Services
          */
         public async Task AddGame(Game game)
         {
+            if (game.GameLogo == "" || game.GameLogo == null)
+            {
+                game.GameLogo = "/images/DefaultImage.png";
+            }
+
             await _context.Games.AddAsync(game);
+            await _context.SaveChangesAsync();
+        }
+
+        /**
+         * Edits a game in the Database
+         */
+         public async Task EditGame(Game newGameContent)
+         {
+            var game = GetById(newGameContent.Id);
+            // Mark for update
+            _context.Entry(game).State = EntityState.Modified;
+            game.GameName = newGameContent.GameName;
+            game.GameDescription = newGameContent.GameDescription;
+            game.GameLogo = newGameContent.GameLogo;
+
+            if (game.GameLogo == "" || game.GameLogo == null)
+            {
+                game.GameLogo = "/images/DefaultImage.png";
+            }
+
+            await _context.SaveChangesAsync();
+         }
+
+        /**
+         * Deletes a game in the Database
+         */
+         public async Task DeleteGame(int gameId)
+        {
+            var game = GetById(gameId);
+            await _userGameServices.DeleteUserGamesForGame(game);
+            _context.Remove(game);
             await _context.SaveChangesAsync();
         }
 

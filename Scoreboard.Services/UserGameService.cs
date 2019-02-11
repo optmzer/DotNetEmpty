@@ -576,8 +576,22 @@ namespace Scoreboards.Services
         }
 
         /**
+         * Deletes all user games for a specified game, used when the game is being deleted
+         */
+        public async Task DeleteUserGamesForGame(Game game)
+        {
+            var userGames = getUserGamesByGameId(game.Id.ToString());
+            foreach (var userGame in userGames)
+            {
+
+                _context.Remove(userGame);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        /**
          * Delete a user game from the database
-         * TODO: implemenet and call updatesubsequentgames method to repair database points after deletion
          */
         public async Task DeleteUserGame(int userGameId)
         {
@@ -589,7 +603,6 @@ namespace Scoreboards.Services
 
         /**
          * Edit a user game in the database
-         * TODO: implement and call updatesubsequentgames method to repair database points after editing
          */
         public async Task EditUserGame(UserGame newUserGameContent)
         {
@@ -818,15 +831,6 @@ namespace Scoreboards.Services
                                .Sum(game => game.User_02_Awarder_Points);
 
             return userPointsOne + userPointsTwo;
-        }
-
-        /**
-         * Sets the Image of a user game
-         * TODO: remove this? we never display images for a user game
-         */
-        public Task SetGameImageAsync(int userGameId, Uri uri)
-        {
-            throw new NotImplementedException();
         }
 
         /**

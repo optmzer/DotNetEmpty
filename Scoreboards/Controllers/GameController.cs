@@ -60,7 +60,7 @@ namespace Scoreboards.Controllers
             if (currentChampion != null)
             {
                 champion = _userService.GetById(currentChampion);
-                if (!champion.IsProfileDeleted)
+                if (champion != null && !champion.IsProfileDeleted)
                 {
                     currentChampionName = champion?.UserName;
                 }
@@ -123,8 +123,9 @@ namespace Scoreboards.Controllers
         /**
          * Calls a service method to add the input game
          */
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddGame(NewGameModel model)
+        public async Task<IActionResult> AddNewGame(NewGameModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -135,7 +136,7 @@ namespace Scoreboards.Controllers
 
             await _game.AddGame(game);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Game");
         }
 
         [Authorize(Roles = "Admin")]
@@ -145,13 +146,43 @@ namespace Scoreboards.Controllers
 
             var model = new NewGameModel
             {
+                Id = gameId,
                 GameDescription = game.GameDescription,
                 GameLogo = game.GameLogo,
                 GameName = game.GameName
             };
 
 
-            return View();
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteGame(NewGameModel model)
+        {
+            await _game.DeleteGame(model.Id);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        /**
+         * Calls a service method to edit the input game
+         */
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateGame(NewGameModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("EditGame", "Game");
+            }
+
+            var game = BuildGame(model);
+            game.Id = model.Id;
+
+            await _game.EditGame(game);
+
+            return RedirectToAction("Index", "Game");
         }
 
         /**
@@ -161,7 +192,7 @@ namespace Scoreboards.Controllers
         {
             return new Game
             {
-                GameName = model.GameName,
+                GameName = model.GameName.ToUpper(),
                 GameLogo = model.GameLogo,
                 // Points are input in the User Game Service, these values are simply
                 // Placeholders
