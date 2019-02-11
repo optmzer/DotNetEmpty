@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
+using Scoreboards.Data.Models;
 using Scoreboards.Models.GamePage;
 using Scoreboards.Models.UserGames;
 
@@ -83,6 +85,48 @@ namespace Scoreboards.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult AddGame()
+        {
+            var model = new NewGameModel
+            {
+                GameName = "",
+                GameDescription = "",
+                GameLogo = ""
+            };
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddGame(NewGameModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddGame", "Game");
+            }
+
+            var game = BuildGame(model);
+
+            await _game.AddGame(game);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private Game BuildGame(NewGameModel model)
+        {
+            return new Game
+            {
+                GameName = model.GameName,
+                GameLogo = model.GameLogo,
+                // Points are input in the User Game Service, these values are simply
+                // Placeholders
+                WinPoints = 0,
+                DrawPoints = 0,
+                LossPoints = 0,
+                GameDescription = model.GameDescription
+            };
         }
     }
 }

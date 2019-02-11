@@ -344,7 +344,7 @@ legend.admin-delete-user-legend {
 }
 
 /*HOME PAGE*/
-.home-page, .game-page, .user-page, .company-info, .manage-account-page {
+.home-page, .game-page, .user-page, .company-info, .manage-account-page, .add-game-page {
     color: #fff;
     background-image: url(/images/banner-home.jpg);
     padding: 15px 30px;
@@ -651,4 +651,11 @@ legend.user-game-legend {
 
 .button-inline-group-button {
     margin: 15px;
+}
+
+/* Add Game Page */
+.add-game-form {
+    /*display:inline-block;*/
+    /*max-width: 500px;*/    
+    /*margin:20px;*/
 }
