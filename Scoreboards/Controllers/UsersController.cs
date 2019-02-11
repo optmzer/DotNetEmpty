@@ -225,5 +225,13 @@ namespace Scoreboards.Controllers
             // Add message that confirmation email was sent to Email address
             return RedirectToAction("Admin", "Users");
         }
+
+        [Authorize(Roles="Admin")]
+        public IActionResult ResetStats()
+        {
+
+            return View();
+        }
+
     }
 }
