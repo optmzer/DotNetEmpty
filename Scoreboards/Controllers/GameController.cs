@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
 using Scoreboards.Data.Models;
@@ -10,6 +11,7 @@ using Scoreboards.Models.UserGames;
 
 namespace Scoreboards.Controllers
 {
+    [Authorize]
     public class GameController : Controller
     {
         private readonly IGame _game;
@@ -29,6 +31,10 @@ namespace Scoreboards.Controllers
             _monthlyWinnersService = monthlyWinnersService;
         }
 
+        /**
+         * Redirects to Index (base) page
+         */
+         [AllowAnonymous]
         public IActionResult Index()
         {
             // Wrap them into the model
@@ -41,6 +47,9 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        /**
+         * Redirects to page which provides information on the games including a detailed match history
+         */
         public IActionResult GameDetail(string gameId)
         {
             string currentChampion = _monthlyWinnersService.GetPastMonthWinnerWithGameId(gameId);
@@ -95,6 +104,10 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        /**
+         * Redirects to a page which allows admins to add new games
+         */
+        [Authorize(Roles = "Admin")]
         public IActionResult AddGame()
         {
             var model = new NewGameModel
@@ -107,6 +120,9 @@ namespace Scoreboards.Controllers
             return View(model);
         }
 
+        /**
+         * Calls a service method to add the input game
+         */
         [HttpPost]
         public async Task<IActionResult> AddGame(NewGameModel model)
         {
@@ -122,6 +138,9 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /**
+         * Creates a game from the model to add to the database
+         */
         private Game BuildGame(NewGameModel model)
         {
             return new Game
