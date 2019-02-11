@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Scoreboards.Data;
+using Scoreboards.Data.Models;
 using Scoreboards.Models.GamePage;
 using Scoreboards.Models.UserGames;
 
@@ -42,11 +43,19 @@ namespace Scoreboards.Controllers
         public IActionResult GameDetail(string gameId)
         {
             string currentChampion = _monthlyWinnersService.GetPastMonthWinnerWithGameId(gameId);
+            ApplicationUser champion;
             var currentChampionName = "No Winner Last Month";
+            
+            // If champion exists and their profile was not deleted
             if (currentChampion != null)
             {
-                currentChampionName = _userService.GetById(currentChampion).UserName;
+                champion = _userService.GetById(currentChampion);
+                if (!champion.IsProfileDeleted)
+                {
+                    currentChampionName = champion?.UserName;
+                }
             }
+
             var game = _game.GetById(Int32.Parse(gameId));
             var MatchHistoryData = _userGameService.getUserGamesByGameId(gameId);
             IEnumerable<UserGameListingModel> GameSpecificMatchHistory = MatchHistoryData.OrderByDescending((x)=> x.GamePlayedOn).Select((userGameItem) =>

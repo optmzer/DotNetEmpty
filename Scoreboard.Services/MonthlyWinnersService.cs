@@ -107,12 +107,14 @@ namespace Scoreboards.Services
 
         public string GetPastMonthWinnerWithGameId(string gameId)
         {
+            string past_month = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
+
             if (gameId == "" || gameId == null || gameId.ToLower() == "overall")
             {
                 return _context.MonthlyWinners
                            .Where(award =>
                            award.GamePlayedId.ToLower() == "overall"
-                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           && award.Title.Contains(past_month))
                            .Select(award => award.WinnerId).FirstOrDefault();
             }
             else
@@ -120,7 +122,7 @@ namespace Scoreboards.Services
                 return _context.MonthlyWinners
                            .Where(award =>
                            award.GamePlayedId.ToLower() == gameId.ToLower()
-                           && DateTime.Now.AddMonths(-1).Month == award.RecordedDate.Month)
+                           && award.Title.Contains(past_month))
                            .Select(award => award.WinnerId).FirstOrDefault();
             }
         }
