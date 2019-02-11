@@ -19,7 +19,12 @@
                     <div class="game-card" onclick="location.href = '@(Url.Action("GameDetail", "Game", new { gameId = game.Id }))'">
                         @{string imgSourceString = string.Concat("~", game.GameLogo);}
                         <img class="card-picture" src="@Url.Content(imgSourceString)" alt="~/images/defaultImage.png" />
-                        <label class="game-card-detail">@game.GameName</label>
+                        <span>
+                            <label class="game-card-detail">@game.GameName</label>
+                            <a asp-controller="Game" asp-action="EditGame" asp-route-gameId="@game.Id">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </span>
                     </div>
                 }
 

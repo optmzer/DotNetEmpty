@@ -138,9 +138,25 @@ namespace Scoreboards.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditGame(int gameId)
+        {
+            var game = _game.GetById(gameId);
+
+            var model = new NewGameModel
+            {
+                GameDescription = game.GameDescription,
+                GameLogo = game.GameLogo,
+                GameName = game.GameName
+            };
+
+
+            return View();
+        }
+
         /**
-         * Creates a game from the model to add to the database
-         */
+        * Creates a game from the model to add to the database
+        */
         private Game BuildGame(NewGameModel model)
         {
             return new Game
