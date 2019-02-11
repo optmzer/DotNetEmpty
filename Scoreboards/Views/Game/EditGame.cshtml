@@ -38,8 +38,8 @@
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-default" style="margin: 10px;">Edit Game</button>
-                    <button asp-action="DeleteGame" class="btn btn-danger" style="margin: 10px;">Delete Game</button>
                     <button asp-action="Index" class="btn btn-default" style="margin: 10px;">Cancel</button>
+                    <button asp-action="DeleteGame" class="btn btn-danger" style="margin: 10px;" onclick="return confirm('Deleting this game will also remove all associated user games and points. Are you sure you wish to continue?');">Delete Game</button>
                 </div>
                 <input asp-for="Id" type="hidden" />
             </form>

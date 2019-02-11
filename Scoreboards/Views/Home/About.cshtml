@@ -1,5 +1,5 @@
 ﻿<div class="page-content company-info">
-    <div>
+    <div style="max-width: 750px;">
         @{
             ViewData["Title"] = "About";
             ViewData["Description"] = "Description";
@@ -7,16 +7,56 @@
         }
         <h2>@ViewData["Title"]</h2>
 
-        <div class="row about-section">
+        <div class="row about-section" >
             <h3>@ViewData["Description"]</h3>
-            <p>This is The Instillery internal use web app that keeps score and stats of your favourite games. FIFA17, NBA2K17 and POOL</p>
-            <p>To enter a game score hit the "plus" button in the navigation bar on top. Enter your name and other data and hit submit.</p>
-            <p>Home screen of the app updates automatically on every game submit, so refreshing the page is unnecessary.</p>
+            <p> This is The Instillery internal use web app that keeps score and stats of your favourite games. FIFA17, NBA2K17 and POOL
+                To enter a game score hit the "plus" button in the navigation bar on top. Enter your name and other data and hit submit.
+                Home screen of the app updates automatically on every game submit, so refreshing the page is unnecessary.
+            </p>
         </div>
         <div class="row">
             <h3>@ViewData["ScoringSystem"]</h3>
-            <p>We took inspiration from NFL scoring system. The more you win the higher your score in the table.</p>
-            <p>At the same time the higher in the table they are the harder they fall</p>
+            <p> The scoring system awards points proportional to the difference in points between the two players.
+                This means if you beat a player who is higher than you in the table you will gain more points
+                and simultaneously if you beat a player who is lower than you in the table you will gain fewer points.
+            </p>
+            <br />
+            <p>The algorithm is as follows:</p>
+            <br/>
+            <p>Points Gain/Loss = Flat Points Change &#177 Proportional Points Change</p>
+            <br />
+            <p> The Proportional points change is added when: You have lower points than your opponent and you win or
+                you have higher points than your opponent and lost.
+            </p>
+            <br />
+            <p> The Proportional points change is subtracted when: You have more points than your opponent and you win or
+                you have fewer points than your opponent and lose.
+            </p>
+            <br />
+            <p> This means losses are minimal and gains are large versus opponent which have much greater points than you.
+                However losses are larger and gains are smaller versus opponent which have fewer points than you.
+            </p>
+            <br />
+            <p> The Flat points change is 15 for wins, (-)7 for losses and 0 for draws (this means there is no points change for
+                players of equal points when they draw).
+            </p>
+            <br />
+            <p> The proportional points change Calculated by:
+                (Difference in points between the two users / Total points of the two users) * Multiplier
+            </p>
+            <br />
+            <p> Where the multiplier is 10 for Wins and Draws and 7 for Losses.
+                If the sum of the players points is less than 100, The divisor of the equation (Total points of the two users)
+                is changed to 100.
+            </p>
+            <br />
+            <p>To make the scoring system more forgiving a couple additions were made:</p>
+            <p>1. In the case of a draw the loser doesn't lose any points</p>
+            <p>2. When you are below 15 points you don't lose any points, and your points doesn't drop below 15.</p>
+            <br />
+            <p> An important note: The points are calculated based on the current month and within the current game.
+                This means even if a player has 100 points in FIFA, these points will be ignored when calculating for a game of POOL.
+            </p>
         </div>
     </div>
 </div>
