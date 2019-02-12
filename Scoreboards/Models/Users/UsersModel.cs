@@ -7,5 +7,6 @@ namespace Scoreboards.Models.Users
     {
         public IEnumerable<ApplicationUser> AppUsers { get; set; }
         public IEnumerable<ApplicationUser> ListOfAdmins { get; set; }
+        public string StatusMessage { get; set; }
     }
 }

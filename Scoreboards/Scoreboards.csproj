@@ -23,8 +23,13 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Models\Users\" />
     <Folder Include="wwwroot\images\Game\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_StatusMessage.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -35,7 +35,7 @@ namespace Scoreboards.Data
         // CRUD Operations
         Task AddUserGameAsync(UserGame userGame);
         Task DeleteUserGame(int userGameId);
-        Task DeleteUserGameByMonth(int monthNumber);
+        Task DeleteUserGameByMonth(DateTime month);
         Task DeleteAllUserGames();
         Task EditUserGame(UserGame newUserGameContent);
         Task DeleteUserGamesForGame(Game game);
