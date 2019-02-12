@@ -1,6 +1,11 @@
-﻿
+﻿@model Scoreboards.Models.Users.ResetStatsModel
 
-
+<SCRIPT language=Javascript>
+    function disableSubmitBtn() {
+        document.getElementById("deleteMonthlyGames").disabled = true;
+    }
+    window.onbeforeunload = disableSubmitBtn;
+</SCRIPT>
 <div class="row page-content user-page row-margin-override">
     <div>
         <h1>Admin Actions | Reset Game Stats</h1>
@@ -23,6 +28,43 @@
                 </div>
             </div>
         </fieldset>
+    </div>
+    <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame" onsubmit="document.getElementById('deleteMonthlyGames').disabled">
+            <fieldset class="admin-delete-fieldset">
+                <legend class="admin-delete-user-legend">Monthly Wipe Out</legend>
+                <div class="user-game-player">
+                    <p class="text-danger"><b>!!!WARNING!!!</b></p>
+                    <p class="text-danger">This action will <b>permanently</b> delete all game data from the database. User's profiles will be kept intact. <b>The user's games and scores cannot be restored once deleted.</b></p>
+                    <div class="form-group">
+                        <label asp-for="MonthSelected">Select Month To Nuke</label>
+                        <select asp-for="MonthSelected"
+                                class="form-control"
+                                id="MonthSelected"
+                                required>
+                            @foreach (var month in Model.MonthNames)
+                            {
+                                <option value="@month">@month.ToString("MMMM yyyy")</option>
+                            }
+                        </select>
+                        <span asp-validation-for="MonthSelected" class="text-danger"></span>
+                    </div>
+                    <div class="row button-inline-group">
+                        <div>
+                            <a asp-controller="Users"
+                               asp-action="DeleteUserGameHistory"
+                               id="deleteMonthlyGames"
+                               role="button"
+                               class="btn btn-danger button-inline-group-button"><i class="fa fa-bomb"> NUKE IT!</i></a>
+                        </div>
+                        <div>
+                            <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
     </div>
 
 </div>

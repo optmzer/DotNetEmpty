@@ -229,21 +229,34 @@ namespace Scoreboards.Controllers
         [Authorize(Roles="Admin")]
         public IActionResult ResetStats()
         {
+            ICollection<DateTime> monthNames = new List<DateTime>();
+            for (int i =0; i < 12; i++)
+            {
+                monthNames.Add(DateTime.Now.AddMonths(-i));
+            }
 
-            return View();
+            var model = new ResetStatsModel
+            {
+                MonthNames = monthNames
+                //MonthSelected = 0
+            };
+
+            return View(model);
         }
 
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> DeleteUserGameHistory(int monthNumber = 0)
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserGameHistory(ResetStatsModel model)
         {
+            
             // 0 means Complete Table wipe out
-            if(monthNumber == 0)
+            if(model.MonthSelected == null)
             {
                 await _userGameService.DeleteAllUserGames();
             }
             else
             {
-                await _userGameService.DeleteUserGameByMonth(monthNumber);
+                await _userGameService.DeleteUserGameByMonth(model.MonthSelected);
             }
 
             return RedirectToAction("Admin", "Users");
