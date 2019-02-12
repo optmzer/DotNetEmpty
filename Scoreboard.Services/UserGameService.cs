@@ -609,7 +609,6 @@ namespace Scoreboards.Services
             IEnumerable<UserGame> list_to_delete = _context.UserGames
                 .Where(game => game.GamePlayedOn.Month == month.Month);
 
-            //uncomment for production
             _context.RemoveRange(list_to_delete);
 
             await _context.SaveChangesAsync();

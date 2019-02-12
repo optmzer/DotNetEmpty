@@ -9,5 +9,6 @@ namespace Scoreboards.Models.Users
         public IEnumerable<DateTime> MonthNames { get; set; }
         [Required]
         public DateTime MonthSelected { get; set; }
+        public string StatusMessage { get; set; }
     }
 }

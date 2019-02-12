@@ -1,6 +1,10 @@
 ﻿@model Scoreboards.Models.Users.ResetStatsModel
 
+
 <SCRIPT language=Javascript>
+    function confirmDeletion() {
+        return confirm("This action will result in permanent loss of games historical data. Are you sure you wish to continue?");
+    }
     function disableSubmitBtn() {
         var buttons = document.getElementsByClassName("btn");
         for (let b of buttons) {
@@ -12,10 +16,10 @@
 <div class="row page-content user-page row-margin-override">
     <div>
         <h1>Admin Actions | Reset Game Stats</h1>
+        @Html.Partial("_StatusMessage", Model.StatusMessage)
     </div>
-
     <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame">
+        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame" onsubmit="confirmDeletion()">
 
             <fieldset class="admin-delete-fieldset">
                 <legend class="admin-delete-user-legend">Xmas Wipe Out</legend>
@@ -25,14 +29,15 @@
                     <div>
                         <button type="submit"
                                 id="deleteAllGames"
-                           class="btn btn-danger button-inline-group-button">
-                        <i class="fa fa-bomb"> NUKE IT!</i></button>
+                                class="btn btn-danger button-inline-group-button">
+                            <i class="fa fa-bomb"> NUKE IT!</i>
+                        </button>
                     </div>
                     <div>
-                        <a asp-controller="Users" 
-                            asp-action="Admin" 
-                            role="button" 
-                            class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                        <a asp-controller="Users"
+                           asp-action="Admin"
+                           role="button"
+                           class="btn btn-cancel button-inline-group-button">CANCEL</a>
                     </div>
                 </div>
             </fieldset>
@@ -51,6 +56,7 @@
                                 class="form-control"
                                 id="MonthSelected"
                                 required>
+                            <option selected disabled hidden>Select Month</option>
                             @foreach (var month in Model.MonthNames)
                             {
                                 <option value="@month">@month.ToString("MMMM yyyy")</option>
@@ -61,9 +67,10 @@
                     <div class="row button-inline-group">
                         <div>
                             <button type="submit"
-                               id="deleteMonthlyGames"
-                               class="btn btn-danger button-inline-group-button">
-                            <i class="fa fa-bomb"> NUKE IT!</i></button>
+                                    id="deleteMonthlyGames"
+                                    class="btn btn-danger button-inline-group-button">
+                                <i class="fa fa-bomb"> NUKE IT!</i>
+                            </button>
                         </div>
                         <div>
                             <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
