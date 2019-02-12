@@ -588,6 +588,33 @@ namespace Scoreboards.Services
         }
 
         /**
+         * Deletes UserGames based on date supplied
+         */ 
+        public async Task DeleteUserGameByMonth(int monthNumber)
+        {
+            var list_to_delete = _context.UserGames
+                .Select(game => game.GamePlayedOn.Month == monthNumber)
+                .FirstOrDefault();
+            
+            //uncomment for production
+            //_context.RemoveRange(list_to_delete);
+
+            await _context.SaveChangesAsync();
+        }
+
+        /**
+         * Performs Hard Reset
+         * Drops all entires in the UserGames table
+         * There is no return after this point.
+         */ 
+        public async Task DeleteAllUserGames()
+        {
+            _context.UserGames.FromSql("TRUNCATE TABLE [UserGames]");
+
+            await _context.SaveChangesAsync();
+        }
+
+        /**
          * Edit a user game in the database
          * TODO: implement and call updatesubsequentgames method to repair database points after editing
          */
@@ -873,5 +900,7 @@ namespace Scoreboards.Services
            return userIdDictionary.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
 
         }
+
+      
     }
 }

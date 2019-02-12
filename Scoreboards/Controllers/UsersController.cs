@@ -233,5 +233,21 @@ namespace Scoreboards.Controllers
             return View();
         }
 
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> DeleteUserGameHistory(int monthNumber = 0)
+        {
+            // 0 means Complete Table wipe out
+            if(monthNumber == 0)
+            {
+                await _userGameService.DeleteAllUserGames();
+            }
+            else
+            {
+                await _userGameService.DeleteUserGameByMonth(monthNumber);
+            }
+
+            return RedirectToAction("Admin", "Users");
+        }
+
     }
 }
