@@ -94,7 +94,7 @@ namespace Scoreboards.Controllers
                     Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
                     Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
-                    MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, Game.Id.ToString())
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, Game.Id.ToString())
                 })).ToDictionary(x => x.Key, x => x.Value);
 
             gameStats.Add("Overall", new LeaderboardUserModel
@@ -105,7 +105,7 @@ namespace Scoreboards.Controllers
                 Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, "").ToString(),
                 Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, "").ToString(),
                 Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, "").ToString(),
-                MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, "Overall")
+                MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, "overall")
             });
 
             
@@ -120,7 +120,7 @@ namespace Scoreboards.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Admin()
+        public IActionResult Admin(string message = "")
         {
             /**
              * Admin can edit profile
@@ -131,7 +131,8 @@ namespace Scoreboards.Controllers
             var model = new UsersModel
             {
                 AppUsers = _userService.GetAll().OrderBy(user => user.UserName),
-                ListOfAdmins = _userService.GetByRole("Admin").OrderBy(user => user.UserName)
+                ListOfAdmins = _userService.GetByRole("Admin").OrderBy(user => user.UserName),
+                StatusMessage = message
             };
 
             return View(model);
@@ -227,27 +228,41 @@ namespace Scoreboards.Controllers
         }
 
         [Authorize(Roles="Admin")]
-        public IActionResult ResetStats()
+        public IActionResult ResetStats(string message = "")
         {
+            ICollection<DateTime> monthNames = new List<DateTime>();
+            for (int i = 11; i >= 0; --i)
+            {
+                monthNames.Add(DateTime.Now.AddMonths(-i));
+            }
 
-            return View();
+            var model = new ResetStatsModel
+            {
+                MonthNames = monthNames,
+                StatusMessage = message
+            };
+
+            return View(model);
         }
 
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> DeleteUserGameHistory(int monthNumber = 0)
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserGameHistory(ResetStatsModel model)
         {
-            // 0 means Complete Table wipe out
-            if(monthNumber == 0)
+            var message = "Action Was Canceled. There Were No Changes Made To The Database";
+
+            if (model.MonthSelected == null)
             {
                 await _userGameService.DeleteAllUserGames();
+                message = "All Games Were Deleted Successfully.";
             }
-            else
+
+            if(model.MonthSelected.Year > 1)
             {
-                await _userGameService.DeleteUserGameByMonth(monthNumber);
+                await _userGameService.DeleteUserGameByMonth(model.MonthSelected);
+                message = "Games For " + model.MonthSelected.ToString("MMMM yyyy") + " Were Deleted Successfully.";
             }
-
-            return RedirectToAction("Admin", "Users");
+            return RedirectToAction("ResetStats", "Users", new { message });
         }
-
     }
 }

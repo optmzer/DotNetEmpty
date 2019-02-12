@@ -120,7 +120,7 @@ namespace Scoreboards.Controllers
         }
         private IEnumerable<LeaderboardUserModel> prepareLeaderBoard(string gameId)
         {
-
+            // this is when calculating overall(time) & game id didnt checked
             IEnumerable<UserGame> userGameList = _userGameService.GetAll();
             IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
             IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAllActive()
@@ -151,7 +151,7 @@ namespace Scoreboards.Controllers
         }
         private IEnumerable<LeaderboardUserModel> prepareLeaderBoard(string gameId, DateTime monthFetched)
         {
-
+            // this is when calculating specific month(time) & game id didnt checked
             IEnumerable<UserGame> userGameList = _userGameService.GetAll(monthFetched);
             IEnumerable<MonthlyWinners> monthlyWinners = _monthlyWinnersService.GetAll();
             IEnumerable<LeaderboardUserModel> leaderboardData = _userService.GetAllActive()
@@ -173,7 +173,7 @@ namespace Scoreboards.Controllers
                     Loses = losses.ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
                     Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
-                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId),
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId, monthFetched),
                     IsProfileDeleted = user.IsProfileDeleted,
                     GameId = Convert.ToInt32(gameId)
                 };
