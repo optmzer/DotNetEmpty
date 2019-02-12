@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Scoreboards.Data;
 using Scoreboards.Data.Models;
 using Scoreboards.Models.GamePage;
@@ -14,21 +17,31 @@ namespace Scoreboards.Controllers
     [Authorize]
     public class GameController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly IGame _game;
         private readonly IUserGame _userGameService;
         private readonly IApplicationUser _userService;
         private readonly IMonthlyWinners _monthlyWinnersService;
+        private readonly IUpload _uploadService;
+        private readonly string _azureBlobStorageConnection;
+
 
         public GameController(
               IGame game
             , IUserGame userGameService
             , IApplicationUser userService
-            , IMonthlyWinners monthlyWinnersService)
+            , IMonthlyWinners monthlyWinnersService
+            , IUpload uploadService
+            , IConfiguration configuration)
         {
             _game = game;
             _userGameService = userGameService;
             _userService = userService;
             _monthlyWinnersService = monthlyWinnersService;
+            _uploadService = uploadService;
+            _config = configuration;
+            // Game Images are in the same storage container as User Images, but they are in separate blobs
+            _azureBlobStorageConnection = _config.GetConnectionString("AZURE_BLOB_STORAGE_USER_IMAGES");
         }
 
         /**
@@ -136,6 +149,13 @@ namespace Scoreboards.Controllers
 
             await _game.AddGame(game);
 
+            model.Id = game.Id;
+
+            if (model.ImageUpload != null)
+            {
+                await UploadGameImageAsync(model);
+            }
+
             return RedirectToAction("Index", "Game");
         }
 
@@ -194,13 +214,32 @@ namespace Scoreboards.Controllers
             {
                 GameName = model.GameName.ToUpper(),
                 GameLogo = model.GameLogo,
-                // Points are input in the User Game Service, these values are simply
+                // Points are put in the User Game Service, these values are simply
                 // Placeholders
                 WinPoints = 0,
                 DrawPoints = 0,
                 LossPoints = 0,
                 GameDescription = model.GameDescription
             };
+        }
+
+        private async Task UploadGameImageAsync(NewGameModel model)
+        {
+            var game = _game.GetById(model.Id);
+            var container = _uploadService.GetGameImagesBlobContainer(_azureBlobStorageConnection);
+
+            var contentDisposition = ContentDispositionHeaderValue.Parse(model.ImageUpload.ContentDisposition);
+            var fileName = contentDisposition.FileName.Trim('"');
+
+            // Replace it with gameId to save space in Azure blob
+            // As the file with the same name will overrite the old file.
+            var fileExtension = fileName.Substring(fileName.LastIndexOf('.'));
+            var gameIdFileName = String.Concat(model.Id, fileExtension);
+
+            var blockBlob = container.GetBlockBlobReference(gameIdFileName);
+
+            await blockBlob.UploadFromStreamAsync(model.ImageUpload.OpenReadStream());
+            await _game.SetGameImageAsync(game, blockBlob.Uri);
         }
     }
 }

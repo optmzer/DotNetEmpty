@@ -8,8 +8,7 @@
     <div class="row display-next-to-each-other">
         <h2>@Model.GameDetail.GameName</h2>
         <div class="float-left1 col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            @{string imgSourceString = string.Concat("~", Model.GameDetail.GameLogo);}
-            <img class="card-picture" src="@Url.Content(imgSourceString)" alt="~/images/defaultImage.png" /><br /><br />
+            <img class="card-picture" src="@Model.GameDetail.GameLogo" alt="~/images/defaultImage.png" /><br /><br />
             <label>Description</label>
             <br />
             <label>@Model.GameDetail.GameDescription</label>

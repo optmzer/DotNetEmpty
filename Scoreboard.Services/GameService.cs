@@ -93,9 +93,12 @@ namespace Scoreboards.Services
          * Changes the Game Image to the selected input
          * TODO: implement or remove
          */
-        public Task SetGameImageAsync(string uri)
+        public async Task SetGameImageAsync(Game game, Uri uri)
         {
-            throw new NotImplementedException();
+            game.GameLogo = uri.AbsoluteUri;
+
+            _context.Update(game);
+            await _context.SaveChangesAsync();
         }
 
         /**

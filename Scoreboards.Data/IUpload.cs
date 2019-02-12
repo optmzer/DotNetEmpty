@@ -5,5 +5,6 @@ namespace Scoreboards.Data
     public interface IUpload
     {
         CloudBlobContainer GetStorageContainer(string blobStorageConnectionString);
+        CloudBlobContainer GetGameImagesBlobContainer(string blobStorageConnectionString);
     }
 }

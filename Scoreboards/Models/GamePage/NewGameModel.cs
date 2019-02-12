@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Scoreboards.Models.GamePage
         public string GameDescription { get; set; }
 
         public string GameLogo { get; set; }
+
+        public IFormFile ImageUpload { get; set; }
     }
 }

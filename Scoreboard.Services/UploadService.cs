@@ -18,5 +18,13 @@ namespace Scoreboards.Services
 
             return blobClient.GetContainerReference("userimages");
         }
+
+        public CloudBlobContainer GetGameImagesBlobContainer(string blobStorageConnectionString)
+        {
+            var storageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+
+            return blobClient.GetContainerReference("gameimages");
+        }
     }
 }
