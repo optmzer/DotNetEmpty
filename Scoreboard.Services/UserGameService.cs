@@ -604,12 +604,11 @@ namespace Scoreboards.Services
         /**
          * Deletes UserGames based on date supplied
          */ 
-        public async Task DeleteUserGameByMonth(int monthNumber)
+        public async Task DeleteUserGameByMonth(DateTime month)
         {
             IEnumerable<UserGame> list_to_delete = _context.UserGames
-                .Where(game => game.GamePlayedOn.Month == monthNumber);
+                .Where(game => game.GamePlayedOn.Month == month.Month);
 
-            //uncomment for production
             _context.RemoveRange(list_to_delete);
 
             await _context.SaveChangesAsync();
