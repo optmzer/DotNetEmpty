@@ -20,9 +20,12 @@
                         <img class="card-picture" src="@game.GameLogo" alt="~/images/defaultImage.png" />
                         <span>
                             <label class="game-card-detail">@game.GameName</label>
-                            <a asp-controller="Game" asp-action="EditGame" asp-route-gameId="@game.Id">
-                                <i class="fa fa-cogs"></i>
-                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Game" asp-action="EditGame" asp-route-gameId="@game.Id">
+                                    <i class="fa fa-cogs"></i>
+                                </a>
+                            }
                         </span>
                     </div>
                 }
