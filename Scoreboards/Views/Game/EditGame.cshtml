@@ -21,7 +21,7 @@
     <div class="row" style="text-align:center">
         <div class="add-game-form col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
             <h2 style="padding-bottom:20px;">Edit Game</h2>
-            <form asp-action="UpdateGame" method="post" id="addGame" onsubmit="document.getElementById('submitGameBtn').disabled">
+            <form asp-action="UpdateGame" method="post" id="addGame" onsubmit="document.getElementById('submitGameBtn').disabled" enctype="multipart/form-data">
                 <div class="form-group" style="padding-bottom:20px;">
                     <label asp-for="GameName">Game Name</label>
                     <input asp-for="GameName" class="form-control" value="@Model.GameName" />

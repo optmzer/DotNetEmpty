@@ -197,10 +197,20 @@ namespace Scoreboards.Controllers
                 return RedirectToAction("EditGame", "Game");
             }
 
+            if (model.ImageUpload == null)
+            {
+                model.GameLogo = _game.GetById(model.Id).GameLogo;
+            }
+
             var game = BuildGame(model);
             game.Id = model.Id;
 
             await _game.EditGame(game);
+
+            if (model.ImageUpload != null)
+            {
+                await UploadGameImageAsync(model);
+            }
 
             return RedirectToAction("Index", "Game");
         }
