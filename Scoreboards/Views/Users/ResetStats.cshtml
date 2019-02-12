@@ -1,0 +1,28 @@
+﻿
+
+
+<div class="row page-content user-page row-margin-override">
+    <div>
+        <h1>Admin Actions | Reset Game Stats</h1>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <fieldset class="admin-delete-fieldset">
+            <legend class="admin-delete-user-legend">Xmas Wipe Out</legend>
+            <p class="text-danger"><b>!!!WARNING!!!</b></p>
+            <p class="text-danger">This action will <b>permanently</b> delete all game data from the database. User's profiles will be kept intact. <b>The user's games and scores cannot be restored once deleted.</b></p>
+            <div class="row button-inline-group">
+                <div>
+                    <a asp-controller="Users"
+                       asp-action="DeleteUserGameHistory"
+                       role="button"
+                       class="btn btn-danger button-inline-group-button"><i class="fa fa-bomb"> NUKE IT!</i></a>
+                </div>
+                <div>
+                    <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+</div>

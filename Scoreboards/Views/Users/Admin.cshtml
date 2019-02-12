@@ -10,136 +10,154 @@
 }
 
 <div class="page-content new-user-game">
-    <div>
         <h1>Admin Page</h1>
-    </div>
-    <div class="row">
-        <ul class="list-group">
-            <li href="#" class="list-group-item disabled">
-                Admins
-                <span>
-                    @foreach (var item in @Model.ListOfAdmins)
-                    {
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item disabled">
+                    <span><i class="fa fa-wrench"></i></span>
+                    Reset Stats
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-9 col-md-9 col-lg-9">
+                            Link to a page to reset games scores and statistic
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <a asp-controller="Users" asp-action="ResetStats" class="text-danger pull-right" title="Yes it is a pun">Xmass Wipe Out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item disabled">
+                    <i class="fa fa-key admin-key"></i>
+                    Admins
+                    <span>
+                        @foreach (var item in @Model.ListOfAdmins)
+                        {
                             <i class="fa fa-key admin-key"></i>
-                    } 
-                    @adminTotal
-                </span>
-            </li>
-            @foreach (var admin in @Model.ListOfAdmins)
-            {
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="admin-page-user-metadata"
-                             onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = admin.Id }))'">
-                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                <img src="@admin.ProfileImageUrl" alt="@admin.UserName" class="user-list-avatar" />
-                            </div>
-                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                @admin.UserName
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                @admin.Email
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                            <span>
-                                <a asp-controller="Users" asp-action="RemoveUserFromRole" asp-route-userId="@admin.Id" title="Remov User From Admin Role">
-                                    <i class="fa fa-minus-square-o"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
+                        }
+                        @adminTotal
+                    </span>
                 </li>
-            }
-        </ul>
-    </div>
-    <div class="row">
-        <ul class="list-group">
-            <li class="list-group-item disabled">
-                List of Users | Users Total: @Model.AppUsers.Count()
-            </li>
-            @foreach (var user in Model.AppUsers)
-            {
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="admin-page-user-metadata"
-                             title="User Metadata"
-                             onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.Id }))'">
-                            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                <img src="@user.ProfileImageUrl" alt="@user.UserName" class="user-list-avatar" />
+                @foreach (var admin in @Model.ListOfAdmins)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="admin-page-user-metadata"
+                                 onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = admin.Id }))'">
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    <img src="@admin.ProfileImageUrl" alt="@admin.UserName" class="user-list-avatar" />
+                                </div>
+                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                    @admin.UserName
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    @admin.Email
+                                </div>
                             </div>
-                            @if (user.IsProfileDeleted)
-                            {
-                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                    @profileDeleted
-                                </div>
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                    All Data Cleared
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                    @user.UserName
-                                </div>
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                    @user.Email
-                                </div>
-                            }
                             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                                Since: @user.MemberSince.ToShortDateString()
+                                <span>
+                                    <a asp-controller="Users" asp-action="RemoveUserFromRole" asp-route-userId="@admin.Id" title="Remov User From Admin Role">
+                                        <i class="fa fa-minus-square-o"></i>
+                                    </a>
+                                </span>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 admin-page-actions" title="Actions">
-                            @if (user.IsProfileDeleted == true)
-                            {
-                                <div class="admin-page-actions-item" title="Profile Was Permanently Deleted">
-                                    <i class="fa fa-eraser"></i>
-                                </div>
-                            }
-                            else
-                            {
-                                @if (await _userManager.IsInRoleAsync(user, "Admin"))
-                                {
-                                    <div class="admin-page-actions-item">
-                                        <i class="fa fa-key admin-key"></i>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="admin-page-actions-item">
-                                        <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id" title="Add To Admin Role">
-                                            <i class="fa fa-plus-square-o"></i>
-                                        </a>
-                                    </div>
-                                }
-                                @if (await _userManager.IsEmailConfirmedAsync(user))
-                                {
-                                    <div class="admin-page-actions-item admin-email-confirmed" title="Email Confirmed">
-                                        <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
-                                            <i class="fa fa-envelope-o"></i>
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="admin-page-actions-item" title="Resend Account Confirmation Email">
-                                        <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
-                                            <i class="fa fa-send-o"></i>
-                                        </a>
-                                    </div>
-                                }
-
-                                <div class="admin-page-actions-item admin-delete-account">
-                                    <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id" title="Delete Forever User Profile">
-                                        <i class="fa fa-user-times"></i>
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item disabled">
+                    <span><i class="fa fa-user-circle-o"></i></span>
+                    List of Users  | Users Total: @Model.AppUsers.Count()
                 </li>
-            }
-        </ul>
-    </div>
+                @foreach (var user in Model.AppUsers)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="admin-page-user-metadata"
+                                 title="User Metadata"
+                                 onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.Id }))'">
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    <img src="@user.ProfileImageUrl" alt="@user.UserName" class="user-list-avatar" />
+                                </div>
+                                @if (user.IsProfileDeleted)
+                                {
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                        @profileDeleted
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        All Data Cleared
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                        @user.UserName
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        @user.Email
+                                    </div>
+                                }
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                    Since: @user.MemberSince.ToShortDateString()
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 admin-page-actions" title="Actions">
+                                @if (user.IsProfileDeleted == true)
+                                {
+                                    <div class="admin-page-actions-item" title="Profile Was Permanently Deleted">
+                                        <i class="fa fa-eraser"></i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @if (await _userManager.IsInRoleAsync(user, "Admin"))
+                                    {
+                                        <div class="admin-page-actions-item">
+                                            <i class="fa fa-key admin-key"></i>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="admin-page-actions-item">
+                                            <a asp-controller="Users" asp-action="AddUserToRole" asp-route-userId="@user.Id" title="Add To Admin Role">
+                                                <i class="fa fa-plus-square-o"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    @if (await _userManager.IsEmailConfirmedAsync(user))
+                                    {
+                                        <div class="admin-page-actions-item admin-email-confirmed" title="Email Confirmed">
+                                            <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
+                                                <i class="fa fa-envelope-o"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="admin-page-actions-item" title="Resend Account Confirmation Email">
+                                            <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id">
+                                                <i class="fa fa-send-o"></i>
+                                            </a>
+                                        </div>
+                                    }
+
+                                    <div class="admin-page-actions-item admin-delete-account">
+                                        <a asp-controller="Users" asp-action="AdminActions" asp-route-userId="@user.Id" title="Actions and Settings">
+                                            <i class="fa fa-cogs"></i>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
 </div>
