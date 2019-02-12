@@ -230,7 +230,7 @@ namespace Scoreboards.Controllers
         public IActionResult ResetStats()
         {
             ICollection<DateTime> monthNames = new List<DateTime>();
-            for (int i =0; i < 12; i++)
+            for (int i = 11; i >= 0; --i)
             {
                 monthNames.Add(DateTime.Now.AddMonths(-i));
             }

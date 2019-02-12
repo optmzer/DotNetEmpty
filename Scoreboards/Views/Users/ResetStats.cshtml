@@ -2,7 +2,10 @@
 
 <SCRIPT language=Javascript>
     function disableSubmitBtn() {
-        document.getElementById("deleteMonthlyGames").disabled = true;
+        var buttons = document.getElementsByClassName("btn");
+        for (let b of buttons) {
+            b.disabled = true;
+        }
     }
     window.onbeforeunload = disableSubmitBtn;
 </SCRIPT>
@@ -11,26 +14,32 @@
         <h1>Admin Actions | Reset Game Stats</h1>
     </div>
 
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-        <fieldset class="admin-delete-fieldset">
-            <legend class="admin-delete-user-legend">Xmas Wipe Out</legend>
-            <p class="text-danger"><b>!!!WARNING!!!</b></p>
-            <p class="text-danger">This action will <b>permanently</b> delete all game data from the database. User's profiles will be kept intact. <b>The user's games and scores cannot be restored once deleted.</b></p>
-            <div class="row button-inline-group">
-                <div>
-                    <a asp-controller="Users"
-                       asp-action="DeleteUserGameHistory"
-                       role="button"
-                       class="btn btn-danger button-inline-group-button"><i class="fa fa-bomb"> NUKE IT!</i></a>
+    <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame">
+
+            <fieldset class="admin-delete-fieldset">
+                <legend class="admin-delete-user-legend">Xmas Wipe Out</legend>
+                <p class="text-danger"><b>!!!WARNING!!!</b></p>
+                <p class="text-danger">This action will <b>permanently</b> delete all game data from the database. User's profiles will be kept intact. <b>The user's games and scores cannot be restored once deleted.</b></p>
+                <div class="row button-inline-group">
+                    <div>
+                        <button type="submit"
+                                id="deleteAllGames"
+                           class="btn btn-danger button-inline-group-button">
+                        <i class="fa fa-bomb"> NUKE IT!</i></button>
+                    </div>
+                    <div>
+                        <a asp-controller="Users" 
+                            asp-action="Admin" 
+                            role="button" 
+                            class="btn btn-cancel button-inline-group-button">CANCEL</a>
+                    </div>
                 </div>
-                <div>
-                    <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
-                </div>
-            </div>
-        </fieldset>
+            </fieldset>
+        </form>
     </div>
     <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame" onsubmit="document.getElementById('deleteMonthlyGames').disabled">
+        <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame">
             <fieldset class="admin-delete-fieldset">
                 <legend class="admin-delete-user-legend">Monthly Wipe Out</legend>
                 <div class="user-game-player">
@@ -51,11 +60,10 @@
                     </div>
                     <div class="row button-inline-group">
                         <div>
-                            <a asp-controller="Users"
-                               asp-action="DeleteUserGameHistory"
+                            <button type="submit"
                                id="deleteMonthlyGames"
-                               role="button"
-                               class="btn btn-danger button-inline-group-button"><i class="fa fa-bomb"> NUKE IT!</i></a>
+                               class="btn btn-danger button-inline-group-button">
+                            <i class="fa fa-bomb"> NUKE IT!</i></button>
                         </div>
                         <div>
                             <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
