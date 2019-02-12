@@ -602,6 +602,31 @@ namespace Scoreboards.Services
         }
 
         /**
+         * Deletes UserGames based on date supplied
+         */ 
+        public async Task DeleteUserGameByMonth(int monthNumber)
+        {
+            IEnumerable<UserGame> list_to_delete = _context.UserGames
+                .Where(game => game.GamePlayedOn.Month == monthNumber);
+
+            //uncomment for production
+            _context.RemoveRange(list_to_delete);
+
+            await _context.SaveChangesAsync();
+        }
+
+        /**
+         * Performs Hard Reset
+         * Drops all entires in the UserGames table
+         * There is no return after this point.
+         */ 
+        public async Task DeleteAllUserGames()
+        {
+            await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE UserGames;");
+            await _context.SaveChangesAsync();
+        }
+
+        /**
          * Edit a user game in the database
          */
         public async Task EditUserGame(UserGame newUserGameContent)
@@ -877,5 +902,7 @@ namespace Scoreboards.Services
            return userIdDictionary.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
 
         }
+
+      
     }
 }
