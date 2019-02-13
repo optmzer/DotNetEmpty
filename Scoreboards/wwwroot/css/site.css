@@ -77,6 +77,24 @@ tbody > tr:hover {
     font-size: 1em;
 }
 
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+        .navbar-collapse.collapse.in {
+            display: block !important;
+        }
+
+    .navbar-header .collapse, .navbar-toggle {
+        display: block !important;
+    }
+
+    .navbar-header {
+        float: none;
+    }
+}
+
 /* LOGO */
 .instillery-logo-navbar {
     width: 7em;
