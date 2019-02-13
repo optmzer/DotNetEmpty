@@ -20,11 +20,9 @@ namespace Scoreboards.Data
         int getWinsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
         int getDrawsByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
         int getLosesByIdAndGameId(IEnumerable<UserGame> preparedData, string userId, string gameId);
-        decimal getRatioWithIdAndGameId(int wins, int losses);
-        decimal getRatioWithIdAndGameId(string userId, string gameId);
+        decimal calculateWinRatio(int wins, int losses);
         decimal getRatioWithIdAndGameId(IEnumerable<UserGame> userGameList, string userId, string gameId);
         decimal getRatioIncludingDrawWithIdAndGameId(string userId, string gameId);
-        int getUserPoint(string userId, string gameId);
         int getUserPoint(IEnumerable<UserGame> userSpecificUGList, string userId, string gameId);
         int getUserPointsByMonth(string userId, string gameId);
         int getTotalGamePlayedByUserId(string userId);

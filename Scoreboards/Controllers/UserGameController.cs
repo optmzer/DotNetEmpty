@@ -44,7 +44,6 @@ namespace Scoreboards.Controllers
         {
             // When new game is created it is redirected to index page not Home
             // 
-            // TODO: Prepopulate form with data about games
             // Palyers names
             // Create view model to feed to the page
             var userGame = _userGameService.GetById(userGameId);

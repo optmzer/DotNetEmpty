@@ -185,34 +185,10 @@ namespace Scoreboards.Services
         /**
          * Calculates the win ratio given an input of wins and losses.
          */
-        public decimal getRatioWithIdAndGameId(int wins, int losses)
+        public decimal calculateWinRatio(int wins, int losses)
         {
             int total = wins + losses;
             // If the user has no games or only draws
-            if (total == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                decimal ratio = (decimal)wins / (decimal)(total) * 100;
-                return Math.Round(ratio, 2);
-            }
-        }
-
-        /**
-         * Returns the win ratio for a given user in the specified game
-         * TODO: Potentially remove (no uses)
-         */
-        public decimal getRatioWithIdAndGameId(string userId, string gameId)
-        {
-            // get the wins/losses
-            // TODO potentially change to use GetAll() in place of null
-            int wins = getWinsByIdAndGameId(null, userId, gameId);
-            int losses = getLosesByIdAndGameId(null, userId, gameId);
-            int total = wins + losses;
-
-            // If the user has played no games or only has draws
             if (total == 0)
             {
                 return 0;
@@ -485,37 +461,6 @@ namespace Scoreboards.Services
                 var point2 = userSpecificUGList.Where(game => 
                                                       game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId)
                                                       .Sum(game => game.User_02_Awarder_Points);
-                return point1 + point2;
-            }
-        }
-
-        /**
-         * Returns the nuumber of points a user has in a specified game
-         * TODO: potentially remove this method as optimised version can always be used
-         */
-        public int getUserPoint(string userId, string gameId)
-        {
-            // If the gameId is null or empty, provides a users overall points.
-            if (gameId == null || gameId == "" || gameId == "0")
-            {
-                var listOfUserGames = getUserGamesByUserId(userId);
-                var point1 = listOfUserGames.Where(game => 
-                                                   game.User_01_Id == userId)
-                                                   .Sum(game => game.User_01_Awarder_Points);
-                var point2 = listOfUserGames.Where(game => 
-                                                   game.User_02_Id == userId)
-                                                   .Sum(game => game.User_02_Awarder_Points);
-                return point1 + point2;
-            }
-            else
-            {
-                var listOfUserGames = getUserGamesByUserId(userId);
-                var point1 = listOfUserGames.Where(game => 
-                                                   game.User_01_Id == userId && game.GamePlayed.Id.ToString() == gameId)
-                                                   .Sum(game => game.User_01_Awarder_Points);
-                var point2 = listOfUserGames.Where(game => 
-                                                   game.User_02_Id == userId && game.GamePlayed.Id.ToString() == gameId)
-                                                   .Sum(game => game.User_02_Awarder_Points);
                 return point1 + point2;
             }
         }
@@ -814,29 +759,6 @@ namespace Scoreboards.Services
                 userGames.Remove(currentUserGame.Id);
                 latestId = currentUserGame.Id;
             }
-
-            // Check if any new games have been added after the database is done.
-            //Boolean hasNewGames = true;
-            //
-            //while (hasNewGames)
-            //{
-            //    var listOfUserGames = _context.UserGames.Where(game =>
-            //                                                   game.Id > latestId && (
-            //                                                   usersPoints.Keys.Contains(game.User_01_Id) ||
-            //                                                   usersPoints.Keys.Contains(game.User_02_Id) ||
-            //                                                   game.GamePlayed == baseGame.GamePlayed
-            //                                                   ));
-            //    if (!listOfUserGames.Any())
-            //    {
-            //        hasNewGames = false;
-            //    }
-            //    else
-            //    {
-            //        // TODO sort out any games added to the database while the database is updated after editing/deleting
-            //        // Placeholder
-            //        hasNewGames = false;
-            //    }
-            //}
         }
 
         /**
@@ -863,14 +785,9 @@ namespace Scoreboards.Services
         }
 
         /**
-         * Counts the number of wins a given user has
-         * TODO; remove this method, never used and a better alternate is provided.
+         * Finds the winner of the last months competition in the specified game, this method is used to 
+         * find the winners before entering them into the MonthlyWinners Table
          */
-        public int CountWinsForUser(string userId)
-        {
-            return GetAll().Where(uGame => uGame.Winner == userId).Count();
-        }
-
         public string GetLastMonthWinner(string gameId)
         {
             var time = DateTime.Now.AddMonths(-1);

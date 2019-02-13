@@ -54,12 +54,6 @@ namespace Scoreboards.Services
             return GetAll().FirstOrDefault(user => user.Id == userId);
         }
 
-        // TODO
-        public Task SetRating(string userId, Type type)
-        {
-            throw new NotImplementedException();
-        }
-
         /**
          * Updates a selected users motto
          */

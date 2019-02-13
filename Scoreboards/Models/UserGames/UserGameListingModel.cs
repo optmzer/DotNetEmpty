@@ -36,6 +36,8 @@ namespace Scoreboards.Models.UserGames
         [Required]
         public string GameName { get; set; }
 
+        public Boolean Apologised { get; set; }
+
         //Score 
         public string GameScore { get; set; }
 

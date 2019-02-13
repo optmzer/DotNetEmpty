@@ -28,7 +28,6 @@ namespace Scoreboards.Services
 
         /**
          * Adds a game to the database
-         * TODO: Remove or implement this feature.
          */
         public async Task AddGame(Game game)
         {
@@ -111,7 +110,6 @@ namespace Scoreboards.Services
 
         /**
          * Changes the Game Image to the selected input
-         * TODO: implement or remove
          */
         public async Task SetGameImageAsync(Game game, Uri uri)
         {
@@ -123,7 +121,6 @@ namespace Scoreboards.Services
 
         /**
          * Changes the Game name to the selected input
-         * TODO: implement or remove
          */
         public Task SetGameNameAsync(string gameName)
         {

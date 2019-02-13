@@ -203,8 +203,7 @@ namespace Scoreboards.Controllers
 
             if(user == null)
             {
-                // TODO: Create a helper message usernot found
-                return RedirectToAction("Admin", "Users");
+                return RedirectToAction("Admin", "Users", new { message = "User Not Found"});
             }
 
             if(user.Email != model.User.Email)

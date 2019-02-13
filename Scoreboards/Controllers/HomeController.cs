@@ -140,7 +140,7 @@ namespace Scoreboards.Controllers
                         Wins = wins.ToString(),
                         Draws = draws.ToString(),
                         Loses = losses.ToString(),
-                        Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
+                        Ratio = _userGameService.calculateWinRatio(wins, losses).ToString(),
                         Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
                         MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId),
                         GameId = Convert.ToInt32(gameId)
@@ -171,7 +171,7 @@ namespace Scoreboards.Controllers
                     Wins = wins.ToString(),
                     Draws = draws.ToString(),
                     Loses = losses.ToString(),
-                    Ratio = _userGameService.getRatioWithIdAndGameId(wins, losses).ToString(),
+                    Ratio = _userGameService.calculateWinRatio(wins, losses).ToString(),
                     Points = _userGameService.getUserPoint(userSpecificUGList, user.Id, gameId).ToString(),
                     MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(monthlyWinners, user.Id, gameId, monthFetched),
                     IsProfileDeleted = user.IsProfileDeleted,
@@ -229,6 +229,9 @@ namespace Scoreboards.Controllers
 
                         // Game Name
                         GameName = userGameItem.GamePlayed.GameName,
+
+                        //
+                        Apologised = userGameItem.Apologised,
 
                         //Score 
                         GameScore = userGameItem.GameScoreUser01 + " : " + userGameItem.GameScoreUser02,

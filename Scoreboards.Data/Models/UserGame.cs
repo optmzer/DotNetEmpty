@@ -18,8 +18,9 @@ namespace Scoreboards.Data.Models
         [Required]
         public string User_02_Team { get; set; }
 
-        //Score 
-        public string GameScore { get; set; }
+        // Check for if the user has apologised (for FIFA)
+        public Boolean Apologised { get; set; } = false;
+
         [Required]
         public int GameScoreUser01 {get; set;}
         [Required]

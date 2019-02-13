@@ -203,50 +203,6 @@
                                             <span class="match-history-game-name">
                                                 @match.GameName
                                             </span>
-                                            @*@if (_userManager.GetUserId(User) == match.User_01_Id || _userManager.GetUserId(User) == match.User_02_Id)
-                                                    {
-                                                        var opponent = match.User_01.UserName;
-                                                        var player = match.User_02.UserName;
-                                                        if (_userManager.GetUserId(User) == match.User_01_Id)
-                                                        {
-                                                            opponent = match.User_02.UserName;
-                                                            player = match.User_01.UserName;
-                                                        }
-                                                        var message = "@player Beat @opponent @match.GameScore in a game of @match.GameName"
-
-                                                        < meta property="og:url" content="https://instilleryscoreboard.azurewebsites.net/" />
-
-
-                                                                                <meta property="og:type" content="website" />
-
-
-                                                                                <meta property="og:title" content="The Instillery Scoreboards" />
-                                                              if (match.Winner == _userManager.GetUserId(User))
-                                                        {
-                                                    <meta property="og:description" content="@player Beat @opponent @match.GameScore in a game of @match.GameName" />
-                                                }
-                                                        else
-                                                        {
-                                                    <meta property="og:description" content="@player lost to @opponent @match.GameScore in a game of @match.GameName" />
-                                                        }
-                                                                                                           < meta property = "og:description" content =@message />
-
-
-
-                                                   < meta property="og:image" content="//dev.theinstillery.com/wp-content/uploads/2018/02/The-Instillery-Logo-LoRes.png" />
-
-                                                <div class="fb-share-button"
-                                                     data-href="https://instilleryscoreboard.azurewebsites.net/"
-                                                     data-layout="button_count"
-                                                     data-size="small"
-                                                     data-mobile-iframe="true">
-                                                    <a target="_blank"
-                                                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Finstilleryscoreboard.azurewebsites.net%2F&amp;src=sdkpreparse"
-                                                       class="fb-xfbml-parse-ignore">
-                                                        Share
-                                                    </a>
-                                                </div>
-                                            }*@
                                             @if (User.IsInRole("Admin") && (match.GamePlayedOn.Month == DateTime.Now.Month))
                                             {
                                                 <span class="edit-delete-game">
@@ -257,6 +213,10 @@
                                                         <i class="fa fa-trash-o"></i>
                                                     </a>
                                                 </span>
+                                            }
+                                            @if (match.GameName == "FIFA")
+                                            {
+
                                             }
                                         </div>
                                         <div class="match-history-table-middle-div">
