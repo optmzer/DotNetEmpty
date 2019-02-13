@@ -10,5 +10,7 @@ namespace Scoreboards.Models.Users
         [Required]
         public DateTime MonthSelected { get; set; }
         public string StatusMessage { get; set; }
+        public bool DeleteAll { get; set; } = false;
+        public bool Canceled { get; set; } = true;
     }
 }

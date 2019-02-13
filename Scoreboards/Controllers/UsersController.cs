@@ -239,7 +239,8 @@ namespace Scoreboards.Controllers
             var model = new ResetStatsModel
             {
                 MonthNames = monthNames,
-                StatusMessage = message
+                StatusMessage = message,
+                MonthSelected = new DateTime(1, 1, 1)
             };
 
             return View(model);
@@ -251,13 +252,13 @@ namespace Scoreboards.Controllers
         {
             var message = "Action Was Canceled. There Were No Changes Made To The Database";
 
-            if (model.MonthSelected == null)
+            if (model.DeleteAll && !model.Canceled)
             {
                 await _userGameService.DeleteAllUserGames();
                 message = "All Games Were Deleted Successfully.";
             }
 
-            if(model.MonthSelected.Year > 1)
+            if(!model.DeleteAll && !model.Canceled && model.MonthSelected.Year > 1)
             {
                 await _userGameService.DeleteUserGameByMonth(model.MonthSelected);
                 message = "Games For " + model.MonthSelected.ToString("MMMM yyyy") + " Were Deleted Successfully.";

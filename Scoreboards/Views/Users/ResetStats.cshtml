@@ -3,7 +3,19 @@
 
 <SCRIPT language=Javascript>
     function confirmDeletion() {
-        return confirm("This action will result in permanent loss of games historical data. Are you sure you wish to continue?");
+        var deleteAll = document.getElementById("deleteAll");
+        var canceled = document.getElementById("canceled");
+        var result = confirm("This action will result in permanent loss of games historical data. Are you sure you wish to continue?");
+        console.log("Result = ", result);
+        if (result) {
+            deleteAll.setAttribute("value", "true");
+            canceled.setAttribute("value", "false");
+        }
+        else {
+            deleteAll.setAttribute("value", "false");
+            canceled.setAttribute("value", "true");
+        }
+        return
     }
     function disableSubmitBtn() {
         var buttons = document.getElementsByClassName("btn");
@@ -20,7 +32,6 @@
     </div>
     <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <form asp-action="DeleteUserGameHistory" method="post" id="addUserGame" onsubmit="confirmDeletion()">
-
             <fieldset class="admin-delete-fieldset">
                 <legend class="admin-delete-user-legend">Xmas Wipe Out</legend>
                 <p class="text-danger"><b>!!!WARNING!!!</b></p>
@@ -41,6 +52,8 @@
                     </div>
                 </div>
             </fieldset>
+            <input asp-for="DeleteAll" type="hidden" value="true" id="deleteAll" />
+            <input asp-for="Canceled" type="hidden" value="false" id="canceled" />
         </form>
     </div>
     <div class="user-game-player col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -76,7 +89,6 @@
                             <a asp-controller="Users" asp-action="Admin" role="button" class="btn btn-cancel button-inline-group-button">CANCEL</a>
                         </div>
                     </div>
-
                 </div>
             </fieldset>
         </form>
