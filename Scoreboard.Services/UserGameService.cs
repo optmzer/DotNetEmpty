@@ -606,10 +606,14 @@ namespace Scoreboards.Services
          */ 
         public async Task DeleteUserGameByMonth(DateTime month)
         {
-            IEnumerable<UserGame> list_to_delete = _context.UserGames
+            IEnumerable<UserGame> userGames_to_delete = _context.UserGames
                 .Where(game => game.GamePlayedOn.Month == month.Month);
 
-            _context.RemoveRange(list_to_delete);
+            IEnumerable<MonthlyWinners> monthlyWinners_to_delete = _context.MonthlyWinners
+                .Where(winner => winner.Title.Contains(month.ToString("MMMM yyyy")));
+
+            _context.RemoveRange(userGames_to_delete);
+            _context.RemoveRange(monthlyWinners_to_delete);
 
             await _context.SaveChangesAsync();
         }
@@ -622,6 +626,7 @@ namespace Scoreboards.Services
         public async Task DeleteAllUserGames()
         {
             await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE UserGames;");
+            await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE MonthlyWinners;");
             await _context.SaveChangesAsync();
         }
 
