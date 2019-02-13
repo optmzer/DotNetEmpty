@@ -1,10 +1,26 @@
-﻿@model Scoreboards.Models.Home.HomeIndexModel
+﻿@using Microsoft.AspNetCore.Identity
+
+
+@model Scoreboards.Models.Home.HomeIndexModel
+
+
+@inject UserManager<Scoreboards.Data.Models.ApplicationUser> _userManager
 
 @{
     string profileDeleted = "Profile Deleted";
     ViewData["Title"] = "The Instillery Scoreboards";
     int i = 1;
 }
+
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=394194558003531&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
 <div class="page-content home-page">
     <div class="row display-next-to-each-other">
@@ -31,11 +47,11 @@
         <div style="color:#000 !important; padding-left:2.5% !important;" class="float-right1 col-xs-12 col-sm-2 col-md-2 col-lg-2">
             @Html.DropDownListFor(listItem => listItem.itemSelected,
                             new SelectList(
-                                Model.DropDownData, 
-                            "Value", 
-                            "Text", 
-                            Model.itemSelected == "0" 
-                            ? Model.DropDownData[0].Selected 
+                                Model.DropDownData,
+                            "Value",
+                            "Text",
+                            Model.itemSelected == "0"
+                            ? Model.DropDownData[0].Selected
                             : Model.DropDownData[ Model.DropDownData.FindIndex(item => item.Value == Model.itemSelected)].Selected),
                             "All games",
                             new
@@ -64,91 +80,91 @@
                     {
                         @foreach (var user in Model.UsersData)
                         {
-                    <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
-                        <td>
-                            <div class="home-leader-table-cell">
-                                <label class="leader-table-rank-number">@i</label>
-                                @switch (i)
-                                {
-                                    case 1:
-                                        <span class="badge user-trophy gold" title="Current All Time Winner">
-                                            <i class="fa fa-trophy"></i>
-                                        </span>
-                                        break;
-                                    case 2:
-                                        <span class="badge user-trophy silver" title="Current All Time Winner">
-                                            <i class="fa fa-trophy"></i>
-                                        </span>
-                                        break;
-                                    case 3:
-                                        <span class="badge user-trophy bronz" title="Current All Time Winner">
-                                            <i class="fa fa-trophy"></i>
-                                        </span>
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                @if (user.MonthlyWins.Count() != 0)
-                                {
-
-                                    @switch (user.GameId)
-                                    {
-                                        case 0:
-                                            {
+                            <tr onclick="location.href = '@(Url.Action("Profile", "Users", new { userId = user.UserId }))'">
+                                <td>
+                                    <div class="home-leader-table-cell">
+                                        <label class="leader-table-rank-number">@i</label>
+                                        @switch (i)
+                                        {
+                                            case 1:
                                                 <span class="badge user-trophy gold" title="Current All Time Winner">
                                                     <i class="fa fa-trophy"></i>
                                                 </span>
                                                 break;
-                                            }
-                                        case 1:
-                                            <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
-                                                <i class="fa fa-soccer-ball-o"></i>
-                                            </span>
-                                            break;
-                                        case 2:
-                                            <span class="badge user-trophy gold" title="NBA2K17 Monthly Winner">
-                                                <i class="fa fa-dribbble"></i>
-                                            </span>
-                                            break;
-                                        case 3:
-                                            <span class="badge user-trophy gold" title="POOL Monthly Winner">
-                                                <i class="fa fa-bullseye"></i>
-                                            </span>
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                            case 2:
+                                                <span class="badge user-trophy silver" title="Current All Time Winner">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                break;
+                                            case 3:
+                                                <span class="badge user-trophy bronz" title="Current All Time Winner">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                break;
+                                            default:
+                                                break;
+                                        }
 
-                                }
-                            </div>
-                        </td>
-                        <td class="toggle-table-column">
-                            <div>
-                                <img class="user-list-avatar" src="@user.ProfileImageUrl">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="home-leader-table-cell">
-                                @user.UserName
-                            </div>
-                        </td>
-                        <td class="toggle-table-column2">
-                            <div class="home-leader-table-cell">
-                                @user.Wins W - @user.Draws D -  @user.Loses L 
-                            </div>
-                        </td>
-                        <td>
-                            <div class="home-leader-table-cell">
-                                @user.Ratio %
-                            </div>
-                        </td>
-                        <td>
-                            <div class="home-leader-table-cell">
-                                @user.Points
-                            </div>
-                        </td>
-                    </tr>
+                                        @if (user.MonthlyWins.Count() != 0)
+                                        {
+
+                                            @switch (user.GameId)
+                                            {
+                                                case 0:
+                                                    {
+                                                        <span class="badge user-trophy gold" title="Current All Time Winner">
+                                                            <i class="fa fa-trophy"></i>
+                                                        </span>
+                                                        break;
+                                                    }
+                                                case 1:
+                                                    <span class="badge user-trophy gold" title="FIFA17 Monthly Winner">
+                                                        <i class="fa fa-soccer-ball-o"></i>
+                                                    </span>
+                                                    break;
+                                                case 2:
+                                                    <span class="badge user-trophy gold" title="NBA2K17 Monthly Winner">
+                                                        <i class="fa fa-dribbble"></i>
+                                                    </span>
+                                                    break;
+                                                case 3:
+                                                    <span class="badge user-trophy gold" title="POOL Monthly Winner">
+                                                        <i class="fa fa-bullseye"></i>
+                                                    </span>
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+
+                                        }
+                                    </div>
+                                </td>
+                                <td class="toggle-table-column">
+                                    <div>
+                                        <img class="user-list-avatar" src="@user.ProfileImageUrl">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="home-leader-table-cell">
+                                        @user.UserName
+                                    </div>
+                                </td>
+                                <td class="toggle-table-column2">
+                                    <div class="home-leader-table-cell">
+                                        @user.Wins W - @user.Draws D -  @user.Loses L
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="home-leader-table-cell">
+                                        @user.Ratio %
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="home-leader-table-cell">
+                                        @user.Points
+                                    </div>
+                                </td>
+                            </tr>
                             i++;
                         }
                     }
@@ -181,12 +197,56 @@
                         {
                             <tr>
                                 <td class="match-history-table-td">
-                                    
+
                                     <div class="match-history-table-outer-div">
                                         <div>
                                             <span class="match-history-game-name">
                                                 @match.GameName
                                             </span>
+                                            @*@if (_userManager.GetUserId(User) == match.User_01_Id || _userManager.GetUserId(User) == match.User_02_Id)
+                                                    {
+                                                        var opponent = match.User_01.UserName;
+                                                        var player = match.User_02.UserName;
+                                                        if (_userManager.GetUserId(User) == match.User_01_Id)
+                                                        {
+                                                            opponent = match.User_02.UserName;
+                                                            player = match.User_01.UserName;
+                                                        }
+                                                        var message = "@player Beat @opponent @match.GameScore in a game of @match.GameName"
+
+                                                        < meta property="og:url" content="https://instilleryscoreboard.azurewebsites.net/" />
+
+
+                                                                                <meta property="og:type" content="website" />
+
+
+                                                                                <meta property="og:title" content="The Instillery Scoreboards" />
+                                                              if (match.Winner == _userManager.GetUserId(User))
+                                                        {
+                                                    <meta property="og:description" content="@player Beat @opponent @match.GameScore in a game of @match.GameName" />
+                                                }
+                                                        else
+                                                        {
+                                                    <meta property="og:description" content="@player lost to @opponent @match.GameScore in a game of @match.GameName" />
+                                                        }
+                                                                                                           < meta property = "og:description" content =@message />
+
+
+
+                                                   < meta property="og:image" content="//dev.theinstillery.com/wp-content/uploads/2018/02/The-Instillery-Logo-LoRes.png" />
+
+                                                <div class="fb-share-button"
+                                                     data-href="https://instilleryscoreboard.azurewebsites.net/"
+                                                     data-layout="button_count"
+                                                     data-size="small"
+                                                     data-mobile-iframe="true">
+                                                    <a target="_blank"
+                                                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Finstilleryscoreboard.azurewebsites.net%2F&amp;src=sdkpreparse"
+                                                       class="fb-xfbml-parse-ignore">
+                                                        Share
+                                                    </a>
+                                                </div>
+                                            }*@
                                             @if (User.IsInRole("Admin") && (match.GamePlayedOn.Month == DateTime.Now.Month))
                                             {
                                                 <span class="edit-delete-game">
@@ -201,7 +261,7 @@
                                         </div>
                                         <div class="match-history-table-middle-div">
                                             <div class="match-history-table-inner-edge-div">
-                                                @if (match.User_01.IsProfileDeleted)
+                                               @if (match.User_01.IsProfileDeleted)
                                                 {
                                                     @profileDeleted<br />
                                                     @match.User_01_Team
@@ -216,10 +276,10 @@
                                                 vs
                                             </div>
                                             <div class="match-history-table-inner-edge-div">
-                                                @if (match.User_02.IsProfileDeleted)
+                                               @if (match.User_02.IsProfileDeleted)
                                                 {
-                                                    @profileDeleted<br />
-                                                    @match.User_02_Team
+                                                   @profileDeleted<br />
+                                                   @match.User_02_Team
                                                 }
                                                 else
                                                 {
