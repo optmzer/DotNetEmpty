@@ -20,11 +20,16 @@
             </li>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-9 col-md-9 col-lg-9">
+                    <div class="col-sm-9 col-md-9 col-lg-10">
                         Link to a page to reset games scores and statistic
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                        <a asp-controller="Users" asp-action="ResetStats" class="text-danger pull-right" title="Yes it is a pun">Xmass Wipe Out</a>
+                    <div class="col-sm-3 col-md-3 col-lg-2">
+                        <a asp-controller="Users" 
+                            asp-action="ResetStats" 
+                            class="text-danger" 
+                            title="Yes it is a pun">
+                            <i class="fa fa-tree" style="color: darkgreen;"></i>
+                         Xmass Wipe Out</a>
                     </div>
                 </div>
             </li>
