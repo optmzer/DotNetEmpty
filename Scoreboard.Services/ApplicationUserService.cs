@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Scoreboards.Data;
 using Scoreboards.Data.Models;
 using System;
@@ -14,13 +15,19 @@ namespace Scoreboards.Services
 {
     public class ApplicationUserService : IApplicationUser
     {
+        private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUpload _uploadService;
+        private readonly string AzureBlobStorageConnection;
 
-        public ApplicationUserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ApplicationUserService(IConfiguration configuration, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUpload uploadService)
         {
+            _config = configuration;
             _context = context;
             _userManager = userManager;
+            _uploadService = uploadService;
+            AzureBlobStorageConnection = _config.GetConnectionString("AZURE_BLOB_STORAGE_USER_IMAGES");
         }
 
         /**
@@ -113,6 +120,8 @@ namespace Scoreboards.Services
                 await _userManager.RemoveFromRoleAsync(user, "Admin");
             }
 
+            await DeleteUserBlobImage(user.ProfileImageUrl);
+
             user.UserName = delProfile;
             user.NormalizedUserName = delProfile.Normalize();
             user.Email = delProfile;
@@ -124,6 +133,18 @@ namespace Scoreboards.Services
 
             _context.Update(user);
             await _context.SaveChangesAsync();
+        }
+
+        /**
+         * Removes the to be deleted users profile image from the blob storage to conserve storage room
+         */
+        private async Task DeleteUserBlobImage(string imageUrl)
+        {
+            var blobStorageContainer = _uploadService.GetStorageContainer(AzureBlobStorageConnection);
+            // Service client is used to get the reference because we have the Uri of the image not its name within the 
+            // container
+            var blobImage = await blobStorageContainer.ServiceClient.GetBlobReferenceFromServerAsync(new Uri(imageUrl));
+            await blobImage.DeleteAsync();
         }
 
     }
