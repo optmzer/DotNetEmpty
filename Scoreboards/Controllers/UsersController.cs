@@ -94,7 +94,7 @@ namespace Scoreboards.Controllers
                     Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
                     Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
                     Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, Game.Id.ToString()).ToString(),
-                    MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, Game.Id.ToString())
+                    MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, Game.Id.ToString())
                 })).ToDictionary(x => x.Key, x => x.Value);
 
             gameStats.Add("Overall", new LeaderboardUserModel
@@ -105,7 +105,7 @@ namespace Scoreboards.Controllers
                 Draws = _userGameService.getDrawsByIdAndGameId(userGameList, user.Id, "").ToString(),
                 Loses = _userGameService.getLosesByIdAndGameId(userGameList, user.Id, "").ToString(),
                 Ratio = _userGameService.getRatioWithIdAndGameId(userGameList, user.Id, "").ToString(),
-                MonthlyWins = _monthlyWinnersService.GetAllAwardsByUserIdAndGameId(user.Id, "Overall")
+                MonthlyWins = _monthlyWinnersService.GetPastMonthAwardWithIdAndGameId(user.Id, "overall")
             });
 
             

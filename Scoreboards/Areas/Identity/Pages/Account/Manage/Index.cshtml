@@ -4,11 +4,29 @@
     ViewData["Title"] = "Profile";
 }
 
+<SCRIPT language=Javascript>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image-id')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#image-id')
+                    .attr('src', "@Model.ProfileImageUrl");
+        }
+    }
+</SCRIPT>
+
 <h4>@ViewData["Title"]</h4>
 
 <div>
     <picture class="profile-picture">
-        <img class="profile-image" style="background-color:white;" src="@Model.ProfileImageUrl" />
+        <img class="profile-image" id="image-id" style="background-color:white;" src="@Model.ProfileImageUrl" />
     </picture>
 </div>
 
@@ -44,7 +62,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.ImageUpload"></label>
-                <input asp-for="Input.ImageUpload" type="file" name="ImageUpload" accept=".png,.jpg,.jpeg,.gif" stylr="display: none;" />
+                <input asp-for="Input.ImageUpload" type="file" name="ImageUpload" onchange="readURL(this);" accept=".png,.jpg,.jpeg,.gif" stylr="display: none;" />
                 <span asp-validation-for="Input.ImageUpload" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-default">Save</button>

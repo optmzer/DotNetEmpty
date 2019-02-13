@@ -41,63 +41,150 @@ namespace Scoreboards.Services
                     .OrderBy(award => award.RecordedDate);
         }
 
-        /**
-         * Returns a list of all monthly awards won by the input user in a specified game
-         */
-        public IEnumerable<MonthlyWinners> GetAllAwardsByUserIdAndGameId(string userId, string gameId)
-        {
-            return _context.MonthlyWinners
-                    .Where(award => 
-                           award.WinnerId == userId 
-                           && award.GamePlayedId.ToLower() == gameId.ToLower())
-                    .OrderBy(award => award.RecordedDate);
-        }
 
         /**
-         * Returns the awards won by a user in a specified game in the previous month
+         * Returns the awards won by a user in a specified game in the overall month
          * Returns a IEnumerable list containing only one item.
          */
+        /** if we want to display all the past month winners on all time tab  */
+        //public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(string userId, string gameId)
+        //{
+        //    if (gameId == "" || gameId == null || gameId == "0" || gameId.ToLower() == "overall")
+        //    {
+        //        return _context.MonthlyWinners
+        //            .Where(award =>
+        //                   award.WinnerId == userId
+        //                   && award.GamePlayedId.ToLower() == "overall");
+        //    } else
+        //    {
+        //        return _context.MonthlyWinners
+        //            .Where(award =>
+        //                   award.WinnerId == userId
+        //                   && award.GamePlayedId.ToLower() == gameId.ToLower());
+        //    }
+        //}
+        /** if we want to display all the past month winners on all time tab  */
         public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(string userId, string gameId)
         {
-            string past_month = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
-
-            if (gameId =="" || gameId==null || gameId.ToLower() == "overall")
+            if (gameId == "" || gameId == null || gameId == "0" || gameId.ToLower() == "overall")
             {
                 return _context.MonthlyWinners
-                    .Where(award => 
-                           award.WinnerId == userId 
-                           && award.GamePlayedId.ToLower() == "overall" 
-                           && award.Title.Contains(past_month));
-            } else
+                    .Where(award =>
+                           award.WinnerId == userId
+                           && award.GamePlayedId.ToLower() == "overall"
+                           && award.RecordedDate.AddMonths(-1).Month == DateTime.Now.AddMonths(-1).Month);
+            }
+            else
             {
                 return _context.MonthlyWinners
-                    .Where(award => 
-                           award.WinnerId == userId 
-                           && award.GamePlayedId.ToLower() == gameId.ToLower() 
-                           && award.Title.Contains(past_month));
+                    .Where(award =>
+                           award.WinnerId == userId
+                           && award.GamePlayedId.ToLower() == gameId.ToLower()
+                           && award.RecordedDate.AddMonths(-1).Month == DateTime.Now.AddMonths(-1).Month);
             }
         }
+
 
         /**
          * Overloaded GetPastMonthAwardWithIdAndGameId method to improve optimisation, prevents the need to get all
          * the monthly winners again, reducing load time.
          * 
-         * Returns the awards won by a user in a specified game in the previous month
+         * Returns the awards won by a user in a specified game in the specified month
          * Returns a IEnumerable list containing only one item.
          */
-        public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, 
-                                                                            string userId, 
-                                                                            string gameId)
+        public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(string userId, string gameId, DateTime monthFetched)
         {
-            string past_month = DateTime.Now.AddMonths(-1).ToString("MMMM yyyy");
+            //if (monthFetched.Month == DateTime.Now.Month)
+            //{   // when month set is current month, it returns previous month's winner
+            //    monthFetched = monthFetched.AddMonths(-1);
+            //}
+            if (gameId =="" || gameId==null || gameId == "0" || gameId.ToLower() == "overall")
+            {
+                return _context.MonthlyWinners
+                    .Where(award => 
+                           award.WinnerId == userId 
+                           && award.GamePlayedId.ToLower() == "overall"
+                           && award.RecordedDate.AddMonths(-1).Month == monthFetched.Month);
+            } else
+            {
+                return _context.MonthlyWinners
+                    .Where(award => 
+                           award.WinnerId == userId 
+                           && award.GamePlayedId == gameId
+                           && award.RecordedDate.AddMonths(-1).Month == monthFetched.Month);
+            }
+        }
 
+
+        /**
+         * Overloaded GetPastMonthAwardWithIdAndGameId method to improve optimisation, prevents the need to get all
+         * the monthly winners again, reducing load time.
+         * 
+         * Returns the awards won by a user in a specified game in the overall month
+         * Returns a IEnumerable list containing only one item.
+         */
+
+        /** if we want to display all the past month winners on all time tab  */
+        //public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId)
+        //{
+        //    if (gameId == "" || gameId == null || gameId == "0" || gameId.ToLower() == "overall")
+        //    {
+        //        return monthlyWinners
+        //            .Where(award =>
+        //                   award.WinnerId == userId
+        //                   && award.GamePlayedId.ToLower() == "overall");
+        //    }
+        //    else
+        //    {
+        //        return monthlyWinners
+        //            .Where(award =>
+        //                   award.WinnerId == userId
+        //                   && award.GamePlayedId.ToLower() == gameId.ToLower());
+        //    }
+        //}
+
+        /** if we want to display previous month winner only on all time tab  */
+        public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId)
+        {
+            if (gameId == "" || gameId == null || gameId == "0" || gameId.ToLower() == "overall")
+            {
+                return monthlyWinners
+                    .Where(award =>
+                           award.WinnerId == userId
+                           && award.GamePlayedId.ToLower() == "overall"
+                           && award.RecordedDate.AddMonths(-1).Month == DateTime.Now.AddMonths(-1).Month);
+            }
+            else
+            {
+                return monthlyWinners
+                    .Where(award =>
+                           award.WinnerId == userId
+                           && award.GamePlayedId.ToLower() == gameId.ToLower()
+                           && award.RecordedDate.AddMonths(-1).Month == DateTime.Now.AddMonths(-1).Month);
+            }
+        }
+
+
+        /**
+         * Overloaded GetPastMonthAwardWithIdAndGameId method to improve optimisation, prevents the need to get all
+         * the monthly winners again, reducing load time.
+         * 
+         * Returns the awards won by a user in a specified game in the specified month
+         * Returns a IEnumerable list containing only one item.
+         */
+        public IEnumerable<MonthlyWinners> GetPastMonthAwardWithIdAndGameId(IEnumerable<MonthlyWinners> monthlyWinners, string userId, string gameId, DateTime monthFetched)
+        {
+            //if (monthFetched.Month == DateTime.Now.Month)
+            //{   // when month set is current month, it returns previous month's winner
+            //    monthFetched = monthFetched.AddMonths(-1);
+            //}
             if (gameId == "" || gameId == null || gameId.ToLower() == "overall")
             {
                 return monthlyWinners
                     .Where(award =>
                            award.WinnerId == userId 
                            && award.GamePlayedId.ToLower() == "overall" 
-                           && award.Title.Contains(past_month));
+                           && award.RecordedDate.AddMonths(-1).Month == monthFetched.Month);
             }
             else
             {
@@ -105,7 +192,7 @@ namespace Scoreboards.Services
                     .Where(award => 
                            award.WinnerId == userId 
                            && award.GamePlayedId == gameId
-                           && award.Title.Contains(past_month));
+                           && award.RecordedDate.AddMonths(-1).Month == monthFetched.Month);
             }
         }
 

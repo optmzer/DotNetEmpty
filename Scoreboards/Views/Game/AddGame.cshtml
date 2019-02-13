@@ -15,6 +15,21 @@
         document.getElementById("submitUserGameBtn").disabled = true;
     }
     window.onbeforeunload = disableSubmitBtn;
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#game-image')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#game-image')
+                    .attr('src', "/images/defaultImage.png");
+        }
+    }
 </SCRIPT>
 
 <div class="page-content add-game-page">
@@ -33,11 +48,11 @@
                 <div class="form-group" style="text-align:center">
                     <label asp-for="ImageUpload">Game Logo</label>
                     <div>
-                        <input asp-for="ImageUpload" type="file" name="ImageUpload" accept=".png,.jpg,.jpeg,.gif" stylr="display: none;" style="width:250px; display:inline-block; padding:20px;" />
+                        <input asp-for="ImageUpload" type="file" name="ImageUpload" accept=".png,.jpg,.jpeg,.gif" onchange="readURL(this);" stylr="display: none;" style="width:250px; display:inline-block; padding:20px;" />
                     </div>
                     <div>
                         <picture class="profile-picture">
-                            <img class="profile-image" style="background-color:white;" src="@Model.GameLogo" />
+                            <img class="profile-image" id="game-image" style="background-color:white; width:auto; height:auto;" src="~/images/defaultImage.png" />
                         </picture>
                     </div>
                 </div>
