@@ -50,6 +50,9 @@ namespace Scoreboards.Controllers
             var user_01 = _userService.GetById(userGame.User_01_Id);
             var user_02 = _userService.GetById(userGame.User_02_Id);
 
+            string user01Name = user_01.IsProfileDeleted ? "Profile Was Deleted" : user_01.UserName ;
+            string user02Name = user_02.IsProfileDeleted ? "Profile Was Deleted" : user_02.UserName ;
+
             var model = new UserGameListingModel
             {
                 Id = userGame.Id,
@@ -58,11 +61,11 @@ namespace Scoreboards.Controllers
 
                 //Players detail
                 User_01_Id = user_01.Id,
-                User_01_Name = user_01.UserName,
+                User_01_Name = user01Name,
                 User_01_Team = userGame.User_01_Team,
 
                 User_02_Id = user_02.Id,
-                User_02_Name = user_02.UserName,
+                User_02_Name = user02Name,
                 User_02_Team = userGame.User_02_Team,
 
                 // Game Name
@@ -164,8 +167,11 @@ namespace Scoreboards.Controllers
         {
             // Get game and Ask user if they sure they want to delete it
             var game = _userGameService.GetById(userGameId);
-            var user01 = _userService.GetById(game.User_01_Id);
-            var user02 = _userService.GetById(game.User_02_Id);
+            var user_01 = _userService.GetById(game.User_01_Id);
+            var user_02 = _userService.GetById(game.User_02_Id);
+
+            string user01Name = user_01.IsProfileDeleted ? "Profile Was Deleted" : user_01.UserName;
+            string user02Name = user_02.IsProfileDeleted ? "Profile Was Deleted" : user_02.UserName;
 
             var model = new UserGameListingModel
             {
@@ -173,11 +179,11 @@ namespace Scoreboards.Controllers
 
                 GameName = game.GamePlayed.GameName,
 
-                User_01_Name = user01.UserName,
+                User_01_Name = user01Name,
                 User_01_Team = game.User_01_Team,
                 GameScoreUser01 = game.GameScoreUser01,
                 
-                User_02_Name = user02.UserName,
+                User_02_Name = user02Name,
                 User_02_Team = game.User_02_Team,
                 GameScoreUser02 = game.GameScoreUser02,
             };

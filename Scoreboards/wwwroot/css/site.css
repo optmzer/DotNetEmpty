@@ -199,6 +199,9 @@ legend.admin-delete-user-legend {
     color: red;
 }
 
+.admin-confirmation-email-section{
+    padding-bottom: 2em;
+}
 
 /* USER PROFILE PAGE*/
 .profile-picture img {
@@ -592,6 +595,9 @@ legend.user-game-legend {
     padding: 15px 30px;
 }
 
+.about-section-text{
+    text-align: justify;
+}
 
 /* FOOTER */
 .footer-partial {
