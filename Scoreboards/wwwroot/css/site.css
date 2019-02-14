@@ -595,6 +595,9 @@ legend.user-game-legend {
     padding: 15px 30px;
 }
 
+.about-section-text{
+    text-align: justify;
+}
 
 /* FOOTER */
 .footer-partial {
