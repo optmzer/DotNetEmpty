@@ -229,7 +229,8 @@
                                                         </a>
                                                     </span>
                                                 }
-                                            </div>                                            <div class="match-history-table-middle-div">
+                                            </div>                                            
+                                            <div class="match-history-table-middle-div">
                                                 <div class="match-history-table-inner-edge-div">
                                                     @if (match.User_01.IsProfileDeleted)
                                                     {
@@ -258,8 +259,40 @@
                                                     }
                                                 </div>
                                             </div>
-                                            <div style="flex-direction:row;">
-                                                @match.GameScore
+                                            <div>
+                                                <span>
+                                                    @match.GameScore
+                                                </span>
+                                                @if (match.GamePlayedId == 1 && match.NeedToApologise
+                                                 && (_userManager.GetUserId(User) == match.User_01.Id || _userManager.GetUserId(User) == match.User_02.Id))
+                                                {
+                                                    <div>
+                                                        @if (match.Apologised)
+                                                        {
+                                                            if (match.Winner == _userManager.GetUserId(User))
+                                                            {
+                                                                <i class="fa fa-heart" style="color:red;" title="You have forgiven your opponent for their embarrassing defeat"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa fa-heart" style="color:red;" title="You have apologised and your opponent has forgiven you for your poor performance"></i>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (match.Winner == _userManager.GetUserId(User))
+                                                            {
+                                                                <a asp-controller="Users" asp-action="ForgiveUser" asp-route-userGameId="@match.Id" asp-route-userId="@_userManager.GetUserId(User)">
+                                                                    <i class="fa fa-exclamation-triangle" style="color:red;" title="You have crushed your opponent, Click here to forgive them"></i>
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa fa-exclamation-triangle" style="color:red;" title="Your opponent has handed you an embarassing defeat, you need to apologise on facebook"></i>
+                                                            }
+                                                        }
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
                                     </td>

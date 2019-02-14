@@ -36,6 +36,11 @@ namespace Scoreboards.Models.UserGames
         [Required]
         public string GameName { get; set; }
 
+        [Required]
+        public int GamePlayedId { get; set; }
+
+        public Boolean NeedToApologise { get; set; }
+
         public Boolean Apologised { get; set; }
 
         //Score 

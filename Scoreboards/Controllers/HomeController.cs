@@ -232,6 +232,9 @@ namespace Scoreboards.Controllers
 
                         //
                         Apologised = userGameItem.Apologised,
+                        NeedToApologise = (Math.Abs(userGameItem.GameScoreUser01 - userGameItem.GameScoreUser02) >= 5)?true:false,
+
+                        GamePlayedId = userGameItem.GamePlayed.Id,
 
                         //Score 
                         GameScore = userGameItem.GameScoreUser01 + " : " + userGameItem.GameScoreUser02,
@@ -266,6 +269,11 @@ namespace Scoreboards.Controllers
 
                         // Game Name
                         GameName = userGameItem.GamePlayed.GameName,
+
+                        Apologised = userGameItem.Apologised,
+                        NeedToApologise = (Math.Abs(userGameItem.GameScoreUser01 - userGameItem.GameScoreUser02) >= 5) ? true : false,
+
+                        GamePlayedId = userGameItem.GamePlayed.Id,
 
                         //Score 
                         GameScore = userGameItem.GameScoreUser01 + " : " + userGameItem.GameScoreUser02,
@@ -308,6 +316,12 @@ namespace Scoreboards.Controllers
                 index++;
             }
             return listItems;
+        }
+
+        public async Task<IActionResult> ForgiveUser(int userGameId)
+        {
+            await _userGameService.updateGameApology(userGameId);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

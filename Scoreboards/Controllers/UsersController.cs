@@ -74,6 +74,11 @@ namespace Scoreboards.Controllers
                     // Game Name
                     GameName = userGame.GamePlayed.GameName,
 
+                    Apologised = userGame.Apologised,
+                    NeedToApologise = (Math.Abs(userGame.GameScoreUser01 - userGame.GameScoreUser02) >= 5) ? true : false,
+
+                    GamePlayedId = userGame.GamePlayed.Id,
+
                     // Score 
                     GameScore = userGame.GameScoreUser01 + " : " + userGame.GameScoreUser02,
 
@@ -263,6 +268,13 @@ namespace Scoreboards.Controllers
                 message = "Games For " + model.MonthSelected.ToString("MMMM yyyy") + " Were Deleted Successfully.";
             }
             return RedirectToAction("ResetStats", "Users", new { message });
+        }
+
+        public async Task<IActionResult> ForgiveUser(int userGameId, string userId)
+        {
+            await _userGameService.updateGameApology(userGameId);
+            
+            return RedirectToAction("Profile", "Users", new { userID = userId });
         }
     }
 }

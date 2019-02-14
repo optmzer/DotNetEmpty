@@ -404,6 +404,12 @@ legend.admin-delete-user-legend {
     width: 20%;
 }
 
+.match-history-score-container{
+    display:flex;
+    justify-content:center;
+    position:relative;
+}
+
 .match-history-game-name {
     margin-left: 2em;
     margin-right: 2em;
@@ -413,6 +419,12 @@ legend.admin-delete-user-legend {
     margin-left: .4em;
     margin-right: -2.5em;
 }
+
+.match-history-apology {
+    position:absolute;
+    right:2%;
+}
+
 .leaderboard-table{
     justify-content:space-between;
     align-items:stretch;

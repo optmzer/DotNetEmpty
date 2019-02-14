@@ -37,5 +37,7 @@ namespace Scoreboards.Data
         Task DeleteAllUserGames();
         Task EditUserGame(UserGame newUserGameContent);
         Task DeleteUserGamesForGame(Game game);
+        Task updateGameApology(int userGameId);
+
     }
 }

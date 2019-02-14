@@ -824,6 +824,14 @@ namespace Scoreboards.Services
 
         }
 
-      
+        public async Task updateGameApology(int userGameId)
+        {
+            var userGame = GetById(userGameId);
+            _context.Entry(userGame).State = EntityState.Modified;
+            userGame.Apologised = true;
+
+            await _context.SaveChangesAsync();
+
+        }
     }
 }
