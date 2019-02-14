@@ -10,6 +10,7 @@
     string profileDeleted = "Profile Deleted";
     ViewData["Title"] = "The Instillery Scoreboards";
     int i = 1;
+    string loserName;
 }
 
 <script>
@@ -249,7 +250,7 @@
                                                 @match.GameScore
                                             </span>
                                             @if (match.GamePlayedId == 1 && match.NeedToApologise
-                                             && (_userManager.GetUserId(User) == match.User_01.Id || _userManager.GetUserId(User) == match.User_02.Id))
+                                       && (_userManager.GetUserId(User) == match.User_01.Id || _userManager.GetUserId(User) == match.User_02.Id))
                                             {
                                                 <div class="match-history-apology">
                                                     @if (match.Apologised)
@@ -275,6 +276,27 @@
                                                         {
                                                             <i class="fa fa-exclamation-triangle" style="color:red;" title="Your opponent has handed you an embarassing defeat, you need to apologise on facebook"></i>
                                                         }
+                                                    }
+                                                </div>
+                                            }
+                                            else if (match.GamePlayedId == 1 && match.NeedToApologise)
+                                            {
+                                                <div class="match-history-apology">
+                                                    @if (match.Winner == match.User_02.Id)
+                                                    {
+                                                        loserName = match.User_01.UserName;
+                                                    }
+                                                    else
+                                                    {
+                                                        loserName = match.User_02.UserName;
+                                                    }
+                                                    @if (match.Apologised)
+                                                    {
+                                                        <i class="fa fa-heart" style="color:red;" title="@loserName has apologised and been forgiven for his poor performance"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-exclamation-triangle" style="color:red;" title="@loserName has suffered an embarassing defeat and needs to apologise"></i>
                                                     }
                                                 </div>
                                             }
