@@ -94,6 +94,9 @@ namespace Scoreboards.Controllers
             return View();
         }
 
+        /**
+         * Opens the about page which contains information on the algorithm
+         */
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -318,6 +321,9 @@ namespace Scoreboards.Controllers
             return listItems;
         }
 
+        /**
+         * Calls the service method to forgive the user
+         */
         public async Task<IActionResult> ForgiveUser(int userGameId)
         {
             await _userGameService.updateGameApology(userGameId);
