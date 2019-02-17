@@ -13,6 +13,8 @@ using Scoreboards.Hubs;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using System.Web.Http.WebHost;
+using System.Web.Http;
 
 namespace Scoreboards
 {
@@ -51,6 +53,8 @@ namespace Scoreboards
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI() // Uses default Account/Manage/_Layout.cshtml
                 .AddDefaultTokenProviders();
+            
+            
 
             // Injects IUserGame interface into Scoreboards.
             services.AddScoped<IUserGame, UserGameService>();
@@ -118,10 +122,16 @@ namespace Scoreboards
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "defaultApi",
+                    template: "api/{controller}/{id}",
+                    defaults: new { id = RouteParameter.Optional });
+
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");  
             });
 
+            
         }
     }
 }
