@@ -114,7 +114,10 @@ namespace Scoreboards.Services
                 await _userManager.RemoveFromRoleAsync(user, "Admin");
             }
 
-            await DeleteUserBlobImage(user.ProfileImageUrl);
+            if (Uri.IsWellFormedUriString(user.ProfileImageUrl, UriKind.Absolute))
+            {
+                await DeleteUserBlobImage(user.ProfileImageUrl);
+            }
 
             user.UserName = delProfile;
             user.NormalizedUserName = delProfile.Normalize();
